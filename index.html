@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2027 Ceipal Healthcare Roadmap</title>
+<title>2027 Ceipal Master Roadmap</title>
 <style>
 :root{
   color-scheme: light;
@@ -21,10 +21,42 @@ header{margin-bottom:22px}
 h1{font-size:23px;margin:0 0 4px;letter-spacing:-.35px;font-weight:680}
 .sub{color:var(--muted);font-size:13px;max-width:74ch}
 
+/* vertical picker (master build) */
+.vbar{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.vcards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:8px}
+@media(max-width:820px){.vcards{grid-template-columns:1fr}}
+.vcard{padding:26px 22px;cursor:pointer;text-align:left;background:#fff;border:1px solid var(--line);
+  border-radius:10px;transition:border-color .12s,box-shadow .12s}
+.vcard:hover{border-color:var(--accent);box-shadow:0 2px 10px rgba(11,92,173,.09)}
+.vcard h2{font-size:19px;margin:0 0 6px;font-weight:670;letter-spacing:-.25px;color:var(--accent)}
+.vcard .vc{font-size:12.5px;color:var(--muted)}
+.vcard .vgo{font-size:12px;font-weight:620;color:var(--accent);margin-top:12px}
+.vhint{font-size:12.5px;color:var(--muted);margin-bottom:16px;max-width:74ch}
+.mcharts{margin-top:26px}
+.mchead{margin-bottom:12px}
+.mchead h3{font-size:15px;margin:0 0 3px;font-weight:660;letter-spacing:-.2px}
+.mchead span{font-size:12.5px;color:var(--muted)}
+.mcgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.chartbox.mc{height:290px}
+@media(max-width:860px){.mcgrid{grid-template-columns:1fr}}
+
+.vtag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+  background:#e9eef5;color:#2a4a6d;padding:3px 9px;border-radius:11px;margin-left:10px;vertical-align:4px}
+
 .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
 .kpi{padding:15px 16px}
 .kpi .v{font-size:27px;font-weight:640;letter-spacing:-.6px;line-height:1.05}
 .kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:6px;font-weight:600}
+.kpi .s{font-size:11.5px;color:var(--accent);font-weight:620;margin-top:5px}
+.kpi .s.dim{color:var(--muted);font-weight:500}
+.rollbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-8px 0 20px}
+.rolllab{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:650}
+.vchip{font-size:12px;font-weight:600;padding:5px 12px;border-radius:14px;border:1px solid var(--line);
+  background:#fff;cursor:pointer;color:#3f4a57}
+.vchip:hover{border-color:var(--accent);color:var(--accent)}
+.vchip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.vchip .n{opacity:.7;font-weight:500;margin-left:5px}
+.vchip.on .n{opacity:.85}
 @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}}
 
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
@@ -51,7 +83,7 @@ select:focus,input:focus,textarea:focus{outline:2px solid #0b5cad22;border-color
 .count{font-size:12.5px;color:var(--muted);padding-bottom:8px}
 
 .tblwrap{overflow-x:auto;border-radius:10px}
-table.rm{border-collapse:collapse;width:100%;min-width:780px}
+table.rm{border-collapse:collapse;width:100%;min-width:880px}
 table.rm thead th{background:#eef1f5;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;
   font-weight:700;color:#4a5563;text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);
   position:sticky;top:0;z-index:5;white-space:nowrap}
@@ -104,6 +136,9 @@ tr.blrow:hover td{background:#e8eff8 !important}
 tr.blrow.open td{background:#e4edf8 !important}
 .blname{font-weight:680;font-size:14.5px;color:var(--accent);letter-spacing:-.1px}
 .blmeta{font-size:12.5px;color:var(--muted);margin-top:3px}
+.addcue{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.3px;background:var(--accent);
+  color:#fff;padding:2px 9px;border-radius:11px;margin-left:10px;vertical-align:2px}
+tr.blrow.open .addcue{background:#5c6672}
 td.blpanel{background:#f7f9fb;padding:0 16px 24px;border-bottom:2px solid var(--line)}
 .blbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:16px 0 12px}
 .blbar h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:0;font-weight:700}
@@ -176,6 +211,16 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 .logdel:hover{opacity:1;text-decoration:underline}
 .logtext{font-size:13px;line-height:1.6;white-space:pre-wrap}
 .lognone{font-size:12.5px;color:var(--muted);font-style:normal}
+.c-tgt{width:104px}
+.tgtchip{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;
+  letter-spacing:.2px;white-space:nowrap;background:#eef1f5;color:#4a5563}
+.tgtchip.un{background:#f2f4f7;color:#9aa4af;font-weight:600}
+.chgbox{background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 14px;max-width:78ch;margin-top:6px}
+.chgrow{display:flex;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line2);font-size:12.5px}
+.chgrow:last-child{border-bottom:none}
+.chgwhen{color:var(--muted);font-size:11.5px;white-space:nowrap;min-width:130px}
+.chgtxt{flex:1}
+.chgwho{color:var(--muted);font-size:11.5px;white-space:nowrap}
 .cmtchips{display:flex;flex-wrap:wrap;gap:4px}
 .cmtchip{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.2px;white-space:nowrap}
 .cmtchip.eng{background:#e6f2ec;color:#0f7b4f}
@@ -219,11 +264,37 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 <div class="wrap">
 
 <header>
-  <h1>2027 Ceipal Healthcare Roadmap</h1>
-  <div class="sub">Every item scored standalone on priority, category, and complexity. Enter 2026 backlog items in the first row. Engineering and PM comments each build their own running log, with the author and a date and time stamp on every entry. Source: 2027 Healthcare Roadmap.xlsx</div>
+  <h1 id="pageTitle">2027 Ceipal Master Roadmap</h1>
 </header>
 
+<div class="vbar" id="vbar">
+  <div class="ctl"><label for="fVert">Vertical</label><select id="fVert"></select></div>
+</div>
+
 <div class="kpis" id="kpis"></div>
+<div class="rollbar" id="rollbar"></div>
+
+<div id="vpick" class="hide">
+  <div class="vhint">Totals above are rolled up from every vertical. Choose one below to load its roadmap.</div>
+  <div class="vcards" id="vcards"></div>
+
+  <div class="mcharts">
+    <div class="mchead">
+      <h3>All verticals combined</h3>
+      <span>Live roll-up across Healthcare, India Corporate, and RPO. Updates as anything changes.</span>
+    </div>
+    <div class="mcgrid">
+      <div class="card"><div class="chartbox mc"><canvas id="mVert"></canvas></div></div>
+      <div class="card"><div class="chartbox mc"><canvas id="mPri"></canvas></div></div>
+    </div>
+    <div class="mcgrid">
+      <div class="card"><div class="chartbox mc"><canvas id="mTgt"></canvas></div></div>
+      <div class="card"><div class="chartbox mc"><canvas id="mCmt"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="vbody">
 
 <div class="tabs">
   <button class="tab on" data-v="features">Features</button>
@@ -237,6 +308,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
     <div class="ctl"><label for="fPri">Priority</label><select id="fPri"><option value="">All priorities</option></select></div>
     <div class="ctl"><label for="fCat">Category</label><select id="fCat"><option value="">All categories</option></select></div>
     <div class="ctl"><label for="fCx">Complexity</label><select id="fCx"><option value="">All complexity</option></select></div>
+    <div class="ctl"><label for="fTgt">Target</label><select id="fTgt"><option value="">All targets</option></select></div>
     <div class="ctl"><label for="fEng">Comments</label><select id="fEng">
       <option value="">All</option>
       <option value="any">Has any comment</option>
@@ -265,6 +337,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
           <th class="sortable" data-s="feature">Feature<span class="ar">▼</span></th>
           <th class="c-cat sortable" data-s="category">Category<span class="ar">▼</span></th>
           <th class="c-cx sortable" data-s="complexity">Complexity<span class="ar">▼</span></th>
+          <th class="c-tgt sortable" data-s="target">Target<span class="ar">▼</span></th>
           <th class="c-eng sortable" data-s="eng">Comments<span class="ar">▼</span></th>
           <th class="c-x"></th>
         </tr>
@@ -272,7 +345,13 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
       <tbody id="tbody"></tbody>
     </table>
   </div>
-  <div style="margin-top:14px"><button class="btn danger" id="btnClear">Reset all my edits and added items</button></div>
+  <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <button class="btn" id="btnSend">Send this vertical to the master</button>
+    <button class="btn" id="btnReceive">Load a vertical file</button>
+    <input type="file" id="fileIn" accept=".json,application/json" class="hide">
+    <button class="btn danger spacer" id="btnClear">Reset this vertical</button>
+  </div>
+  <div class="vhint" style="margin-top:8px" id="syncHint"></div>
 </div>
 
 <div id="v-add" class="hide">
@@ -285,6 +364,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
       <div class="fld"><label for="nPri">Priority</label><select id="nPri"></select></div>
       <div class="fld"><label for="nCat">Category</label><select id="nCat"></select></div>
       <div class="fld"><label for="nCx">Complexity</label><select id="nCx"></select></div>
+      <div class="fld"><label for="nTgt">Target</label><select id="nTgt"></select></div>
       <div class="fld full"><label for="nDesc">Description</label>
         <textarea id="nDesc" placeholder="What the feature does, in plain terms."></textarea></div>
       <div class="fld full"><label for="nRemarks">Remarks</label>
@@ -313,13 +393,15 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
   </div>
   <div class="card"><div class="chartbox" style="height:320px"><canvas id="cMix"></canvas></div></div>
 </div>
+</div><!-- /vbody -->
 
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
 <script>
-// 2027 Ceipal Healthcare Roadmap — structured source data
-// Every item is evaluated standalone. No dependency or sequencing logic.
-const SEED = [
+// Roadmap seed data by vertical.
+// India Corporate and RPO are intentionally empty until features are defined.
+const SEEDS = {
+healthcare: [
 {
  id: 13, feature: "Automated VMS Submission & Rejection Analytics",
  priority: "High", category: "VMS & Integrations", complexity: "Very High",
@@ -425,36 +507,59 @@ const SEED = [
  remarks: "Then Ceipal can answer a much more valuable question than \"What is happening?\" It can answer: \"Given everything we know about our customers, jobs, clinicians, recruiters, market demand, and economics, what should this staffing company do next?\"",
  detail: ""
 }
-];
+],
 
+india: [],
+
+rpo: []
+};
 
 </script>
 <script>
 const PRIS=["High","Medium","Low"];
 const CATS=["Placement Velocity","Revenue & Margin","VMS & Integrations","Talent Engagement","Client Growth & Retention","Executive Intelligence","Platform Foundation","2026 Backlog","Uncategorized"];
 const CXS=["Low","Medium","High","Very High"];
+const TGTS=["Unscheduled","Q1 2027","Q2 2027","Q3 2027","Q4 2027","2028+"];
+const TCOL={"Unscheduled":"#9aa4af","Q1 2027":"#0b5cad","Q2 2027":"#0f7b4f","Q3 2027":"#c4620a","Q4 2027":"#6b3fa0","2028+":"#616b78"};
 const PCOL={High:"#b42318",Medium:"#c4620a",Low:"#616b78"};
-const KEY="ceipal-roadmap-2027-v5";
+const KEY="ceipal-roadmap-2027-v6";
 
-let store={edits:{},added:[],backlog:[],order:[],blorder:[],lastName:"",nextId:1000};
+const VERTICALS=[{id:"healthcare",name:"Healthcare"},
+                {id:"india",name:"India Corporate"},
+                {id:"rpo",name:"RPO"}];
+const VNAME=id=>{const v=VERTICALS.find(x=>x.id===id);return v?v.name:id;};
+const LOCK="";                 // build flag: "" = master, otherwise a vertical id
+let VSEL=LOCK||"";                     // "" means no vertical chosen yet (master only)
+
+function blankV(){ return {edits:{},added:[],backlog:[],order:[],blorder:[]}; }
+let store={v:{},lastName:"",nextId:1000};
+VERTICALS.forEach(v=>store.v[v.id]=blankV());
 try{
   const r=JSON.parse(localStorage.getItem(KEY)||"{}");
-  store.edits=r.edits||{}; store.added=r.added||[]; store.backlog=r.backlog||[];
-  store.order=r.order||[]; store.blorder=r.blorder||[];
+  VERTICALS.forEach(v=>{
+    const d=(r.v&&r.v[v.id])||{};
+    store.v[v.id]={edits:d.edits||{},added:d.added||[],backlog:d.backlog||[],
+                   order:d.order||[],blorder:d.blorder||[]};
+  });
   store.lastName=r.lastName||""; store.nextId=r.nextId||1000;
 }catch(e){}
+function S(){ return store.v[VSEL]||blankV(); }
+function CURSEED(){ return SEEDS[VSEL]||[]; }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(store)); }catch(e){} }
 
-function ALL(){ return SEED.concat(store.added,store.backlog); }
-function E(id){ return store.edits[id]||(store.edits[id]={}); }
-function val(f,k){ const e=store.edits[f.id]; return (e&&e[k]!==undefined)?e[k]:f[k]; }
+function ALL(){ return CURSEED().concat(S().added,S().backlog); }
+function E(id){ return S().edits[id]||(S().edits[id]={}); }
+function val(f,k){ const e=S().edits[f.id];
+  const v=(e&&e[k]!==undefined)?e[k]:f[k];
+  if(k==="target") return v||"Unscheduled";
+  return v; }
 
 /* comment logs: array of {name, at, text} newest last. Two independent streams per item. */
 const KINDS={eng:{key:"log",label:"Engineering Comments",short:"Eng",
                hint:"Feasibility. Effort in developer days. Technical risk. Open questions."},
              pm:{key:"pmlog",label:"PM Comments",short:"PM",
                hint:"Scope decisions, priority rationale, customer context, open questions for engineering."}};
-function log(id,kind){ const e=store.edits[id]; return (e&&e[KINDS[kind||"eng"].key])||[]; }
+function log(id,kind){ const e=S().edits[id]; return (e&&e[KINDS[kind||"eng"].key])||[]; }
 function setLog(id,kind,arr){
   const k=KINDS[kind].key;
   if(arr&&arr.length) E(id)[k]=arr; else delete E(id)[k];
@@ -468,6 +573,28 @@ function logText(id,kind){ // flattened, for search and CSV
   return log(id,kind).map(c=>`[${fmt(c.at)}] ${c.name}: ${c.text}`).join(" ‖ ");
 }
 function allText(id){ return logText(id,"eng")+" "+logText(id,"pm"); }
+
+/* change history: automatic entries whenever a classification field moves */
+function chg(id){ const e=store.edits[id]; return (e&&e.chg)||[]; }
+const FIELDLBL={priority:"Priority",category:"Category",complexity:"Complexity",target:"Target"};
+function logChange(id,field,from,to){
+  if(String(from)===String(to)) return;
+  let at=new Date().toISOString();
+  const ex=chg(id).map(c=>c.at);
+  while(ex.includes(at)) at=new Date(new Date(at).getTime()+1).toISOString();
+  E(id).chg=chg(id).concat([{name:store.lastName||"Unattributed",at:at,
+    field:FIELDLBL[field]||field,from:String(from),to:String(to)}]);
+}
+function chgHtml(id){
+  const l=chg(id);
+  if(!l.length) return `<div class="lognone">No changes recorded yet.</div>`;
+  return l.slice().reverse().map(c=>`
+    <div class="chgrow">
+      <span class="chgwhen">${esc(fmt(c.at))}</span>
+      <span class="chgtxt"><b>${esc(c.field)}</b> ${esc(c.from)} → <b>${esc(c.to)}</b></span>
+      <span class="chgwho">${esc(c.name)}</span>
+    </div>`).join("");
+}
 function fmt(iso){
   const d=new Date(iso);
   if(isNaN(d)) return "";
@@ -477,20 +604,20 @@ function fmt(iso){
 // one-time migration: the old single engineering field becomes the first log entry
 (function migrate(){
   let changed=false;
-  Object.keys(store.edits).forEach(k=>{
-    const e=store.edits[k];
+  VERTICALS.forEach(v=>Object.keys(store.v[v.id].edits).forEach(k=>{
+    const e=store.v[v.id].edits[k];
     if(e && typeof e.engineering==="string" && e.engineering.trim() && !e.log){
       e.log=[{name:"Imported", at:e.engAt||new Date().toISOString(), text:e.engineering}];
       changed=true;
     }
     if(e){ delete e.engineering; delete e.engAt; }
-  });
+  }));
   if(changed) save();
 })();
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])); }
 function byId(i){ return ALL().find(f=>f.id===i); }
-function isAdded(id){ return store.added.some(f=>f.id===id); }
-function isBacklog(id){ return store.backlog.some(f=>f.id===id); }
+function isAdded(id){ return S().added.some(f=>f.id===id); }
+function isBacklog(id){ return S().backlog.some(f=>f.id===id); }
 function pill(p){ return `<span class="pill pri-${p}">${p}</span>`; }
 
 function fillSel(el,arr,sel){ arr.forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;
@@ -498,22 +625,24 @@ function fillSel(el,arr,sel){ arr.forEach(v=>{const o=document.createElement("op
 fillSel(document.getElementById("fPri"),PRIS);
 fillSel(document.getElementById("fCat"),CATS);
 fillSel(document.getElementById("fCx"),CXS);
+fillSel(document.getElementById("fTgt"),TGTS);
 fillSel(document.getElementById("nPri"),PRIS,"Medium");
 fillSel(document.getElementById("nCat"),CATS,"Uncategorized");
 fillSel(document.getElementById("nCx"),CXS,"Medium");
+fillSel(document.getElementById("nTgt"),TGTS,"Unscheduled");
 
 /* ---------- manual order ---------- */
-// store.order / store.blorder hold ids. Anything not listed is appended in its natural position.
+// S().order / S().blorder hold ids. Anything not listed is appended in its natural position.
 function syncOrder(){
-  const main=SEED.concat(store.added).map(f=>f.id);
-  store.order=store.order.filter(id=>main.includes(id));
-  main.forEach(id=>{ if(!store.order.includes(id)) store.order.push(id); });
-  const bl=store.backlog.map(f=>f.id);
-  store.blorder=store.blorder.filter(id=>bl.includes(id));
-  bl.forEach(id=>{ if(!store.blorder.includes(id)) store.blorder.push(id); });
+  const main=CURSEED().concat(S().added).map(f=>f.id);
+  S().order=S().order.filter(id=>main.includes(id));
+  main.forEach(id=>{ if(!S().order.includes(id)) S().order.push(id); });
+  const bl=S().backlog.map(f=>f.id);
+  S().blorder=S().blorder.filter(id=>bl.includes(id));
+  bl.forEach(id=>{ if(!S().blorder.includes(id)) S().blorder.push(id); });
 }
-function orderOf(id){ const i=store.order.indexOf(id); return i<0?9999:i; }
-function blOrderOf(id){ const i=store.blorder.indexOf(id); return i<0?9999:i; }
+function orderOf(id){ const i=S().order.indexOf(id); return i<0?9999:i; }
+function blOrderOf(id){ const i=S().blorder.indexOf(id); return i<0?9999:i; }
 function move(list,id,dir){
   const i=list.indexOf(id); if(i<0) return false;
   const j=i+dir; if(j<0||j>=list.length) return false;
@@ -531,6 +660,7 @@ let sortKey="custom", sortDir=1;
 function skey(f,k){
   if(k==="priority") return PRIS.indexOf(val(f,"priority"));
   if(k==="complexity") return CXS.indexOf(val(f,"complexity"));
+  if(k==="target") return TGTS.indexOf(val(f,"target"));
   if(k==="eng") return -logCount(f.id);
   if(k==="category") return val(f,"category");
   return f.feature.toLowerCase();
@@ -555,6 +685,8 @@ function matches(f){
   if(p&&val(f,"priority")!==p) return false;
   if(c&&val(f,"category")!==c) return false;
   if(x&&val(f,"complexity")!==x) return false;
+  const tg=document.getElementById("fTgt").value;
+  if(tg&&val(f,"target")!==tg) return false;
   if(e==="any"&&!hasLog(f.id)) return false;
   if(e==="none"&&hasLog(f.id)) return false;
   if(e==="eng"&&!hasLog(f.id,"eng")) return false;
@@ -564,21 +696,60 @@ function matches(f){
   if(q&&!(f.feature+" "+f.desc+" "+f.remarks+" "+(f.detail||"")+" "+allText(f.id)).toLowerCase().includes(q)) return false;
   return true;
 }
-function filteredMain(){ return ordered(SEED.concat(store.added).filter(matches)); }
-function filteredBacklog(){ return ordered(store.backlog.filter(matches)); }
+function filteredMain(){ return ordered(CURSEED().concat(S().added).filter(matches)); }
+function filteredBacklog(){ return ordered(S().backlog.filter(matches)); }
 
 /* ---------- KPIs ---------- */
+// stats for any vertical, independent of what is currently selected
+function statsFor(vid){
+  const d=store.v[vid]||blankV();
+  const items=(SEEDS[vid]||[]).concat(d.added,d.backlog);
+  const pr=f=>{ const e=d.edits[f.id]; return (e&&e.priority!==undefined)?e.priority:f.priority; };
+  let comments=0;
+  items.forEach(f=>{ const e=d.edits[f.id];
+    comments+=((e&&e.log)||[]).length+((e&&e.pmlog)||[]).length; });
+  return {items:items.length,
+          High:items.filter(f=>pr(f)==="High").length,
+          Medium:items.filter(f=>pr(f)==="Medium").length,
+          Low:items.filter(f=>pr(f)==="Low").length,
+          comments:comments};
+}
+function rollup(){
+  const t={items:0,High:0,Medium:0,Low:0,comments:0};
+  VERTICALS.forEach(v=>{ const x=statsFor(v.id);
+    Object.keys(t).forEach(k=>t[k]+=x[k]); });
+  return t;
+}
+
 function renderKpis(){
-  const all=ALL(), cnt=p=>all.filter(f=>val(f,"priority")===p).length;
+  const master=!LOCK;
+  const t=master?rollup():statsFor(VSEL);
+  const cur=(master&&VSEL)?statsFor(VSEL):null;
   const k=[
-    {v:all.length,l:"Total items"},
-    {v:cnt("High"),l:"High priority"},
-    {v:cnt("Medium"),l:"Medium priority"},
-    {v:cnt("Low"),l:"Low priority"},
-    {v:all.reduce((n,f)=>n+logCount(f.id),0),l:"Comments logged"}
+    {v:t.items,l:"Total items",s:cur?cur.items:null},
+    {v:t.High,l:"High priority",s:cur?cur.High:null},
+    {v:t.Medium,l:"Medium priority",s:cur?cur.Medium:null},
+    {v:t.Low,l:"Low priority",s:cur?cur.Low:null},
+    {v:t.comments,l:"Comments logged",s:cur?cur.comments:null}
   ];
   document.getElementById("kpis").innerHTML=k.map(o=>
-    `<div class="card kpi"><div class="v">${o.v}</div><div class="l">${esc(o.l)}</div></div>`).join("");
+    `<div class="card kpi"><div class="v">${o.v}</div><div class="l">${esc(o.l)}</div>
+     ${o.s===null?"":`<div class="s">${esc(VNAME(VSEL))}: ${o.s}</div>`}</div>`).join("");
+  renderRollbar();
+}
+
+function renderRollbar(){
+  const bar=document.getElementById("rollbar");
+  if(!bar) return;
+  if(LOCK){ bar.classList.add("hide"); return; }
+  bar.classList.remove("hide");
+  bar.innerHTML=`<span class="rolllab">Rolled up from</span>`+
+    VERTICALS.map(v=>{ const x=statsFor(v.id);
+      return `<button class="vchip ${VSEL===v.id?"on":""}" data-vchip="${v.id}">${esc(v.name)}
+        <span class="n">${x.items} item${x.items===1?"":"s"} · ${x.comments} comment${x.comments===1?"":"s"}</span></button>`;
+    }).join("")+
+    `<button class="vchip ${VSEL?"":"on"}" data-vchip="">All verticals</button>`;
+  bar.querySelectorAll("[data-vchip]").forEach(b=>b.addEventListener("click",()=>selectVertical(b.dataset.vchip)));
 }
 
 /* ---------- main table ---------- */
@@ -602,11 +773,16 @@ function renderTable(){
 
   let h=backlogRow(bl);
   h+=fs.map((f,i)=>featureRow(f,i,fs.length)).join("");
-  if(!fs.length&&!bl.length) h+=`<tr><td colspan="7" class="empty">No items match those filters.</td></tr>`;
+  if(!fs.length&&!bl.length) h+=`<tr><td colspan="8" class="empty">No items match those filters.</td></tr>`;
   tb.innerHTML=h;
   wireTable();
 }
 
+function tgtChip(t){
+  t=t||"Unscheduled";
+  const un=t==="Unscheduled";
+  return `<span class="tgtchip${un?" un":""}" style="${un?"":`background:${TCOL[t]}1a;color:${TCOL[t]}`}">${esc(t)}</span>`;
+}
 function cmtCell(ne,np){
   if(!ne&&!np) return `<span class="engcount no">None</span>`;
   const bits=[];
@@ -626,20 +802,21 @@ function handleCell(id,i,n,kind){
 }
 
 function backlogRow(items){
-  const n=store.backlog.length;
-  const done=store.backlog.filter(f=>hasLog(f.id)).length;
-  const nc=store.backlog.reduce((t,f)=>t+logCount(f.id),0);
+  const n=S().backlog.length;
+  const done=S().backlog.filter(f=>hasLog(f.id)).length;
+  const nc=S().backlog.reduce((t,f)=>t+logCount(f.id),0);
   let h=`<tr class="blrow ${blOpen?"open":""}" id="blHead">
     <td class="c-h"></td>
     <td class="c-pri"><span class="pill pri-Medium" style="background:var(--accent)">Backlog</span></td>
-    <td><div class="blname">2026 Backlog</div>
+    <td><div class="blname">2026 Backlog<span class="addcue">+ Add item</span></div>
         <div class="blmeta">${n?`${n} item${n>1?"s":""} entered · ${nc} comment${nc===1?"":"s"} across ${done}`:"No items entered yet. Open to add them one at a time."}</div></td>
     <td class="c-cat"><span class="cat">2026 Backlog</span></td>
     <td class="c-cx"><span class="cx">—</span></td>
+    <td class="c-tgt"><span class="cx">—</span></td>
     <td class="c-eng"><span class="engcount ${n&&done===n?"yes":"no"}">${n?done+"/"+n:"—"}</span></td>
     <td class="c-x"><span class="chev">▶</span></td>
   </tr>`;
-  if(blOpen) h+=`<tr><td colspan="7" class="blpanel">${backlogPanel(items)}</td></tr>`;
+  if(blOpen) h+=`<tr><td colspan="8" class="blpanel">${backlogPanel(items)}</td></tr>`;
   return h;
 }
 
@@ -651,6 +828,7 @@ function backlogPanel(items){
         <input type="text" id="bFeature" placeholder="e.g. Fix duplicate credential upload on mobile"></div>
       <div class="fld"><label for="bPri">Priority</label><select id="bPri"></select></div>
       <div class="fld"><label for="bCx">Complexity</label><select id="bCx"></select></div>
+      <div class="fld"><label for="bTgt">Target</label><select id="bTgt"></select></div>
       <div class="fld full"><label for="bDesc">Description</label>
         <textarea id="bDesc" placeholder="What the item is, in plain terms."></textarea></div>
       <div class="fld full"><label for="bRemarks">Remarks</label>
@@ -670,16 +848,16 @@ function backlogPanel(items){
   </div>`;
 
   h+=`<div class="blbar"><h4>Backlog items</h4>
-      <span style="font-size:12.5px;color:var(--muted)">${store.backlog.length} entered</span></div>`;
+      <span style="font-size:12.5px;color:var(--muted)">${S().backlog.length} entered</span></div>`;
   if(!items.length){
-    h+=`<div class="blempty">${store.backlog.length
+    h+=`<div class="blempty">${S().backlog.length
       ? "No backlog items match the current filters."
       : "No backlog items yet. Use the form above to enter them one at a time."}</div>`;
     return h;
   }
   h+=`<table class="bl"><thead><tr>
       <th class="c-h"></th><th style="width:88px">Priority</th><th>Item</th><th style="width:96px">Complexity</th>
-      <th style="width:110px">Engineering</th><th style="width:34px"></th></tr></thead><tbody>`;
+      <th style="width:104px">Target</th><th style="width:110px">Comments</th><th style="width:34px"></th></tr></thead><tbody>`;
   items.forEach((f,i)=>{
     const op=blItemOpen===f.id, ne=logCount(f.id,"eng"), np=logCount(f.id,"pm"), has=(ne+np)>0;
     h+=`<tr class="bi ${op?"open":""}" data-bid="${f.id}" ${sortKey==="custom"?'draggable="true"':""}>
@@ -687,9 +865,10 @@ function backlogPanel(items){
       <td>${pill(val(f,"priority"))}</td>
       <td><b>${esc(f.feature)}</b>${f.desc?`<div class="fsub">${esc(f.desc)}</div>`:""}</td>
       <td><span class="cx">${esc(val(f,"complexity"))}</span></td>
+      <td>${tgtChip(val(f,"target"))}</td>
       <td>${cmtCell(ne,np)}</td>
       <td><span class="chev">▶</span></td></tr>`;
-    if(op) h+=`<tr><td colspan="6" class="bdetail">${detailHtml(f)}</td></tr>`;
+    if(op) h+=`<tr><td colspan="7" class="bdetail">${detailHtml(f)}</td></tr>`;
   });
   return h+"</tbody></table>";
 }
@@ -703,10 +882,11 @@ function featureRow(f,i,n){
         <div class="fsub">${esc(f.desc||"No description yet.")}</div></td>
     <td class="c-cat"><span class="cat">${esc(val(f,"category"))}</span></td>
     <td class="c-cx"><span class="cx">${esc(val(f,"complexity"))}</span></td>
+    <td class="c-tgt">${tgtChip(val(f,"target"))}</td>
     <td class="c-eng">${cmtCell(ne,np)}</td>
     <td class="c-x"><span class="chev">▶</span></td>
   </tr>`;
-  if(op) h+=`<tr><td colspan="7" class="detail">${detailHtml(f)}</td></tr>`;
+  if(op) h+=`<tr><td colspan="8" class="detail">${detailHtml(f)}</td></tr>`;
   return h;
 }
 
@@ -721,12 +901,15 @@ function detailHtml(f){
       <div class="ctl"><label>Priority</label><select data-k="priority">${PRIS.map(p=>`<option ${val(f,"priority")===p?"selected":""}>${p}</option>`).join("")}</select></div>
       <div class="ctl"><label>Category</label><select data-k="category">${CATS.map(c=>`<option ${val(f,"category")===c?"selected":""}>${esc(c)}</option>`).join("")}</select></div>
       <div class="ctl"><label>Complexity</label><select data-k="complexity">${CXS.map(c=>`<option ${val(f,"complexity")===c?"selected":""}>${c}</option>`).join("")}</select></div>
+      <div class="ctl"><label>Target</label><select data-k="target">${TGTS.map(t=>`<option ${val(f,"target")===t?"selected":""}>${t}</option>`).join("")}</select></div>
     </div>
     <h4>Comments</h4>
     <div class="cmtgrid">
       ${cmtCol(f,"eng")}
       ${cmtCol(f,"pm")}
     </div>
+    <h4>Change history</h4>
+    <div class="chgbox">${chgHtml(f.id)}</div>
     ${removable?`<div style="margin-top:14px"><button class="btn sm danger" data-del="${f.id}">Delete this item</button></div>`:""}
   </div>`;
 }
@@ -795,6 +978,7 @@ function wireTable(){
   if(bp){
     fillSel(bp,PRIS,"Medium");
     fillSel(document.getElementById("bCx"),CXS,"Medium");
+    fillSel(document.getElementById("bTgt"),TGTS,"Unscheduled");
     document.getElementById("btnAddBacklog").addEventListener("click",addBacklog);
     document.getElementById("btnClearBacklog").addEventListener("click",clearBacklogForm);
     document.getElementById("bFeature").addEventListener("keydown",e=>{ if(e.key==="Enter") addBacklog(); });
@@ -804,7 +988,7 @@ function wireTable(){
 
 /* ---------- reorder: drag + arrows ---------- */
 let dragId=null, dragKind=null;
-function listFor(kind){ return kind==="bl"?store.blorder:store.order; }
+function listFor(kind){ return kind==="bl"?S().blorder:S().order; }
 function wireReorder(){
   document.querySelectorAll("[data-up],[data-down]").forEach(el=>{
     if(el.classList.contains("off")) return;
@@ -862,7 +1046,8 @@ function wireReorder(){
 
 function wireDetail(){
   document.querySelectorAll(".dsec select").forEach(s=>s.addEventListener("change",()=>{
-    const id=+s.closest(".dsec").dataset.id;
+    const id=+s.closest(".dsec").dataset.id, f=byId(id);
+    logChange(id,s.dataset.k,val(f,s.dataset.k),s.value);
     E(id)[s.dataset.k]=s.value; save();
     renderKpis(); renderTable(); renderByCat(); drawCharts();
   }));
@@ -890,9 +1075,9 @@ function wireDetail(){
   document.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>{
     const id=+b.dataset.del,f=byId(id);
     if(!confirm(`Delete "${f.feature}" permanently? This cannot be undone.`)) return;
-    store.added=store.added.filter(x=>x.id!==id);
-    store.backlog=store.backlog.filter(x=>x.id!==id);
-    delete store.edits[id]; save();
+    S().added=S().added.filter(x=>x.id!==id);
+    S().backlog=S().backlog.filter(x=>x.id!==id);
+    delete S().edits[id]; save();
     if(openId===id) openId=null; if(blItemOpen===id) blItemOpen=null;
     renderKpis(); renderTable(); renderByCat(); drawCharts();
   }));
@@ -925,6 +1110,7 @@ function clearBacklogForm(){
   const f=document.getElementById("bFeature"); if(!f) return;
   f.value=""; document.getElementById("bPri").value="Medium";
   document.getElementById("bCx").value="Medium";
+  document.getElementById("bTgt").value="Unscheduled";
   ["bDesc","bRemarks","bEng","bWho"].forEach(i=>document.getElementById(i).value="");
   document.getElementById("bKind").value="eng";
   document.getElementById("blErr").classList.add("hide");
@@ -937,10 +1123,11 @@ function addBacklog(){
   if(ALL().some(f=>f.feature.toLowerCase()===name.toLowerCase())){
     err.textContent="An item with that name already exists."; err.classList.remove("hide"); return; }
   const id=store.nextId++;
-  store.backlog.push({id:id,feature:name,
+  S().backlog.push({id:id,feature:name,
     priority:document.getElementById("bPri").value,
     category:"2026 Backlog",
     complexity:document.getElementById("bCx").value,
+    target:document.getElementById("bTgt").value,
     desc:document.getElementById("bDesc").value.trim(),
     remarks:document.getElementById("bRemarks").value.trim(),
     detail:""});
@@ -948,7 +1135,7 @@ function addBacklog(){
   const who=document.getElementById("bWho").value.trim();
   if(e){
     if(!who){ err.textContent="Enter your name to attach that first comment, or clear the comment box."; err.classList.remove("hide");
-      store.backlog=store.backlog.filter(x=>x.id!==id); document.getElementById("bWho").focus(); return; }
+      S().backlog=S().backlog.filter(x=>x.id!==id); document.getElementById("bWho").focus(); return; }
     setLog(id,document.getElementById("bKind").value,[{name:who,at:new Date().toISOString(),text:e}]); store.lastName=who;
   }
   save(); blOpen=true; blItemOpen=null;
@@ -962,6 +1149,7 @@ function clearForm(){
   document.getElementById("nPri").value="Medium";
   document.getElementById("nCat").value="Uncategorized";
   document.getElementById("nCx").value="Medium";
+  document.getElementById("nTgt").value="Unscheduled";
   ["nDesc","nRemarks","nEng","nWho"].forEach(i=>document.getElementById(i).value="");
   document.getElementById("nKind").value="eng";
   document.getElementById("formErr").classList.add("hide");
@@ -977,14 +1165,15 @@ function saveNew(){
   const cat=document.getElementById("nCat").value;
   const rec={id:id,feature:name,priority:document.getElementById("nPri").value,
     category:cat,complexity:document.getElementById("nCx").value,
+    target:document.getElementById("nTgt").value,
     desc:document.getElementById("nDesc").value.trim(),
     remarks:document.getElementById("nRemarks").value.trim(),detail:""};
-  if(cat==="2026 Backlog") store.backlog.push(rec); else store.added.push(rec);
+  if(cat==="2026 Backlog") S().backlog.push(rec); else S().added.push(rec);
   const e=document.getElementById("nEng").value.trim();
   const who=document.getElementById("nWho").value.trim();
   if(e){
     if(!who){ err.textContent="Enter your name to attach that first comment, or clear the comment box."; err.classList.remove("hide");
-      store.added=store.added.filter(x=>x.id!==id); store.backlog=store.backlog.filter(x=>x.id!==id);
+      S().added=S().added.filter(x=>x.id!==id); S().backlog=S().backlog.filter(x=>x.id!==id);
       document.getElementById("nWho").focus(); return; }
     setLog(id,document.getElementById("nKind").value,[{name:who,at:new Date().toISOString(),text:e}]); store.lastName=who;
   }
@@ -1006,10 +1195,69 @@ function renderByCat(){
     return `<div class="cgroup"><h3>${esc(c)}</h3><div class="cnt">${items.length} item${items.length>1?"s":""}</div>
       ${items.map(f=>`<div class="witem">${pill(val(f,"priority"))}
         <div><b>${esc(f.feature)}</b>${isAdded(f.id)?'<span class="badge">Added</span>':""}
-        <div class="wmeta">${esc(val(f,"complexity"))} complexity · ${logCount(f.id,"eng")} eng, ${logCount(f.id,"pm")} PM comment${logCount(f.id)===1?"":"s"}</div>
+        <div class="wmeta">${esc(val(f,"complexity"))} complexity · ${esc(val(f,"target"))} · ${logCount(f.id,"eng")} eng, ${logCount(f.id,"pm")} PM comment${logCount(f.id)===1?"":"s"}</div>
         </div></div>`).join("")}</div>`;
   }).join("");
   document.getElementById("bycat").innerHTML=html||`<div class="empty">No items yet.</div>`;
+}
+
+function vTargetCount(vid,t){
+  const d=store.v[vid]||blankV();
+  const items=(SEEDS[vid]||[]).concat(d.added,d.backlog);
+  return items.filter(f=>{
+    const e=d.edits[f.id];
+    return ((e&&e.target!==undefined)?e.target:f.target)||"Unscheduled"; }).filter(f=>{
+    const e=d.edits[f.id];
+    return (((e&&e.target!==undefined)?e.target:f.target)||"Unscheduled")===t; }).length;
+}
+function vStreamCounts(vid){
+  const d=store.v[vid]||blankV();
+  const items=(SEEDS[vid]||[]).concat(d.added,d.backlog);
+  let e=0,p=0;
+  items.forEach(f=>{const ed=d.edits[f.id];
+    e+=((ed&&ed.log)||[]).length; p+=((ed&&ed.pmlog)||[]).length;});
+  return {eng:e,pm:p};
+}
+
+/* ---------- master charts: always on, all verticals combined ---------- */
+let mcharts={};
+function drawMasterCharts(){
+  if(typeof Chart==="undefined") return;
+  if(!document.getElementById("mVert")) return;
+  Object.values(mcharts).forEach(c=>c&&c.destroy());
+  const names=VERTICALS.map(v=>v.name);
+  const stats=VERTICALS.map(v=>statsFor(v.id));
+  const streams=VERTICALS.map(v=>vStreamCounts(v.id));
+  const total=stats.reduce((n,s)=>n+s.items,0);
+
+  mcharts.vert=new Chart(document.getElementById("mVert"),{type:"bar",
+    data:{labels:names,datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
+      data:stats.map(s=>s[p])}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:`Items by vertical — ${total} total`},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
+
+  const pri=PRIS.map(p=>stats.reduce((n,s)=>n+s[p],0));
+  mcharts.pri=new Chart(document.getElementById("mPri"),{type:"doughnut",
+    data:{labels:PRIS,datasets:[{data:pri,backgroundColor:PRIS.map(p=>PCOL[p])}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Priority mix, all verticals"},legend:{position:"right"}}}});
+
+  mcharts.tgt=new Chart(document.getElementById("mTgt"),{type:"bar",
+    data:{labels:TGTS,datasets:VERTICALS.map((v,i)=>({label:v.name,
+      backgroundColor:["#0b5cad","#0f7b4f","#c4620a"][i%3],
+      data:TGTS.map(t=>vTargetCount(v.id,t))}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Delivery timeline, all verticals"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
+
+  mcharts.cmt=new Chart(document.getElementById("mCmt"),{type:"bar",
+    data:{labels:names,datasets:[
+      {label:"Engineering",backgroundColor:"#0f7b4f",data:streams.map(s=>s.eng)},
+      {label:"PM",backgroundColor:"#6b3fa0",data:streams.map(s=>s.pm)}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Comment activity by vertical"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"comments"}}}}});
 }
 
 /* ---------- charts ---------- */
@@ -1032,19 +1280,19 @@ function drawCharts(){
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{title:{display:true,text:"Items by priority"},legend:{position:"right"}}}});
   charts.mix=new Chart(document.getElementById("cMix"),{type:"bar",
-    data:{labels:CXS,datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
-      data:CXS.map(x=>all.filter(f=>val(f,"complexity")===x&&val(f,"priority")===p).length)}))},
+    data:{labels:TGTS,datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
+      data:TGTS.map(t=>all.filter(f=>val(f,"target")===t&&val(f,"priority")===p).length)}))},
     options:{responsive:true,maintainAspectRatio:false,
-      plugins:{title:{display:true,text:"Build cost against priority"},legend:{position:"bottom"}},
+      plugins:{title:{display:true,text:"Delivery timeline by priority"},legend:{position:"bottom"}},
       scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
 }
 
 /* ---------- export ---------- */
 function exportCsv(){
-  const head=["Priority","Item","Category","Complexity","Description","Remarks","Eng Count","Engineering Comment Log","PM Count","PM Comment Log","Source"];
+  const head=["Priority","Item","Category","Complexity","Target","Description","Remarks","Eng Count","Engineering Comment Log","PM Count","PM Comment Log","Source"];
   const rows=filteredBacklog().concat(filteredMain()).map(f=>[
     val(f,"priority"),f.feature,val(f,"category"),val(f,"complexity"),
-    f.desc,f.remarks,logCount(f.id,"eng"),logText(f.id,"eng"),logCount(f.id,"pm"),logText(f.id,"pm"),
+    val(f,"target"),f.desc,f.remarks,logCount(f.id,"eng"),logText(f.id,"eng"),logCount(f.id,"pm"),logText(f.id,"pm"),
     isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx"]);
   const t=[head,...rows].map(r=>r.map(v=>'"'+String(v==null?"":v).replace(/"/g,'""').replace(/\n/g," ")+'"').join(",")).join("\r\n");
   const a=document.createElement("a");
@@ -1056,6 +1304,10 @@ function exportLog(){
   const head=["Date/Time","Type","Name","Item","Priority","Category","Source","Comment"];
   const rows=[];
   filteredBacklog().concat(filteredMain()).forEach(f=>{
+    chg(f.id).forEach(c=>rows.push([fmt(c.at),"Change",c.name,
+      f.feature,val(f,"priority"),val(f,"category"),
+      isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx",
+      `${c.field}: ${c.from} → ${c.to}`]));
     ["eng","pm"].forEach(kind=>log(f.id,kind).forEach(c=>rows.push([fmt(c.at),KINDS[kind].short,c.name,
       f.feature,val(f,"priority"),val(f,"category"),
       isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx",c.text])));
@@ -1066,6 +1318,97 @@ function exportLog(){
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["\ufeff"+t],{type:"text/csv;charset=utf-8"}));
   a.download="ceipal-2027-engineering-comment-log.csv"; a.click();
+}
+
+/* ---------- moving a vertical between files ---------- */
+function sendVertical(){
+  if(!VSEL) return;
+  const payload={format:"ceipal-roadmap-vertical",version:1,vertical:VSEL,
+    verticalName:VNAME(VSEL),exportedAt:new Date().toISOString(),
+    lastName:store.lastName,nextId:store.nextId,data:store.v[VSEL]};
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));
+  a.download=`ceipal-roadmap-${VSEL}-${new Date().toISOString().slice(0,10)}.json`; a.click();
+  note(`Sent ${VNAME(VSEL)}. Open the master and use Load a vertical file to roll it in.`);
+}
+function note(msg){
+  const el=document.getElementById("syncHint"); if(!el) return;
+  el.textContent=msg;
+  clearTimeout(note._t); note._t=setTimeout(()=>{ el.textContent=""; },9000);
+}
+function receiveVertical(file){
+  const r=new FileReader();
+  r.onload=()=>{
+    let p;
+    try{ p=JSON.parse(r.result); }catch(e){ note("That file is not valid JSON."); return; }
+    if(!p||p.format!=="ceipal-roadmap-vertical"||!p.vertical||!p.data){
+      note("That is not a roadmap vertical file."); return; }
+    if(!store.v[p.vertical]){ note(`Unknown vertical "${p.vertical}".`); return; }
+    if(LOCK && p.vertical!==LOCK){
+      note(`This file holds ${p.verticalName||p.vertical}. Open the master to roll it in.`); return; }
+    const inc=statsForData(p.vertical,p.data), cur=statsFor(p.vertical);
+    if(!confirm(`Replace ${VNAME(p.vertical)} with the incoming file?\n\n`+
+                `Now:      ${cur.items} items, ${cur.comments} comments\n`+
+                `Incoming: ${inc.items} items, ${inc.comments} comments\n\n`+
+                `This overwrites that vertical. Other verticals are untouched.`)) return;
+    const d=p.data;
+    store.v[p.vertical]={edits:d.edits||{},added:d.added||[],backlog:d.backlog||[],
+                         order:d.order||[],blorder:d.blorder||[]};
+    if(p.nextId&&p.nextId>store.nextId) store.nextId=p.nextId;
+    if(p.lastName&&!store.lastName) store.lastName=p.lastName;
+    save();
+    selectVertical(p.vertical);
+    note(`Rolled in ${VNAME(p.vertical)}: ${inc.items} items, ${inc.comments} comments. Totals updated.`);
+  };
+  r.readAsText(file);
+}
+function statsForData(vid,d){
+  const items=(SEEDS[vid]||[]).concat(d.added||[],d.backlog||[]);
+  let comments=0;
+  items.forEach(f=>{ const e=(d.edits||{})[f.id];
+    comments+=((e&&e.log)||[]).length+((e&&e.pmlog)||[]).length; });
+  return {items:items.length,comments:comments};
+}
+
+/* ---------- vertical switching ---------- */
+function vCounts(vid){
+  const d=store.v[vid]||blankV();
+  const items=(SEEDS[vid]||[]).concat(d.added,d.backlog);
+  let c=0;
+  items.forEach(f=>{
+    const e=d.edits[f.id];
+    c+=((e&&e.log)||[]).length+((e&&e.pmlog)||[]).length;
+  });
+  return {items:items.length,comments:c};
+}
+function renderVPick(){
+  document.getElementById("vcards").innerHTML=VERTICALS.map(v=>{
+    const c=vCounts(v.id);
+    return `<div class="card vcard" data-v="${v.id}">
+      <h2>${esc(v.name)}</h2>
+      <div class="vc">${c.items?`${c.items} item${c.items>1?"s":""} · ${c.comments} comment${c.comments===1?"":"s"}`:"No features yet"}</div>
+      <div class="vgo">Open roadmap →</div>
+    </div>`;
+  }).join("");
+  document.querySelectorAll(".vcard").forEach(el=>el.addEventListener("click",()=>selectVertical(el.dataset.v)));
+}
+function selectVertical(vid){
+  VSEL=vid||"";
+  const sel=document.getElementById("fVert");
+  if(sel && sel.value!==VSEL) sel.value=VSEL;
+  const picking=!VSEL;
+  document.getElementById("vpick").classList.toggle("hide",!picking);
+  document.getElementById("vbody").classList.toggle("hide",picking);
+  document.getElementById("pageTitle").innerHTML = VSEL
+    ? `2027 Ceipal ${esc(VNAME(VSEL))} Roadmap`
+    : `2027 Ceipal Master Roadmap<span class="vtag">All verticals</span>`;
+  document.title = VSEL ? `2027 Ceipal ${VNAME(VSEL)} Roadmap` : "2027 Ceipal Master Roadmap";
+  openId=null; blItemOpen=null;
+  // if this vertical has no backlog items yet, open the panel so the form is visible
+  blOpen = VSEL ? !ALL().some(f=>f.type==="backlog") : false;
+  if(picking){ renderKpis(); renderVPick(); drawMasterCharts(); return; }
+  sortKey="custom"; sortDir=1;
+  renderKpis(); renderTable(); renderByCat(); if(!document.getElementById("v-charts").classList.contains("hide")) drawCharts();
 }
 
 /* ---------- wiring ---------- */
@@ -1085,35 +1428,49 @@ document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.v==="charts") drawCharts();
   if(t.dataset.v==="add") document.getElementById("nFeature").focus();
 }));
-["fPri","fCat","fCx","fEng"].forEach(id=>document.getElementById(id).addEventListener("change",renderTable));
+["fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).addEventListener("change",renderTable));
 document.getElementById("fQ").addEventListener("input",renderTable);
 document.getElementById("btnReset").addEventListener("click",()=>{
-  ["fPri","fCat","fCx","fEng"].forEach(id=>document.getElementById(id).value="");
+  ["fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("fQ").value=""; renderTable();
 });
 document.getElementById("btnClear").addEventListener("click",()=>{
   const all=ALL(), n=all.reduce((t,f)=>t+logCount(f.id),0);
   const bits=[];
-  if(store.backlog.length) bits.push(`${store.backlog.length} backlog item${store.backlog.length>1?"s":""}`);
-  if(store.added.length) bits.push(`${store.added.length} added feature${store.added.length>1?"s":""}`);
+  if(S().backlog.length) bits.push(`${S().backlog.length} backlog item${S().backlog.length>1?"s":""}`);
+  if(S().added.length) bits.push(`${S().added.length} added feature${S().added.length>1?"s":""}`);
   if(n) bits.push(`${n} engineering comment${n>1?"s":""}`);
   const msg=bits.length
-    ? `This permanently deletes ${bits.join(", ")}, and resets every priority and category edit. This cannot be undone. Continue?`
-    : "This resets every priority, category, and complexity edit back to the original assignments. Continue?";
+    ? `This resets ${VNAME(VSEL)} only and permanently deletes ${bits.join(", ")}. Other verticals are untouched. This cannot be undone. Continue?`
+    : `This resets ${VNAME(VSEL)} back to its original assignments. Other verticals are untouched. Continue?`;
   if(!confirm(msg)) return;
-  store={edits:{},added:[],backlog:[],order:[],blorder:[],lastName:"",nextId:1000}; save();
+  store.v[VSEL]=blankV(); save();
   openId=null; blItemOpen=null; sortKey="custom"; sortDir=1;
   renderKpis(); renderTable(); renderByCat(); drawCharts();
 });
 document.getElementById("btnExport").addEventListener("click",exportCsv);
+document.getElementById("btnSend").addEventListener("click",sendVertical);
+document.getElementById("btnReceive").addEventListener("click",()=>document.getElementById("fileIn").click());
+document.getElementById("fileIn").addEventListener("change",e=>{
+  const f=e.target.files&&e.target.files[0]; if(f) receiveVertical(f); e.target.value="";
+});
 document.getElementById("btnExportLog").addEventListener("click",exportLog);
 document.getElementById("btnSaveNew").addEventListener("click",saveNew);
 document.getElementById("btnCancelEdit").addEventListener("click",clearForm);
 document.getElementById("nFeature").addEventListener("keydown",e=>{ if(e.key==="Enter") saveNew(); });
 
-renderKpis(); renderTable(); renderByCat();
-console.log("roadmap ready:",ALL().length,"items |",store.backlog.length,"backlog |",
-  store.added.length,"added |",ALL().reduce((n,f)=>n+logCount(f.id),0),"comments logged");
+(function boot(){
+  const sel=document.getElementById("fVert");
+  if(LOCK){
+    document.getElementById("vbar").classList.add("hide");
+  } else {
+    sel.innerHTML='<option value="">All verticals</option>'+
+      VERTICALS.map(v=>`<option value="${v.id}">${esc(v.name)}</option>`).join("");
+    sel.addEventListener("change",()=>selectVertical(sel.value));
+  }
+  selectVertical(LOCK||"");
+  console.log("roadmap ready | build:",LOCK||"master","| verticals:",VERTICALS.map(v=>v.id).join(","));
+})();
 </script>
 </body>
 </html>
