@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2027 Ceipal Healthcare Roadmap</title>
+<style>
+:root{
+  color-scheme: light;
+  --bg:#f4f5f7; --panel:#fff; --ink:#171b21; --muted:#616b78; --line:#e3e7ec; --line2:#eef1f4;
+  --hi:#b42318; --md:#c4620a; --lo:#616b78; --accent:#0b5cad; --ok:#0f7b4f;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:14px;line-height:1.6}
+.wrap{max-width:1060px;margin:0 auto;padding:26px 22px 60px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+
+header{margin-bottom:22px}
+h1{font-size:23px;margin:0 0 4px;letter-spacing:-.35px;font-weight:680}
+.sub{color:var(--muted);font-size:13px;max-width:74ch}
+
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px}
+.kpi{padding:15px 16px}
+.kpi .v{font-size:27px;font-weight:640;letter-spacing:-.6px;line-height:1.05}
+.kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:6px;font-weight:600}
+@media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
+.tab{padding:10px 16px;cursor:pointer;border:none;background:none;font-size:13px;font-weight:580;
+  color:var(--muted);border-bottom:2px solid transparent;font-family:inherit;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:16px}
+.ctl{display:flex;flex-direction:column;gap:5px}
+.ctl label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:650}
+select,input[type=text]{font-family:inherit;font-size:13px;padding:7px 10px;border:1px solid var(--line);
+  border-radius:6px;background:#fff;color:var(--ink);min-width:150px}
+select:focus,input:focus,textarea:focus{outline:2px solid #0b5cad22;border-color:var(--accent)}
+.btn{font-family:inherit;font-size:12.5px;padding:8px 13px;border:1px solid var(--line);border-radius:6px;
+  background:#fff;color:var(--ink);cursor:pointer;font-weight:580}
+.btn:hover{background:#f2f4f7}
+.btn.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.pri:hover{background:#094a8c}
+.btn.danger{color:#b42318;border-color:#f0cdc9}
+.btn.danger:hover{background:#fdf2f1}
+.btn.sm{padding:5px 10px;font-size:12px}
+.spacer{margin-left:auto}
+.count{font-size:12.5px;color:var(--muted);padding-bottom:8px}
+
+.tblwrap{overflow-x:auto;border-radius:10px}
+table.rm{border-collapse:collapse;width:100%;min-width:780px}
+table.rm thead th{background:#eef1f5;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;
+  font-weight:700;color:#4a5563;text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:5;white-space:nowrap}
+table.rm thead th.sortable{cursor:pointer;user-select:none}
+table.rm thead th.sortable:hover{background:#e5eaf0;color:var(--ink)}
+table.rm thead th .ar{opacity:.35;margin-left:4px;font-size:9px}
+table.rm thead th.act .ar{opacity:1;color:var(--accent)}
+table.rm tbody td{padding:14px 16px;border-bottom:1px solid var(--line2);vertical-align:top}
+table.rm tbody tr.main{cursor:pointer}
+table.rm tbody tr.main:hover td{background:#f7f9fb}
+table.rm tbody tr.main.open td{background:#eff5fb}
+table.rm tbody tr:last-child td{border-bottom:none}
+.c-h{width:56px;padding-right:0 !important} .c-pri{width:88px} .c-cat{width:158px}
+.c-cx{width:96px} .c-eng{width:112px} .c-x{width:36px;text-align:center}
+
+/* drag handle + reorder */
+.handle{display:flex;align-items:center;gap:2px}
+.grip{cursor:grab;color:#aab3bd;font-size:15px;line-height:1;padding:2px 3px;border-radius:4px;
+  user-select:none;letter-spacing:-2px}
+.grip:hover{color:var(--accent);background:#e8eff8}
+.grip:active{cursor:grabbing}
+.arrows{display:flex;flex-direction:column;gap:1px}
+.arw{cursor:pointer;color:#aab3bd;font-size:8px;line-height:1;padding:1px 3px;border-radius:3px;user-select:none}
+.arw:hover{color:var(--accent);background:#e8eff8}
+.arw.off{opacity:.25;cursor:default}
+.arw.off:hover{color:#aab3bd;background:none}
+tr.drag{opacity:.4}
+tr.over td{box-shadow:inset 0 3px 0 -1px var(--accent)}
+tr.over.below td{box-shadow:inset 0 -3px 0 -1px var(--accent)}
+.ordbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;font-size:12.5px}
+.ordbar .mode{font-weight:620;color:var(--accent)}
+.ordbar .mode.sorted{color:var(--muted);font-weight:500}
+.pill{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;color:#fff;letter-spacing:.2px}
+.pri-High{background:var(--hi)} .pri-Medium{background:var(--md)} .pri-Low{background:var(--lo)}
+.fname{font-weight:620;font-size:14px;line-height:1.4}
+.fsub{color:var(--muted);font-size:12.5px;margin-top:3px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cat{font-size:12.5px;color:#3f4a57}
+.cx{font-size:12.5px;color:var(--muted)}
+.engst{font-size:12px;font-weight:600}
+.engst.yes{color:var(--ok)} .engst.no{color:var(--muted);font-weight:500}
+.chev{color:var(--muted);font-size:11px;transition:transform .15s;display:inline-block}
+tr.main.open .chev,tr.blrow.open .chev{transform:rotate(90deg);color:var(--accent)}
+.badge{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  background:#e9eef5;color:#2a4a6d;padding:1px 6px;border-radius:4px;margin-left:7px;vertical-align:2px}
+
+/* 2026 Backlog parent row */
+tr.blrow td{background:#f0f4fa !important;border-bottom:1px solid var(--line)}
+tr.blrow:hover td{background:#e8eff8 !important}
+tr.blrow.open td{background:#e4edf8 !important}
+.blname{font-weight:680;font-size:14.5px;color:var(--accent);letter-spacing:-.1px}
+.blmeta{font-size:12.5px;color:var(--muted);margin-top:3px}
+td.blpanel{background:#f7f9fb;padding:0 16px 24px;border-bottom:2px solid var(--line)}
+.blbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:16px 0 12px}
+.blbar h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:0;font-weight:700}
+.blempty{padding:22px;text-align:center;color:var(--muted);font-size:13px;background:#fff;
+  border:1px dashed var(--line);border-radius:8px}
+table.bl{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+table.bl th{background:#f3f6f9;font-size:10px;text-transform:uppercase;letter-spacing:.6px;font-weight:700;
+  color:#4a5563;text-align:left;padding:9px 14px;border-bottom:1px solid var(--line)}
+table.bl td{padding:11px 14px;border-bottom:1px solid var(--line2);vertical-align:top;font-size:13px}
+table.bl tr.bi{cursor:pointer}
+table.bl tr.bi:hover td{background:#f7f9fb}
+table.bl tr.bi.open td{background:#eff5fb}
+table.bl tr:last-child td{border-bottom:none}
+
+td.detail{background:#f7f9fb;padding:4px 16px 26px;border-bottom:1px solid var(--line)}
+td.bdetail{background:#f4f7fa;padding:4px 14px 20px}
+.dsec{max-width:78ch}
+.dsec h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);
+  margin:20px 0 6px;font-weight:700}
+.dsec p{margin:0 0 10px}
+.dsec pre{white-space:pre-wrap;font-family:inherit;margin:0;font-size:13px;line-height:1.65}
+.editrow{display:flex;flex-wrap:wrap;gap:16px;background:#fff;padding:14px 16px;
+  border:1px solid var(--line);border-radius:8px;margin-top:6px;max-width:78ch}
+.editrow .ctl label{font-size:10px}
+.editrow select{min-width:132px}
+.engbox{background:#fff;border:1px solid var(--line);border-left:3px solid var(--ok);
+  border-radius:0 8px 8px 0;padding:14px 16px;margin-top:6px;max-width:78ch}
+textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-height:1.6;padding:10px 12px;
+  border:1px solid var(--line);border-radius:6px;background:#fcfdfc;color:var(--ink);resize:vertical}
+.engmeta{font-size:11.5px;color:var(--muted);margin-top:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+
+.form{padding:20px 22px}
+.form.inline{padding:16px;background:#fff;border:1px solid var(--line);border-radius:8px;margin-bottom:14px}
+.form h3{font-size:15px;margin:0 0 4px;font-weight:660}
+.form .fh{font-size:12.5px;color:var(--muted);margin:0 0 18px;max-width:76ch}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.fld{display:flex;flex-direction:column;gap:5px;max-width:78ch}
+.fld.full{grid-column:1/-1}
+.fld label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:650}
+.fld .hint{font-size:11.5px;color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0}
+.fld input,.fld select{min-width:0;width:100%}
+.fld textarea{min-height:70px}
+.err{color:#b42318;font-size:12px;margin-top:8px;font-weight:580}
+@media(max-width:700px){.frow2{grid-template-columns:1fr}}
+
+.pad{padding:20px 22px}
+.cgroup{margin-bottom:26px}
+.cgroup:last-child{margin-bottom:0}
+.cgroup h3{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin:0 0 4px;font-weight:700}
+.cgroup .cnt{font-size:12px;color:var(--muted);margin-bottom:10px}
+.witem{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:11px 0;
+  border-top:1px solid var(--line2);align-items:start}
+.witem b{font-size:13.5px;font-weight:620}
+.wmeta{font-size:12px;color:var(--muted);margin-top:2px}
+
+.empty{padding:44px 20px;text-align:center;color:var(--muted);font-size:13.5px}
+.hide{display:none}
+.chartbox{position:relative;height:300px;padding:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>2027 Ceipal Healthcare Roadmap</h1>
+  <div class="sub">Every item scored standalone on priority, category, and complexity. Enter 2026 backlog items in the first row. All edits and engineering comments save automatically. Source: 2027 Healthcare Roadmap.xlsx</div>
+</header>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="tabs">
+  <button class="tab on" data-v="features">Features</button>
+  <button class="tab" data-v="add">Add Feature</button>
+  <button class="tab" data-v="bycat">By Category</button>
+  <button class="tab" data-v="charts">Charts</button>
+</div>
+
+<div id="v-features">
+  <div class="controls">
+    <div class="ctl"><label for="fPri">Priority</label><select id="fPri"><option value="">All priorities</option></select></div>
+    <div class="ctl"><label for="fCat">Category</label><select id="fCat"><option value="">All categories</option></select></div>
+    <div class="ctl"><label for="fCx">Complexity</label><select id="fCx"><option value="">All complexity</option></select></div>
+    <div class="ctl"><label for="fEng">Engineering</label><select id="fEng">
+      <option value="">All</option><option value="yes">Has comments</option><option value="no">Awaiting comments</option></select></div>
+    <div class="ctl"><label for="fQ">Search</label><input type="text" id="fQ" placeholder="Feature or keyword"></div>
+    <button class="btn" id="btnReset">Reset</button>
+    <button class="btn pri spacer" id="btnExport">Export CSV</button>
+  </div>
+  <div class="ordbar">
+    <span id="ordMode" class="mode"></span>
+    <button class="btn sm" id="btnCustom">Back to my order</button>
+    <span style="color:var(--muted)">Drag the grip or use the arrows to reorder.</span>
+  </div>
+  <div class="count" id="count"></div>
+  <div class="card tblwrap">
+    <table class="rm">
+      <thead>
+        <tr>
+          <th class="c-h"></th>
+          <th class="c-pri sortable" data-s="priority">Priority<span class="ar">▼</span></th>
+          <th class="sortable" data-s="feature">Feature<span class="ar">▼</span></th>
+          <th class="c-cat sortable" data-s="category">Category<span class="ar">▼</span></th>
+          <th class="c-cx sortable" data-s="complexity">Complexity<span class="ar">▼</span></th>
+          <th class="c-eng sortable" data-s="eng">Engineering<span class="ar">▼</span></th>
+          <th class="c-x"></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div style="margin-top:14px"><button class="btn danger" id="btnClear">Reset all my edits and added items</button></div>
+</div>
+
+<div id="v-add" class="hide">
+  <div class="card form">
+    <h3>Add a feature</h3>
+    <p class="fh">For new requests or anything missing from the source file. Feature name and priority are required. Use the 2026 Backlog row on the Features tab for backlog items.</p>
+    <div class="frow2">
+      <div class="fld full"><label for="nFeature">Feature name <span class="hint">required</span></label>
+        <input type="text" id="nFeature" placeholder="e.g. Bulk credential expiry notifications"></div>
+      <div class="fld"><label for="nPri">Priority</label><select id="nPri"></select></div>
+      <div class="fld"><label for="nCat">Category</label><select id="nCat"></select></div>
+      <div class="fld"><label for="nCx">Complexity</label><select id="nCx"></select></div>
+      <div class="fld full"><label for="nDesc">Description</label>
+        <textarea id="nDesc" placeholder="What the feature does, in plain terms."></textarea></div>
+      <div class="fld full"><label for="nRemarks">Remarks</label>
+        <textarea id="nRemarks" placeholder="Background, the request that triggered it, examples."></textarea></div>
+      <div class="fld full"><label for="nEng">Engineering comments <span class="hint">leave blank for the dev team</span></label>
+        <textarea id="nEng" placeholder="Feasibility. Effort in developer days. Technical risk."></textarea></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn pri" id="btnSaveNew">Add feature</button>
+      <button class="btn" id="btnCancelEdit">Clear form</button>
+    </div>
+    <div class="err hide" id="formErr"></div>
+  </div>
+</div>
+
+<div id="v-bycat" class="hide"><div class="card pad" id="bycat"></div></div>
+
+<div id="v-charts" class="hide">
+  <div class="grid2">
+    <div class="card"><div class="chartbox"><canvas id="cCat"></canvas></div></div>
+    <div class="card"><div class="chartbox"><canvas id="cPri"></canvas></div></div>
+  </div>
+  <div class="card"><div class="chartbox" style="height:320px"><canvas id="cMix"></canvas></div></div>
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<script>
+// 2027 Ceipal Healthcare Roadmap — structured source data
+// Every item is evaluated standalone. No dependency or sequencing logic.
+const SEED = [
+{
+ id: 13, feature: "Automated VMS Submission & Rejection Analytics",
+ priority: "High", category: "VMS & Integrations", complexity: "Very High",
+ desc: "Allow Ceipal to use RPA, computer vision (CV), and NLP to auto-submit complete, fully compliant candidate packages directly into external client VMS portals within seconds of internal match, while continuously analyzing VMS feedback data to optimize future profiles.",
+ remarks: "When agency recruiters manually copy-paste healthcare worker packets across dozens of disparate VMS portals, speed drops, compliance documents get left behind, and valuable feedback from rejected profiles is lost in vendor portals.",
+ detail: "• 80% Reduction in Submittal Time: Reduces manual packet preparation and portal submission time from ~25 minutes down to <3 minutes.\n• 35% Increase in Submittal-to-Interview Ratio: Eliminates administrative auto-rejections caused by formatting errors, missing credentials, or rate mismatches.\n• Faster Time-to-Market: Helps Ceipal users consistently beat submittal caps on high-demand, quick-close travel nurse contracts."
+},
+{
+ id: 12, feature: "Recruiter Flight Deck",
+ priority: "High", category: "Placement Velocity", complexity: "High",
+ desc: "Recruiter Flight Deck is an intelligent, centralized workspace within Ceipal Healthcare that helps recruiters prioritize their day and take action across jobs, candidates, submissions, and follow ups from a single view.",
+ remarks: "The Flight Deck surfaces high priority activities and opportunities based on recruiter workload and workflow signals, reducing the need to search across multiple areas of the ATS. This creates a more action oriented recruiter experience, helping recruiters spend less time navigating the ATS and more time engaging candidates, advancing submissions, and driving placements.",
+ detail: "Examples include:\n• Priority Jobs: Highlight urgent or high value jobs that need additional candidate activity.\n• Candidates Requiring Attention: Surface clinicians who need follow up, have stalled, or are ready for the next step.\n• Next Best Actions: Recommend actions such as contacting a candidate, completing missing information, reviewing credentials, preparing a pay package, or moving toward submission.\n• Candidate and Job Opportunities: Identify potential matches between active jobs and candidates already in the recruiter's pipeline or database.\n• Submission Readiness: Surface missing documents, credentials, or other requirements that may prevent a candidate from moving forward.\n• Follow Up Management: Bring upcoming and overdue recruiter actions into one prioritized workspace.\n• Pipeline Visibility: Give recruiters a quick view of where candidates are progressing, where they are stalled, and where attention is needed.\n\nManager Benefits\nFlight Deck can also create a stronger operating model for recruiting leadership. Rather than relying entirely on activity counts, managers can gain greater visibility into how recruiting work is progressing and where intervention may be required.\n• Where recruiter attention is concentrated.\n• Which jobs are receiving insufficient activity.\n• Where candidates are becoming stalled.\n• Where submissions are being delayed.\n• Which recruiter actions are producing outcomes.\n• Where workflow bottlenecks are affecting placement velocity."
+},
+{
+ id: 4, feature: "Probability to Fill Score",
+ priority: "High", category: "Placement Velocity", complexity: "Medium",
+ desc: "Assigns a score to every job in Ceipal.",
+ remarks: "Now recruiters can prioritize work based not simply on job age or priority, but on economic probability of success.",
+ detail: "For example:\n\nFill Probability: 24%\nPrimary constraints: below market rate, limited local talent supply, three required certifications, historically low client response rate.\nRecommended action: Request $6/hour bill rate increase or deprioritize."
+},
+{
+ id: 8, feature: "AI Margin Optimizer",
+ priority: "High", category: "Revenue & Margin", complexity: "High",
+ desc: "Today we calculate pay packages. This feature will recommend optimized pay packages.",
+ remarks: "For example: \"This bill rate supports $58/hr. However, historical fill data indicates $56/hr has the same fill probability and improves margin 2.8%.\" Additionally, it will propose 3 optimized pay packages (based on back end parameters): conservative, competitive and aggressive.",
+ detail: ""
+},
+{
+ id: 6, feature: "Mobile App Access for HCPs Not on an Assignment",
+ priority: "High", category: "Talent Engagement", complexity: "Low",
+ desc: "Allow applicants to download and use the app even before going on an assignment.",
+ remarks: "Currently, only applicants on an assignment can use the mobile app. Having this available to all applicants will increase their engagement with their agency.",
+ detail: ""
+},
+{
+ id: 10, feature: "Client Intelligence Hub",
+ priority: "Medium", category: "Client Growth & Retention", complexity: "High",
+ desc: "Client Intelligence Hub is a new intelligence module within Ceipal Healthcare that gives staffing organizations a comprehensive view of the health, performance, risk, and growth potential of every client and facility they serve.",
+ remarks: "Growth is not only about acquiring new business. Protecting existing revenue, strengthening current relationships, expanding within existing accounts, and identifying new opportunities are all part of the same client growth strategy. Rather than requiring account managers, sales teams, and leadership to independently analyze CRM activity, jobs, clinician deployments, placements, financial performance, and market data, Client Intelligence Hub continuously evaluates these signals and turns them into actionable intelligence. The module answers four questions: How is this client performing? Is any existing revenue at risk? Where can we grow? What should we do next?",
+ detail: "Client Intelligence Hub continuously evaluates the health of each client relationship and produces a dynamic Client Health Score.\nSignals can include:\n• Declining order volume\n• Slower client communication\n• Reduced interview activity\n• Increasing fill times\n• Margin compression\n• Declining recruiter engagement\n• Executive or key relationship changes\n• Declining clinician deployments\n• Assignment attrition\n• Changes in client satisfaction\n• Reduced workforce utilization\n\nThe result is a prioritized view of accounts that are healthy, changing, or at risk, allowing account teams to intervene earlier instead of reacting after business has already been lost."
+},
+{
+ id: 16, feature: "Client Behavior Intelligence",
+ priority: "Medium", category: "Client Growth & Retention", complexity: "Medium",
+ desc: "Learns how individual clients actually behave: average response time, interview probability, typical rate flexibility, preferred candidate attributes, cancellation behavior, extension behavior, etc.",
+ remarks: "Gives recruiters insights and knowledge that normally lives in experienced employees' heads.",
+ detail: ""
+},
+{
+ id: 15, feature: "Candidate Marketability Score",
+ priority: "Medium", category: "Talent Engagement", complexity: "Medium",
+ desc: "Scores how placeable a clinician is right now based on specialty demand, credentials, experience, geography, availability, compensation expectations, and historical placement patterns.",
+ remarks: "Helps agencies understand the economic value of their talent database.",
+ detail: ""
+},
+{
+ id: 14, feature: "Candidate Engagement Intelligence",
+ priority: "Medium", category: "Talent Engagement", complexity: "Medium",
+ desc: "Determines which clinicians should be contacted, when, through which channel, and about which opportunity based on historical engagement and behavior. Makes outreach more intelligent rather than simply increasing messaging volume.",
+ remarks: "Create an icon next to a candidate's name that when hovered over or clicked, shows the relevant details.",
+ detail: ""
+},
+{
+ id: 3, feature: "Scenario Simulator",
+ priority: "Medium", category: "Executive Intelligence", complexity: "Very High",
+ desc: "Scenario Simulator enables healthcare staffing leaders to model potential business decisions before taking action. Using Ceipal's recruiting, client, clinician, operational, and financial data, users can adjust assumptions and simulate the expected impact on revenue, gross margin, placements, fill rates, clinician supply, and recruiter capacity.",
+ remarks: "Allows leadership to ask \"What happens if we increase RN pay $3/hour?\", \"What if this client cuts orders 30%?\", or \"What if we add 10 recruiters?\" and models revenue, margin, fill, and capacity impacts.",
+ detail: "Examples include:\n\nPay and Bill Rate Modeling: \"What happens to margin and fill probability if we increase RN pay by $3 per hour?\"\nClient Volume Changes: \"What happens if our largest client reduces orders by 25%?\"\nMargin Strategy: \"If we reduce our target margin by 2% for this client, how many additional placements would we need to maintain gross profit?\"\nRecruiter Capacity: \"What happens if we add five recruiters to Allied Health?\"\nClient Expansion: \"What would the impact be if we captured an additional 10% of this health system's contingent labor spend?\"\nSpecialty Expansion: \"What is the expected revenue and recruiting capacity requirement if we expand into Locum Tenens?\"\nAssignment Extensions: \"What would a 10% improvement in extension rate mean for annual revenue and gross profit?\"\nRedeployment: \"What happens if we increase clinician redeployment from 42% to 55%?\"\nFill Rate Improvement: \"What is the financial impact of improving fill rate by five percentage points for our top 20 clients?\"\nMarket Expansion: \"What would entering Florida with our current clinician supply and recruiter capacity look like?\""
+},
+{
+ id: 5, feature: "Credit Check Integrations",
+ priority: "Medium", category: "Revenue & Margin", complexity: "Low",
+ desc: "D&B, Experian, Equifax etc.",
+ remarks: "Allow users to run credit checks directly from the ATS. Store results securely and link them to client records. Enables staffing agencies to proactively manage financial exposure. Reduces risk of overextending credit to clients with poor payment histories.",
+ detail: ""
+},
+{
+ id: 7, feature: "Various Payroll Company Integrations",
+ priority: "Medium", category: "VMS & Integrations", complexity: "Medium",
+ desc: "QuickBooks, ADP, PayChex etc.",
+ remarks: "Two way integration and sync, not just report formatting.",
+ detail: ""
+},
+{
+ id: 11, feature: "Quarterly Business Review Automation",
+ priority: "Low", category: "Client Growth & Retention", complexity: "High",
+ desc: "Aggregates and reports on operational data into an executive ready account performance review that automatically summarizes customer health, recruiting performance, financial outcomes, compliance risk, and growth opportunities for each Healthcare Account. Determines what the account team should discuss, identifies risks and opportunities, builds the business case, and recommends specific asks for the client meeting.",
+ remarks: "The data can be pulled from client and account performance records.",
+ detail: "The automation consolidates key healthcare staffing KPIs such as placement velocity, time to fill, time to clear, submission activity, assignment starts, extensions and redeployment, recruiter productivity, credential and compliance status, client performance, margin trends, and revenue at risk.\n\nFor each quarter, Ceipal automatically compares current performance with the prior quarter, identifies meaningful changes, highlights risks and opportunities, and generates an executive summary with recommended actions. Examples include declining fill performance, credentialing bottlenecks, margin erosion, underutilized accounts, assignments approaching extension or redeployment windows, revenue at risk, and markets where demand exceeds available candidate supply.\n\nThe QBR can also surface customer value by showing where Ceipal automation reduced manual effort, accelerated recruiting or credentialing workflows, protected margin, increased redeployment opportunities, or improved compliance readiness. This supports the roadmap objective of creating a measurable customer value scorecard and tying product usage to productivity, margin, retention, and expansion outcomes."
+},
+{
+ id: 9, feature: "AI Executive Command Center",
+ priority: "Low", category: "Executive Intelligence", complexity: "Very High",
+ desc: "Executive Command Center continuously evaluates organizational performance across every business function. Instead of displaying static metrics, the platform identifies what matters most. Every morning the executive begins the day with intelligence rather than reports.",
+ remarks: "Features marked with * in the source need to be confirmed against the AI features already built.",
+ detail: "Sample daily intelligence report:\n\nGood Morning. Today's business priorities are:\n\nRevenue\nRevenue forecast increased 2.4%. Primary driver: Behavioral Health demand in the Southeast.\n\nRisk\nCredential delays may impact six ICU placements beginning next week. Estimated revenue exposure: $182,000. Recommended action: Compliance Autopilot* has already contacted clinicians. Two exceptions require manual review.\n\nGrowth\nHospital XYZ increased traveler requests 31% over the past fourteen days. Opportunity Navigator recommends executive outreach.\n\nMargin\nCalifornia travel assignments continue to experience overtime erosion. ProfitPilot AI* recommends revised pricing strategy.\n\nPeople\nRecruiter Flight Deck* predicts recruiter Jennifer can support eighteen additional placements this month."
+},
+{
+ id: 17, feature: "Cross Functional Intelligence",
+ priority: "Low", category: "Platform Foundation", complexity: "Very High",
+ desc: "Instead of separate intelligence systems for Recruiting, Sales, Customer Success, Finance, and Executives, Ceipal eventually connects them.",
+ remarks: "Then Ceipal can answer a much more valuable question than \"What is happening?\" It can answer: \"Given everything we know about our customers, jobs, clinicians, recruiters, market demand, and economics, what should this staffing company do next?\"",
+ detail: ""
+}
+];
+
+
+</script>
+<script>
+const PRIS=["High","Medium","Low"];
+const CATS=["Placement Velocity","Revenue & Margin","VMS & Integrations","Talent Engagement","Client Growth & Retention","Executive Intelligence","Platform Foundation","2026 Backlog","Uncategorized"];
+const CXS=["Low","Medium","High","Very High"];
+const PCOL={High:"#b42318",Medium:"#c4620a",Low:"#616b78"};
+const KEY="ceipal-roadmap-2027-v5";
+
+let store={edits:{},added:[],backlog:[],order:[],blorder:[],nextId:1000};
+try{
+  const r=JSON.parse(localStorage.getItem(KEY)||"{}");
+  store.edits=r.edits||{}; store.added=r.added||[]; store.backlog=r.backlog||[];
+  store.order=r.order||[]; store.blorder=r.blorder||[]; store.nextId=r.nextId||1000;
+}catch(e){}
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(store)); }catch(e){} }
+
+function ALL(){ return SEED.concat(store.added,store.backlog); }
+function E(id){ return store.edits[id]||(store.edits[id]={}); }
+function val(f,k){ const e=store.edits[f.id]; return (e&&e[k]!==undefined)?e[k]:f[k]; }
+function eng(id){ const e=store.edits[id]; return (e&&e.engineering)||""; }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])); }
+function byId(i){ return ALL().find(f=>f.id===i); }
+function isAdded(id){ return store.added.some(f=>f.id===id); }
+function isBacklog(id){ return store.backlog.some(f=>f.id===id); }
+function pill(p){ return `<span class="pill pri-${p}">${p}</span>`; }
+
+function fillSel(el,arr,sel){ arr.forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;
+  if(v===sel)o.selected=true;el.appendChild(o);}); }
+fillSel(document.getElementById("fPri"),PRIS);
+fillSel(document.getElementById("fCat"),CATS);
+fillSel(document.getElementById("fCx"),CXS);
+fillSel(document.getElementById("nPri"),PRIS,"Medium");
+fillSel(document.getElementById("nCat"),CATS,"Uncategorized");
+fillSel(document.getElementById("nCx"),CXS,"Medium");
+
+/* ---------- manual order ---------- */
+// store.order / store.blorder hold ids. Anything not listed is appended in its natural position.
+function syncOrder(){
+  const main=SEED.concat(store.added).map(f=>f.id);
+  store.order=store.order.filter(id=>main.includes(id));
+  main.forEach(id=>{ if(!store.order.includes(id)) store.order.push(id); });
+  const bl=store.backlog.map(f=>f.id);
+  store.blorder=store.blorder.filter(id=>bl.includes(id));
+  bl.forEach(id=>{ if(!store.blorder.includes(id)) store.blorder.push(id); });
+}
+function orderOf(id){ const i=store.order.indexOf(id); return i<0?9999:i; }
+function blOrderOf(id){ const i=store.blorder.indexOf(id); return i<0?9999:i; }
+function move(list,id,dir){
+  const i=list.indexOf(id); if(i<0) return false;
+  const j=i+dir; if(j<0||j>=list.length) return false;
+  list.splice(j,0,list.splice(i,1)[0]); return true;
+}
+function moveTo(list,dragId,targetId,below){
+  const from=list.indexOf(dragId); if(from<0) return false;
+  list.splice(from,1);
+  let to=list.indexOf(targetId); if(to<0){ list.splice(from,0,dragId); return false; }
+  list.splice(below?to+1:to,0,dragId); return true;
+}
+
+/* ---------- sort / filter ---------- */
+let sortKey="custom", sortDir=1;
+function skey(f,k){
+  if(k==="priority") return PRIS.indexOf(val(f,"priority"));
+  if(k==="complexity") return CXS.indexOf(val(f,"complexity"));
+  if(k==="eng") return eng(f.id).trim()?0:1;
+  if(k==="category") return val(f,"category");
+  return f.feature.toLowerCase();
+}
+function ordered(list,k,d){
+  k=k||sortKey; d=d===undefined?sortDir:d;
+  if(k==="custom"){
+    const bl=list.length&&isBacklog(list[0].id);
+    return [...list].sort((a,b)=>(bl?blOrderOf(a.id)-blOrderOf(b.id):orderOf(a.id)-orderOf(b.id)));
+  }
+  return [...list].sort((a,b)=>{
+    const x=skey(a,k),y=skey(b,k);
+    if(x<y) return -d; if(x>y) return d;
+    return PRIS.indexOf(val(a,"priority"))-PRIS.indexOf(val(b,"priority"))
+        || a.feature.toLowerCase().localeCompare(b.feature.toLowerCase());
+  });
+}
+function matches(f){
+  const p=document.getElementById("fPri").value,c=document.getElementById("fCat").value,
+        x=document.getElementById("fCx").value,e=document.getElementById("fEng").value,
+        q=document.getElementById("fQ").value.toLowerCase().trim();
+  if(p&&val(f,"priority")!==p) return false;
+  if(c&&val(f,"category")!==c) return false;
+  if(x&&val(f,"complexity")!==x) return false;
+  if(e==="yes"&&!eng(f.id).trim()) return false;
+  if(e==="no"&&eng(f.id).trim()) return false;
+  if(q&&!(f.feature+" "+f.desc+" "+f.remarks+" "+(f.detail||"")+" "+eng(f.id)).toLowerCase().includes(q)) return false;
+  return true;
+}
+function filteredMain(){ return ordered(SEED.concat(store.added).filter(matches)); }
+function filteredBacklog(){ return ordered(store.backlog.filter(matches)); }
+
+/* ---------- KPIs ---------- */
+function renderKpis(){
+  const all=ALL(), cnt=p=>all.filter(f=>val(f,"priority")===p).length;
+  const k=[
+    {v:all.length,l:"Total items"},
+    {v:cnt("High"),l:"High priority"},
+    {v:cnt("Medium"),l:"Medium priority"},
+    {v:cnt("Low"),l:"Low priority"},
+    {v:all.filter(f=>eng(f.id).trim()).length+"/"+all.length,l:"Eng reviewed"}
+  ];
+  document.getElementById("kpis").innerHTML=k.map(o=>
+    `<div class="card kpi"><div class="v">${o.v}</div><div class="l">${esc(o.l)}</div></div>`).join("");
+}
+
+/* ---------- main table ---------- */
+let openId=null, blOpen=false, blItemOpen=null;
+function renderTable(){
+  syncOrder();
+  const fs=filteredMain(), bl=filteredBacklog(), all=ALL(), tb=document.getElementById("tbody");
+  const shown=fs.length+bl.length;
+  document.getElementById("count").textContent =
+    shown===all.length?`${shown} items`:`${shown} of ${all.length} items`;
+  document.querySelectorAll("thead th.sortable").forEach(th=>{
+    const on=th.dataset.s===sortKey;
+    th.classList.toggle("act",on);
+    th.querySelector(".ar").textContent=on?(sortDir===1?"▼":"▲"):"▼";
+  });
+  const custom=sortKey==="custom";
+  const m=document.getElementById("ordMode");
+  m.textContent=custom?"My order":`Sorted by ${sortKey==="eng"?"engineering":sortKey} — reordering is off`;
+  m.className="mode"+(custom?"":" sorted");
+  document.getElementById("btnCustom").classList.toggle("hide",custom);
+
+  let h=backlogRow(bl);
+  h+=fs.map((f,i)=>featureRow(f,i,fs.length)).join("");
+  if(!fs.length&&!bl.length) h+=`<tr><td colspan="7" class="empty">No items match those filters.</td></tr>`;
+  tb.innerHTML=h;
+  wireTable();
+}
+
+function handleCell(id,i,n,kind){
+  if(sortKey!=="custom") return `<td class="c-h"></td>`;
+  return `<td class="c-h"><div class="handle">
+    <span class="grip" data-grip="${id}" title="Drag to reorder">⠿</span>
+    <div class="arrows">
+      <span class="arw ${i===0?"off":""}" data-up="${id}" data-kind="${kind}" title="Move up">▲</span>
+      <span class="arw ${i===n-1?"off":""}" data-down="${id}" data-kind="${kind}" title="Move down">▼</span>
+    </div></div></td>`;
+}
+
+function backlogRow(items){
+  const n=store.backlog.length;
+  const done=store.backlog.filter(f=>eng(f.id).trim()).length;
+  let h=`<tr class="blrow ${blOpen?"open":""}" id="blHead">
+    <td class="c-h"></td>
+    <td class="c-pri"><span class="pill pri-Medium" style="background:var(--accent)">Backlog</span></td>
+    <td><div class="blname">2026 Backlog</div>
+        <div class="blmeta">${n?`${n} item${n>1?"s":""} entered · ${done} with engineering comments`:"No items entered yet. Open to add them one at a time."}</div></td>
+    <td class="c-cat"><span class="cat">2026 Backlog</span></td>
+    <td class="c-cx"><span class="cx">—</span></td>
+    <td class="c-eng"><span class="engst ${n&&done===n?"yes":"no"}">${n?done+"/"+n:"—"}</span></td>
+    <td class="c-x"><span class="chev">▶</span></td>
+  </tr>`;
+  if(blOpen) h+=`<tr><td colspan="7" class="blpanel">${backlogPanel(items)}</td></tr>`;
+  return h;
+}
+
+function backlogPanel(items){
+  let h=`<div class="blbar"><h4>Add a 2026 backlog item</h4></div>
+  <div class="form inline">
+    <div class="frow2">
+      <div class="fld full"><label for="bFeature">Item name <span class="hint">required</span></label>
+        <input type="text" id="bFeature" placeholder="e.g. Fix duplicate credential upload on mobile"></div>
+      <div class="fld"><label for="bPri">Priority</label><select id="bPri"></select></div>
+      <div class="fld"><label for="bCx">Complexity</label><select id="bCx"></select></div>
+      <div class="fld full"><label for="bDesc">Description</label>
+        <textarea id="bDesc" placeholder="What the item is, in plain terms."></textarea></div>
+      <div class="fld full"><label for="bRemarks">Remarks</label>
+        <textarea id="bRemarks" placeholder="Background, who asked for it, examples."></textarea></div>
+      <div class="fld full"><label for="bEng">Engineering comments <span class="hint">leave blank for the dev team</span></label>
+        <textarea id="bEng" placeholder="Feasibility. Effort in developer days. Technical risk."></textarea></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn pri" id="btnAddBacklog">Add backlog item</button>
+      <button class="btn" id="btnClearBacklog">Clear form</button>
+    </div>
+    <div class="err hide" id="blErr"></div>
+  </div>`;
+
+  h+=`<div class="blbar"><h4>Backlog items</h4>
+      <span style="font-size:12.5px;color:var(--muted)">${store.backlog.length} entered</span></div>`;
+  if(!items.length){
+    h+=`<div class="blempty">${store.backlog.length
+      ? "No backlog items match the current filters."
+      : "No backlog items yet. Use the form above to enter them one at a time."}</div>`;
+    return h;
+  }
+  h+=`<table class="bl"><thead><tr>
+      <th class="c-h"></th><th style="width:88px">Priority</th><th>Item</th><th style="width:96px">Complexity</th>
+      <th style="width:110px">Engineering</th><th style="width:34px"></th></tr></thead><tbody>`;
+  items.forEach((f,i)=>{
+    const op=blItemOpen===f.id, has=!!eng(f.id).trim();
+    h+=`<tr class="bi ${op?"open":""}" data-bid="${f.id}" ${sortKey==="custom"?'draggable="true"':""}>
+      ${handleCell(f.id,i,items.length,"bl")}
+      <td>${pill(val(f,"priority"))}</td>
+      <td><b>${esc(f.feature)}</b>${f.desc?`<div class="fsub">${esc(f.desc)}</div>`:""}</td>
+      <td><span class="cx">${esc(val(f,"complexity"))}</span></td>
+      <td><span class="engst ${has?"yes":"no"}">${has?"Reviewed":"Awaiting"}</span></td>
+      <td><span class="chev">▶</span></td></tr>`;
+    if(op) h+=`<tr><td colspan="6" class="bdetail">${detailHtml(f)}</td></tr>`;
+  });
+  return h+"</tbody></table>";
+}
+
+function featureRow(f,i,n){
+  const op=openId===f.id, has=!!eng(f.id).trim();
+  let h=`<tr class="main ${op?"open":""}" data-id="${f.id}" ${sortKey==="custom"?'draggable="true"':""}>
+    ${handleCell(f.id,i,n,"main")}
+    <td class="c-pri">${pill(val(f,"priority"))}</td>
+    <td><div class="fname">${esc(f.feature)}${isAdded(f.id)?'<span class="badge">Added</span>':""}</div>
+        <div class="fsub">${esc(f.desc||"No description yet.")}</div></td>
+    <td class="c-cat"><span class="cat">${esc(val(f,"category"))}</span></td>
+    <td class="c-cx"><span class="cx">${esc(val(f,"complexity"))}</span></td>
+    <td class="c-eng"><span class="engst ${has?"yes":"no"}">${has?"Reviewed":"Awaiting"}</span></td>
+    <td class="c-x"><span class="chev">▶</span></td>
+  </tr>`;
+  if(op) h+=`<tr><td colspan="7" class="detail">${detailHtml(f)}</td></tr>`;
+  return h;
+}
+
+function detailHtml(f){
+  const removable=isAdded(f.id)||isBacklog(f.id);
+  return `<div class="dsec" data-id="${f.id}">
+    ${f.desc?`<h4>Description</h4><p>${esc(f.desc)}</p>`:""}
+    ${f.remarks?`<h4>Remarks</h4><p>${esc(f.remarks)}</p>`:""}
+    ${f.detail?`<h4>Detail from source comments</h4><pre>${esc(f.detail)}</pre>`:""}
+    <h4>Classification</h4>
+    <div class="editrow">
+      <div class="ctl"><label>Priority</label><select data-k="priority">${PRIS.map(p=>`<option ${val(f,"priority")===p?"selected":""}>${p}</option>`).join("")}</select></div>
+      <div class="ctl"><label>Category</label><select data-k="category">${CATS.map(c=>`<option ${val(f,"category")===c?"selected":""}>${esc(c)}</option>`).join("")}</select></div>
+      <div class="ctl"><label>Complexity</label><select data-k="complexity">${CXS.map(c=>`<option ${val(f,"complexity")===c?"selected":""}>${c}</option>`).join("")}</select></div>
+    </div>
+    <h4>Engineering Comments</h4>
+    <div class="engbox">
+      <textarea data-eng="${f.id}" placeholder="Leave blank for engineering to complete."></textarea>
+      <div class="engmeta"><span data-engstat="${f.id}">Empty</span>
+        <button class="btn sm" data-engclear="${f.id}">Clear</button>
+        ${removable?`<button class="btn sm danger" data-del="${f.id}" style="margin-left:auto">Delete this item</button>`:""}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- wiring for table ---------- */
+function wireTable(){
+  const head=document.getElementById("blHead");
+  if(head) head.addEventListener("click",()=>{ blOpen=!blOpen; renderTable(); });
+  document.querySelectorAll("tr.main").forEach(r=>r.addEventListener("click",()=>{
+    const id=+r.dataset.id; openId=(openId===id)?null:id; renderTable();
+  }));
+  document.querySelectorAll("tr.bi").forEach(r=>r.addEventListener("click",e=>{
+    e.stopPropagation();
+    const id=+r.dataset.bid; blItemOpen=(blItemOpen===id)?null:id; renderTable();
+  }));
+  document.querySelectorAll("td.blpanel,td.detail,td.bdetail").forEach(td=>
+    td.addEventListener("click",e=>e.stopPropagation()));
+  wireReorder();
+
+  // backlog inline form
+  const bp=document.getElementById("bPri");
+  if(bp){
+    fillSel(bp,PRIS,"Medium");
+    fillSel(document.getElementById("bCx"),CXS,"Medium");
+    document.getElementById("btnAddBacklog").addEventListener("click",addBacklog);
+    document.getElementById("btnClearBacklog").addEventListener("click",clearBacklogForm);
+    document.getElementById("bFeature").addEventListener("keydown",e=>{ if(e.key==="Enter") addBacklog(); });
+  }
+  wireDetail();
+}
+
+/* ---------- reorder: drag + arrows ---------- */
+let dragId=null, dragKind=null;
+function listFor(kind){ return kind==="bl"?store.blorder:store.order; }
+function wireReorder(){
+  document.querySelectorAll("[data-up],[data-down]").forEach(el=>{
+    if(el.classList.contains("off")) return;
+    el.addEventListener("click",e=>{
+      e.stopPropagation();
+      const up=el.hasAttribute("data-up");
+      const id=+(up?el.dataset.up:el.dataset.down);
+      const kind=el.dataset.kind;
+      // move relative to the visible neighbour so filtering never causes a surprise jump
+      const vis=(kind==="bl"?filteredBacklog():filteredMain()).map(f=>f.id);
+      const i=vis.indexOf(id), j=i+(up?-1:1);
+      if(i<0||j<0||j>=vis.length) return;
+      moveTo(listFor(kind),id,vis[j],!up);
+      save(); renderTable();
+    });
+  });
+  document.querySelectorAll(".grip").forEach(g=>{
+    g.addEventListener("click",e=>e.stopPropagation());
+    g.addEventListener("mousedown",()=>{ const r=g.closest("tr"); if(r) r.draggable=true; });
+  });
+  document.querySelectorAll('tr.main[draggable="true"],tr.bi[draggable="true"]').forEach(r=>{
+    const id=+(r.dataset.id||r.dataset.bid);
+    const kind=r.dataset.bid?"bl":"main";
+    r.addEventListener("dragstart",e=>{
+      dragId=id; dragKind=kind;
+      r.classList.add("drag");
+      e.dataTransfer.effectAllowed="move";
+      try{ e.dataTransfer.setData("text/plain",String(id)); }catch(_){}
+      if(kind==="main"&&openId!==null){ openId=null; }
+      if(kind==="bl"&&blItemOpen!==null){ blItemOpen=null; }
+    });
+    r.addEventListener("dragend",()=>{
+      r.classList.remove("drag"); dragId=null; dragKind=null;
+      document.querySelectorAll(".over").forEach(x=>x.classList.remove("over","below"));
+    });
+    r.addEventListener("dragover",e=>{
+      if(dragId===null||dragKind!==kind||dragId===id) return;
+      e.preventDefault(); e.dataTransfer.dropEffect="move";
+      const b=r.getBoundingClientRect();
+      const below=(e.clientY-b.top)>b.height/2;
+      document.querySelectorAll(".over").forEach(x=>x.classList.remove("over","below"));
+      r.classList.add("over"); if(below) r.classList.add("below");
+    });
+    r.addEventListener("dragleave",()=>r.classList.remove("over","below"));
+    r.addEventListener("drop",e=>{
+      e.preventDefault(); e.stopPropagation();
+      if(dragId===null||dragKind!==kind||dragId===id) return;
+      const b=r.getBoundingClientRect();
+      const below=(e.clientY-b.top)>b.height/2;
+      moveTo(listFor(kind),dragId,id,below);
+      save(); dragId=null; dragKind=null; renderTable();
+    });
+  });
+}
+
+function wireDetail(){
+  document.querySelectorAll(".dsec select").forEach(s=>s.addEventListener("change",()=>{
+    const id=+s.closest(".dsec").dataset.id;
+    E(id)[s.dataset.k]=s.value; save();
+    renderKpis(); renderTable(); renderByCat(); drawCharts();
+  }));
+  document.querySelectorAll("textarea[data-eng]").forEach(ta=>{
+    const id=+ta.dataset.eng; ta.value=eng(id); stamp(id);
+    ta.addEventListener("input",()=>{ setEng(id,ta.value); stamp(id); renderKpis(); rowEng(id); });
+  });
+  document.querySelectorAll("[data-engclear]").forEach(b=>b.addEventListener("click",()=>{
+    const id=+b.dataset.engclear;
+    if(eng(id).trim()&&!confirm("Delete the engineering comments on this item? This cannot be undone.")) return;
+    setEng(id,""); const ta=document.querySelector(`textarea[data-eng="${id}"]`); if(ta) ta.value="";
+    stamp(id); renderKpis(); rowEng(id);
+  }));
+  document.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>{
+    const id=+b.dataset.del,f=byId(id);
+    if(!confirm(`Delete "${f.feature}" permanently? This cannot be undone.`)) return;
+    store.added=store.added.filter(x=>x.id!==id);
+    store.backlog=store.backlog.filter(x=>x.id!==id);
+    delete store.edits[id]; save();
+    if(openId===id) openId=null; if(blItemOpen===id) blItemOpen=null;
+    renderKpis(); renderTable(); renderByCat(); drawCharts();
+  }));
+}
+function setEng(id,v){
+  if(v.trim()){ E(id).engineering=v; E(id).engAt=new Date().toISOString(); }
+  else { delete E(id).engineering; delete E(id).engAt; }
+  save();
+}
+function stamp(id){
+  const el=document.querySelector(`[data-engstat="${id}"]`); if(!el) return;
+  const t=eng(id),at=store.edits[id]&&store.edits[id].engAt;
+  el.textContent=t.trim()?`${t.trim().split(/\s+/).length} words · saved ${at?new Date(at).toLocaleString():""}`:"Empty";
+}
+function rowEng(id){
+  const c=document.querySelector(`tr.main[data-id="${id}"] .engst, tr.bi[data-bid="${id}"] .engst`);
+  if(!c) return;
+  const has=!!eng(id).trim();
+  c.className="engst "+(has?"yes":"no"); c.textContent=has?"Reviewed":"Awaiting";
+}
+
+/* ---------- add backlog item ---------- */
+function clearBacklogForm(){
+  const f=document.getElementById("bFeature"); if(!f) return;
+  f.value=""; document.getElementById("bPri").value="Medium";
+  document.getElementById("bCx").value="Medium";
+  ["bDesc","bRemarks","bEng"].forEach(i=>document.getElementById(i).value="");
+  document.getElementById("blErr").classList.add("hide");
+}
+function addBacklog(){
+  const name=document.getElementById("bFeature").value.trim();
+  const err=document.getElementById("blErr");
+  if(!name){ err.textContent="Item name is required."; err.classList.remove("hide");
+    document.getElementById("bFeature").focus(); return; }
+  if(ALL().some(f=>f.feature.toLowerCase()===name.toLowerCase())){
+    err.textContent="An item with that name already exists."; err.classList.remove("hide"); return; }
+  const id=store.nextId++;
+  store.backlog.push({id:id,feature:name,
+    priority:document.getElementById("bPri").value,
+    category:"2026 Backlog",
+    complexity:document.getElementById("bCx").value,
+    desc:document.getElementById("bDesc").value.trim(),
+    remarks:document.getElementById("bRemarks").value.trim(),
+    detail:""});
+  const e=document.getElementById("bEng").value.trim();
+  if(e){ E(id).engineering=e; E(id).engAt=new Date().toISOString(); }
+  save(); blOpen=true; blItemOpen=null;
+  renderKpis(); renderTable(); renderByCat(); drawCharts();
+  const nf=document.getElementById("bFeature"); if(nf) nf.focus();
+}
+
+/* ---------- add feature ---------- */
+function clearForm(){
+  document.getElementById("nFeature").value="";
+  document.getElementById("nPri").value="Medium";
+  document.getElementById("nCat").value="Uncategorized";
+  document.getElementById("nCx").value="Medium";
+  ["nDesc","nRemarks","nEng"].forEach(i=>document.getElementById(i).value="");
+  document.getElementById("formErr").classList.add("hide");
+}
+function saveNew(){
+  const name=document.getElementById("nFeature").value.trim();
+  const err=document.getElementById("formErr");
+  if(!name){ err.textContent="Feature name is required."; err.classList.remove("hide");
+    document.getElementById("nFeature").focus(); return; }
+  if(ALL().some(f=>f.feature.toLowerCase()===name.toLowerCase())){
+    err.textContent="A feature with that name already exists."; err.classList.remove("hide"); return; }
+  const id=store.nextId++;
+  const cat=document.getElementById("nCat").value;
+  const rec={id:id,feature:name,priority:document.getElementById("nPri").value,
+    category:cat,complexity:document.getElementById("nCx").value,
+    desc:document.getElementById("nDesc").value.trim(),
+    remarks:document.getElementById("nRemarks").value.trim(),detail:""};
+  if(cat==="2026 Backlog") store.backlog.push(rec); else store.added.push(rec);
+  const e=document.getElementById("nEng").value.trim();
+  if(e){ E(id).engineering=e; E(id).engAt=new Date().toISOString(); }
+  save(); clearForm();
+  if(cat==="2026 Backlog"){ blOpen=true; blItemOpen=id; } else openId=id;
+  renderKpis(); renderByCat(); drawCharts();
+  document.querySelector('.tab[data-v="features"]').click();
+  renderTable();
+  const r=document.querySelector(`tr.main[data-id="${id}"], tr.bi[data-bid="${id}"]`);
+  if(r) r.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+/* ---------- by category ---------- */
+function renderByCat(){
+  const all=ALL();
+  const cats=CATS.filter(c=>all.some(f=>val(f,"category")===c));
+  const html=cats.map(c=>{
+    const items=ordered(all.filter(f=>val(f,"category")===c),"priority",1);
+    return `<div class="cgroup"><h3>${esc(c)}</h3><div class="cnt">${items.length} item${items.length>1?"s":""}</div>
+      ${items.map(f=>`<div class="witem">${pill(val(f,"priority"))}
+        <div><b>${esc(f.feature)}</b>${isAdded(f.id)?'<span class="badge">Added</span>':""}
+        <div class="wmeta">${esc(val(f,"complexity"))} complexity · engineering ${eng(f.id).trim()?"reviewed":"awaiting"}</div>
+        </div></div>`).join("")}</div>`;
+  }).join("");
+  document.getElementById("bycat").innerHTML=html||`<div class="empty">No items yet.</div>`;
+}
+
+/* ---------- charts ---------- */
+let charts={};
+function drawCharts(){
+  if(typeof Chart==="undefined") return;
+  const all=ALL();
+  const cats=CATS.filter(c=>all.some(f=>val(f,"category")===c));
+  Object.values(charts).forEach(c=>c&&c.destroy());
+  charts.cat=new Chart(document.getElementById("cCat"),{type:"bar",
+    data:{labels:cats.map(c=>c.replace(" & ","/")),
+      datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
+        data:cats.map(c=>all.filter(f=>val(f,"category")===c&&val(f,"priority")===p).length)}))},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:"y",
+      plugins:{title:{display:true,text:"Category by priority"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true,ticks:{stepSize:1}},y:{stacked:true,ticks:{font:{size:10}}}}}});
+  charts.pri=new Chart(document.getElementById("cPri"),{type:"doughnut",
+    data:{labels:PRIS,datasets:[{data:PRIS.map(p=>all.filter(f=>val(f,"priority")===p).length),
+      backgroundColor:PRIS.map(p=>PCOL[p])}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Items by priority"},legend:{position:"right"}}}});
+  charts.mix=new Chart(document.getElementById("cMix"),{type:"bar",
+    data:{labels:CXS,datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
+      data:CXS.map(x=>all.filter(f=>val(f,"complexity")===x&&val(f,"priority")===p).length)}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Build cost against priority"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
+}
+
+/* ---------- export ---------- */
+function exportCsv(){
+  const head=["Priority","Item","Category","Complexity","Description","Remarks","Engineering Comments","Source"];
+  const rows=filteredBacklog().concat(filteredMain()).map(f=>[
+    val(f,"priority"),f.feature,val(f,"category"),val(f,"complexity"),
+    f.desc,f.remarks,eng(f.id),
+    isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx"]);
+  const t=[head,...rows].map(r=>r.map(v=>'"'+String(v==null?"":v).replace(/"/g,'""').replace(/\n/g," ")+'"').join(",")).join("\r\n");
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob(["﻿"+t],{type:"text/csv;charset=utf-8"}));
+  a.download="ceipal-2027-roadmap.csv"; a.click();
+}
+
+/* ---------- wiring ---------- */
+document.querySelectorAll("thead th.sortable").forEach(th=>th.addEventListener("click",()=>{
+  const k=th.dataset.s;
+  if(sortKey===k) sortDir*=-1; else { sortKey=k; sortDir=1; }
+  renderTable();
+}));
+document.getElementById("btnCustom").addEventListener("click",()=>{
+  sortKey="custom"; sortDir=1; renderTable();
+});
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+  t.classList.add("on");
+  ["features","add","bycat","charts"].forEach(v=>
+    document.getElementById("v-"+v).classList.toggle("hide",v!==t.dataset.v));
+  if(t.dataset.v==="charts") drawCharts();
+  if(t.dataset.v==="add") document.getElementById("nFeature").focus();
+}));
+["fPri","fCat","fCx","fEng"].forEach(id=>document.getElementById(id).addEventListener("change",renderTable));
+document.getElementById("fQ").addEventListener("input",renderTable);
+document.getElementById("btnReset").addEventListener("click",()=>{
+  ["fPri","fCat","fCx","fEng"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("fQ").value=""; renderTable();
+});
+document.getElementById("btnClear").addEventListener("click",()=>{
+  const all=ALL(), n=all.filter(f=>eng(f.id).trim()).length;
+  const bits=[];
+  if(store.backlog.length) bits.push(`${store.backlog.length} backlog item${store.backlog.length>1?"s":""}`);
+  if(store.added.length) bits.push(`${store.added.length} added feature${store.added.length>1?"s":""}`);
+  if(n) bits.push(`engineering comments on ${n} item${n>1?"s":""}`);
+  const msg=bits.length
+    ? `This permanently deletes ${bits.join(", ")}, and resets every priority and category edit. This cannot be undone. Continue?`
+    : "This resets every priority, category, and complexity edit back to the original assignments. Continue?";
+  if(!confirm(msg)) return;
+  store={edits:{},added:[],backlog:[],order:[],blorder:[],nextId:1000}; save();
+  openId=null; blItemOpen=null; sortKey="custom"; sortDir=1;
+  renderKpis(); renderTable(); renderByCat(); drawCharts();
+});
+document.getElementById("btnExport").addEventListener("click",exportCsv);
+document.getElementById("btnSaveNew").addEventListener("click",saveNew);
+document.getElementById("btnCancelEdit").addEventListener("click",clearForm);
+document.getElementById("nFeature").addEventListener("keydown",e=>{ if(e.key==="Enter") saveNew(); });
+
+renderKpis(); renderTable(); renderByCat();
+console.log("roadmap ready:",ALL().length,"items |",store.backlog.length,"backlog |",
+  store.added.length,"added |",ALL().filter(f=>eng(f.id).trim()).length,"with eng comments");
+</script>
+</body>
+</html>
