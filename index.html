@@ -575,7 +575,7 @@ function logText(id,kind){ // flattened, for search and CSV
 function allText(id){ return logText(id,"eng")+" "+logText(id,"pm"); }
 
 /* change history: automatic entries whenever a classification field moves */
-function chg(id){ const e=store.edits[id]; return (e&&e.chg)||[]; }
+function chg(id){ const e=S().edits[id]; return (e&&e.chg)||[]; }
 const FIELDLBL={priority:"Priority",category:"Category",complexity:"Complexity",target:"Target"};
 function logChange(id,field,from,to){
   if(String(from)===String(to)) return;
@@ -1183,7 +1183,7 @@ function saveNew(){
   document.querySelector('.tab[data-v="features"]').click();
   renderTable();
   const r=document.querySelector(`tr.main[data-id="${id}"], tr.bi[data-bid="${id}"]`);
-  if(r) r.scrollIntoView({behavior:"smooth",block:"center"});
+  if(r&&r.scrollIntoView) r.scrollIntoView({behavior:"smooth",block:"center"});
 }
 
 /* ---------- by category ---------- */
