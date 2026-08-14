@@ -8,7 +8,7 @@
 :root{
   color-scheme: light;
   --bg:#f4f5f7; --panel:#fff; --ink:#171b21; --muted:#616b78; --line:#e3e7ec; --line2:#eef1f4;
-  --hi:#b42318; --md:#c4620a; --lo:#616b78; --accent:#0b5cad; --ok:#0f7b4f;
+  --hi:#b42318; --md:#c4620a; --lo:#616b78; --accent:#0b5cad; --ok:#0f7b4f; --pm:#6b3fa0;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
@@ -65,7 +65,7 @@ table.rm tbody tr.main:hover td{background:#f7f9fb}
 table.rm tbody tr.main.open td{background:#eff5fb}
 table.rm tbody tr:last-child td{border-bottom:none}
 .c-h{width:56px;padding-right:0 !important} .c-pri{width:88px} .c-cat{width:158px}
-.c-cx{width:96px} .c-eng{width:112px} .c-x{width:36px;text-align:center}
+.c-cx{width:96px} .c-eng{width:124px} .c-x{width:36px;text-align:center}
 
 /* drag handle + reorder */
 .handle{display:flex;align-items:center;gap:2px}
@@ -121,6 +121,9 @@ table.bl tr:last-child td{border-bottom:none}
 td.detail{background:#f7f9fb;padding:4px 16px 26px;border-bottom:1px solid var(--line)}
 td.bdetail{background:#f4f7fa;padding:4px 14px 20px}
 .dsec{max-width:78ch}
+.dsec .cmtgrid{max-width:none;width:100%}
+td.detail .dsec,td.bdetail .dsec{max-width:none}
+td.detail .dsec p,td.detail .dsec pre,td.bdetail .dsec p,td.bdetail .dsec pre{max-width:78ch}
 .dsec h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);
   margin:20px 0 6px;font-weight:700}
 .dsec p{margin:0 0 10px}
@@ -129,11 +132,57 @@ td.bdetail{background:#f4f7fa;padding:4px 14px 20px}
   border:1px solid var(--line);border-radius:8px;margin-top:6px;max-width:78ch}
 .editrow .ctl label{font-size:10px}
 .editrow select{min-width:132px}
+/* two comment columns side by side */
+.cmtgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px;max-width:none}
+.cmtcol h5{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;margin:0 0 6px;font-weight:700}
+.cmtcol.eng h5{color:var(--ok)}
+.cmtcol.pm h5{color:var(--pm)}
+@media(max-width:1000px){.cmtgrid{grid-template-columns:1fr}}
+
 .engbox{background:#fff;border:1px solid var(--line);border-left:3px solid var(--ok);
-  border-radius:0 8px 8px 0;padding:14px 16px;margin-top:6px;max-width:78ch}
+  border-radius:0 8px 8px 0;padding:14px 16px;margin-top:0;max-width:none}
+.engbox.pm{border-left-color:var(--pm)}
+.engbox.pm textarea:focus,.engbox.pm input:focus{outline:2px solid #6b3fa022;border-color:var(--pm)}
+.engbox.pm .logentry::before{background:var(--pm)}
+.engbox.pm .logentry.older::before{background:#aab3bd}
+.engbox.pm .btn.pri{background:var(--pm);border-color:var(--pm)}
+.engbox.pm .btn.pri:hover{background:#552f83}
 textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-height:1.6;padding:10px 12px;
   border:1px solid var(--line);border-radius:6px;background:#fcfdfc;color:var(--ink);resize:vertical}
 .engmeta{font-size:11.5px;color:var(--muted);margin-top:8px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+
+/* comment log */
+.logform{display:grid;grid-template-columns:1fr;gap:10px;align-items:start}
+.logform .who label{font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);
+  font-weight:650;display:block;margin-bottom:4px}
+.logform .who .req{color:#b42318}
+.logform input{width:100%;min-width:0}
+.logform textarea{min-height:74px}
+.logactions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.logactions .hintk{font-size:11.5px;color:var(--muted)}
+.logerr{color:#b42318;font-size:12px;font-weight:580;margin-top:8px}
+.logwrap{margin-top:16px;border-top:1px solid var(--line2);padding-top:12px}
+.loghdr{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);
+  font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.logentry{border-left:2px solid #d7dee6;padding:0 0 14px 14px;position:relative;margin-left:3px}
+.logentry:last-child{padding-bottom:0}
+.logentry::before{content:"";position:absolute;left:-5px;top:5px;width:8px;height:8px;border-radius:50%;
+  background:var(--ok);border:2px solid #fff;box-shadow:0 0 0 1px #d7dee6}
+.logentry.older::before{background:#aab3bd}
+.logmetaline{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:3px}
+.logwho{font-weight:660;font-size:13px}
+.logwhen{font-size:11.5px;color:var(--muted)}
+.logdel{font-size:11px;color:#b42318;cursor:pointer;margin-left:auto;opacity:.55;font-weight:580}
+.logdel:hover{opacity:1;text-decoration:underline}
+.logtext{font-size:13px;line-height:1.6;white-space:pre-wrap}
+.lognone{font-size:12.5px;color:var(--muted);font-style:normal}
+.cmtchips{display:flex;flex-wrap:wrap;gap:4px}
+.cmtchip{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.2px;white-space:nowrap}
+.cmtchip.eng{background:#e6f2ec;color:#0f7b4f}
+.cmtchip.pm{background:#efe9f6;color:#6b3fa0}
+.engcount{font-size:12px;font-weight:600}
+.engcount.yes{color:var(--ok)} .engcount.no{color:var(--muted);font-weight:500}
+@media(max-width:700px){.logform{grid-template-columns:1fr}}
 
 .form{padding:20px 22px}
 .form.inline{padding:16px;background:#fff;border:1px solid var(--line);border-radius:8px;margin-bottom:14px}
@@ -171,7 +220,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 
 <header>
   <h1>2027 Ceipal Healthcare Roadmap</h1>
-  <div class="sub">Every item scored standalone on priority, category, and complexity. Enter 2026 backlog items in the first row. All edits and engineering comments save automatically. Source: 2027 Healthcare Roadmap.xlsx</div>
+  <div class="sub">Every item scored standalone on priority, category, and complexity. Enter 2026 backlog items in the first row. Engineering and PM comments each build their own running log, with the author and a date and time stamp on every entry. Source: 2027 Healthcare Roadmap.xlsx</div>
 </header>
 
 <div class="kpis" id="kpis"></div>
@@ -188,11 +237,18 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
     <div class="ctl"><label for="fPri">Priority</label><select id="fPri"><option value="">All priorities</option></select></div>
     <div class="ctl"><label for="fCat">Category</label><select id="fCat"><option value="">All categories</option></select></div>
     <div class="ctl"><label for="fCx">Complexity</label><select id="fCx"><option value="">All complexity</option></select></div>
-    <div class="ctl"><label for="fEng">Engineering</label><select id="fEng">
-      <option value="">All</option><option value="yes">Has comments</option><option value="no">Awaiting comments</option></select></div>
+    <div class="ctl"><label for="fEng">Comments</label><select id="fEng">
+      <option value="">All</option>
+      <option value="any">Has any comment</option>
+      <option value="none">No comments</option>
+      <option value="eng">Has engineering</option>
+      <option value="noeng">Awaiting engineering</option>
+      <option value="pm">Has PM</option>
+      <option value="nopm">Awaiting PM</option></select></div>
     <div class="ctl"><label for="fQ">Search</label><input type="text" id="fQ" placeholder="Feature or keyword"></div>
     <button class="btn" id="btnReset">Reset</button>
-    <button class="btn pri spacer" id="btnExport">Export CSV</button>
+    <button class="btn spacer" id="btnExportLog">Export comment log</button>
+    <button class="btn pri" id="btnExport">Export CSV</button>
   </div>
   <div class="ordbar">
     <span id="ordMode" class="mode"></span>
@@ -209,7 +265,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
           <th class="sortable" data-s="feature">Feature<span class="ar">▼</span></th>
           <th class="c-cat sortable" data-s="category">Category<span class="ar">▼</span></th>
           <th class="c-cx sortable" data-s="complexity">Complexity<span class="ar">▼</span></th>
-          <th class="c-eng sortable" data-s="eng">Engineering<span class="ar">▼</span></th>
+          <th class="c-eng sortable" data-s="eng">Comments<span class="ar">▼</span></th>
           <th class="c-x"></th>
         </tr>
       </thead>
@@ -233,7 +289,11 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
         <textarea id="nDesc" placeholder="What the feature does, in plain terms."></textarea></div>
       <div class="fld full"><label for="nRemarks">Remarks</label>
         <textarea id="nRemarks" placeholder="Background, the request that triggered it, examples."></textarea></div>
-      <div class="fld full"><label for="nEng">Engineering comments <span class="hint">leave blank for the dev team</span></label>
+      <div class="fld"><label for="nWho">Your name <span class="hint">required only if adding a comment</span></label>
+        <input type="text" id="nWho" placeholder="Name" autocomplete="off"></div>
+      <div class="fld"><label for="nKind">Comment goes to</label><select id="nKind">
+        <option value="eng">Engineering log</option><option value="pm">PM log</option></select></div>
+      <div class="fld full"><label for="nEng">First comment <span class="hint">optional, gets a date and time stamp</span></label>
         <textarea id="nEng" placeholder="Feasibility. Effort in developer days. Technical risk."></textarea></div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -376,18 +436,57 @@ const CXS=["Low","Medium","High","Very High"];
 const PCOL={High:"#b42318",Medium:"#c4620a",Low:"#616b78"};
 const KEY="ceipal-roadmap-2027-v5";
 
-let store={edits:{},added:[],backlog:[],order:[],blorder:[],nextId:1000};
+let store={edits:{},added:[],backlog:[],order:[],blorder:[],lastName:"",nextId:1000};
 try{
   const r=JSON.parse(localStorage.getItem(KEY)||"{}");
   store.edits=r.edits||{}; store.added=r.added||[]; store.backlog=r.backlog||[];
-  store.order=r.order||[]; store.blorder=r.blorder||[]; store.nextId=r.nextId||1000;
+  store.order=r.order||[]; store.blorder=r.blorder||[];
+  store.lastName=r.lastName||""; store.nextId=r.nextId||1000;
 }catch(e){}
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(store)); }catch(e){} }
 
 function ALL(){ return SEED.concat(store.added,store.backlog); }
 function E(id){ return store.edits[id]||(store.edits[id]={}); }
 function val(f,k){ const e=store.edits[f.id]; return (e&&e[k]!==undefined)?e[k]:f[k]; }
-function eng(id){ const e=store.edits[id]; return (e&&e.engineering)||""; }
+
+/* comment logs: array of {name, at, text} newest last. Two independent streams per item. */
+const KINDS={eng:{key:"log",label:"Engineering Comments",short:"Eng",
+               hint:"Feasibility. Effort in developer days. Technical risk. Open questions."},
+             pm:{key:"pmlog",label:"PM Comments",short:"PM",
+               hint:"Scope decisions, priority rationale, customer context, open questions for engineering."}};
+function log(id,kind){ const e=store.edits[id]; return (e&&e[KINDS[kind||"eng"].key])||[]; }
+function setLog(id,kind,arr){
+  const k=KINDS[kind].key;
+  if(arr&&arr.length) E(id)[k]=arr; else delete E(id)[k];
+}
+function logCount(id,kind){
+  if(kind) return log(id,kind).length;
+  return log(id,"eng").length+log(id,"pm").length;
+}
+function hasLog(id,kind){ return logCount(id,kind)>0; }
+function logText(id,kind){ // flattened, for search and CSV
+  return log(id,kind).map(c=>`[${fmt(c.at)}] ${c.name}: ${c.text}`).join(" ‖ ");
+}
+function allText(id){ return logText(id,"eng")+" "+logText(id,"pm"); }
+function fmt(iso){
+  const d=new Date(iso);
+  if(isNaN(d)) return "";
+  return d.toLocaleString(undefined,{year:"numeric",month:"short",day:"numeric",
+    hour:"numeric",minute:"2-digit"});
+}
+// one-time migration: the old single engineering field becomes the first log entry
+(function migrate(){
+  let changed=false;
+  Object.keys(store.edits).forEach(k=>{
+    const e=store.edits[k];
+    if(e && typeof e.engineering==="string" && e.engineering.trim() && !e.log){
+      e.log=[{name:"Imported", at:e.engAt||new Date().toISOString(), text:e.engineering}];
+      changed=true;
+    }
+    if(e){ delete e.engineering; delete e.engAt; }
+  });
+  if(changed) save();
+})();
 function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])); }
 function byId(i){ return ALL().find(f=>f.id===i); }
 function isAdded(id){ return store.added.some(f=>f.id===id); }
@@ -432,7 +531,7 @@ let sortKey="custom", sortDir=1;
 function skey(f,k){
   if(k==="priority") return PRIS.indexOf(val(f,"priority"));
   if(k==="complexity") return CXS.indexOf(val(f,"complexity"));
-  if(k==="eng") return eng(f.id).trim()?0:1;
+  if(k==="eng") return -logCount(f.id);
   if(k==="category") return val(f,"category");
   return f.feature.toLowerCase();
 }
@@ -456,9 +555,13 @@ function matches(f){
   if(p&&val(f,"priority")!==p) return false;
   if(c&&val(f,"category")!==c) return false;
   if(x&&val(f,"complexity")!==x) return false;
-  if(e==="yes"&&!eng(f.id).trim()) return false;
-  if(e==="no"&&eng(f.id).trim()) return false;
-  if(q&&!(f.feature+" "+f.desc+" "+f.remarks+" "+(f.detail||"")+" "+eng(f.id)).toLowerCase().includes(q)) return false;
+  if(e==="any"&&!hasLog(f.id)) return false;
+  if(e==="none"&&hasLog(f.id)) return false;
+  if(e==="eng"&&!hasLog(f.id,"eng")) return false;
+  if(e==="noeng"&&hasLog(f.id,"eng")) return false;
+  if(e==="pm"&&!hasLog(f.id,"pm")) return false;
+  if(e==="nopm"&&hasLog(f.id,"pm")) return false;
+  if(q&&!(f.feature+" "+f.desc+" "+f.remarks+" "+(f.detail||"")+" "+allText(f.id)).toLowerCase().includes(q)) return false;
   return true;
 }
 function filteredMain(){ return ordered(SEED.concat(store.added).filter(matches)); }
@@ -472,7 +575,7 @@ function renderKpis(){
     {v:cnt("High"),l:"High priority"},
     {v:cnt("Medium"),l:"Medium priority"},
     {v:cnt("Low"),l:"Low priority"},
-    {v:all.filter(f=>eng(f.id).trim()).length+"/"+all.length,l:"Eng reviewed"}
+    {v:all.reduce((n,f)=>n+logCount(f.id),0),l:"Comments logged"}
   ];
   document.getElementById("kpis").innerHTML=k.map(o=>
     `<div class="card kpi"><div class="v">${o.v}</div><div class="l">${esc(o.l)}</div></div>`).join("");
@@ -504,6 +607,14 @@ function renderTable(){
   wireTable();
 }
 
+function cmtCell(ne,np){
+  if(!ne&&!np) return `<span class="engcount no">None</span>`;
+  const bits=[];
+  if(ne) bits.push(`<span class="cmtchip eng">${ne} Eng</span>`);
+  if(np) bits.push(`<span class="cmtchip pm">${np} PM</span>`);
+  return `<span class="cmtchips">${bits.join("")}</span>`;
+}
+
 function handleCell(id,i,n,kind){
   if(sortKey!=="custom") return `<td class="c-h"></td>`;
   return `<td class="c-h"><div class="handle">
@@ -516,15 +627,16 @@ function handleCell(id,i,n,kind){
 
 function backlogRow(items){
   const n=store.backlog.length;
-  const done=store.backlog.filter(f=>eng(f.id).trim()).length;
+  const done=store.backlog.filter(f=>hasLog(f.id)).length;
+  const nc=store.backlog.reduce((t,f)=>t+logCount(f.id),0);
   let h=`<tr class="blrow ${blOpen?"open":""}" id="blHead">
     <td class="c-h"></td>
     <td class="c-pri"><span class="pill pri-Medium" style="background:var(--accent)">Backlog</span></td>
     <td><div class="blname">2026 Backlog</div>
-        <div class="blmeta">${n?`${n} item${n>1?"s":""} entered · ${done} with engineering comments`:"No items entered yet. Open to add them one at a time."}</div></td>
+        <div class="blmeta">${n?`${n} item${n>1?"s":""} entered · ${nc} comment${nc===1?"":"s"} across ${done}`:"No items entered yet. Open to add them one at a time."}</div></td>
     <td class="c-cat"><span class="cat">2026 Backlog</span></td>
     <td class="c-cx"><span class="cx">—</span></td>
-    <td class="c-eng"><span class="engst ${n&&done===n?"yes":"no"}">${n?done+"/"+n:"—"}</span></td>
+    <td class="c-eng"><span class="engcount ${n&&done===n?"yes":"no"}">${n?done+"/"+n:"—"}</span></td>
     <td class="c-x"><span class="chev">▶</span></td>
   </tr>`;
   if(blOpen) h+=`<tr><td colspan="7" class="blpanel">${backlogPanel(items)}</td></tr>`;
@@ -543,7 +655,11 @@ function backlogPanel(items){
         <textarea id="bDesc" placeholder="What the item is, in plain terms."></textarea></div>
       <div class="fld full"><label for="bRemarks">Remarks</label>
         <textarea id="bRemarks" placeholder="Background, who asked for it, examples."></textarea></div>
-      <div class="fld full"><label for="bEng">Engineering comments <span class="hint">leave blank for the dev team</span></label>
+      <div class="fld"><label for="bWho">Your name <span class="hint">required only if adding a comment</span></label>
+        <input type="text" id="bWho" placeholder="Name" autocomplete="off"></div>
+      <div class="fld"><label for="bKind">Comment goes to</label><select id="bKind">
+        <option value="eng">Engineering log</option><option value="pm">PM log</option></select></div>
+      <div class="fld full"><label for="bEng">First comment <span class="hint">optional, gets a date and time stamp</span></label>
         <textarea id="bEng" placeholder="Feasibility. Effort in developer days. Technical risk."></textarea></div>
     </div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -565,13 +681,13 @@ function backlogPanel(items){
       <th class="c-h"></th><th style="width:88px">Priority</th><th>Item</th><th style="width:96px">Complexity</th>
       <th style="width:110px">Engineering</th><th style="width:34px"></th></tr></thead><tbody>`;
   items.forEach((f,i)=>{
-    const op=blItemOpen===f.id, has=!!eng(f.id).trim();
+    const op=blItemOpen===f.id, ne=logCount(f.id,"eng"), np=logCount(f.id,"pm"), has=(ne+np)>0;
     h+=`<tr class="bi ${op?"open":""}" data-bid="${f.id}" ${sortKey==="custom"?'draggable="true"':""}>
       ${handleCell(f.id,i,items.length,"bl")}
       <td>${pill(val(f,"priority"))}</td>
       <td><b>${esc(f.feature)}</b>${f.desc?`<div class="fsub">${esc(f.desc)}</div>`:""}</td>
       <td><span class="cx">${esc(val(f,"complexity"))}</span></td>
-      <td><span class="engst ${has?"yes":"no"}">${has?"Reviewed":"Awaiting"}</span></td>
+      <td>${cmtCell(ne,np)}</td>
       <td><span class="chev">▶</span></td></tr>`;
     if(op) h+=`<tr><td colspan="6" class="bdetail">${detailHtml(f)}</td></tr>`;
   });
@@ -579,7 +695,7 @@ function backlogPanel(items){
 }
 
 function featureRow(f,i,n){
-  const op=openId===f.id, has=!!eng(f.id).trim();
+  const op=openId===f.id, ne=logCount(f.id,"eng"), np=logCount(f.id,"pm"), has=(ne+np)>0;
   let h=`<tr class="main ${op?"open":""}" data-id="${f.id}" ${sortKey==="custom"?'draggable="true"':""}>
     ${handleCell(f.id,i,n,"main")}
     <td class="c-pri">${pill(val(f,"priority"))}</td>
@@ -587,7 +703,7 @@ function featureRow(f,i,n){
         <div class="fsub">${esc(f.desc||"No description yet.")}</div></td>
     <td class="c-cat"><span class="cat">${esc(val(f,"category"))}</span></td>
     <td class="c-cx"><span class="cx">${esc(val(f,"complexity"))}</span></td>
-    <td class="c-eng"><span class="engst ${has?"yes":"no"}">${has?"Reviewed":"Awaiting"}</span></td>
+    <td class="c-eng">${cmtCell(ne,np)}</td>
     <td class="c-x"><span class="chev">▶</span></td>
   </tr>`;
   if(op) h+=`<tr><td colspan="7" class="detail">${detailHtml(f)}</td></tr>`;
@@ -606,15 +722,57 @@ function detailHtml(f){
       <div class="ctl"><label>Category</label><select data-k="category">${CATS.map(c=>`<option ${val(f,"category")===c?"selected":""}>${esc(c)}</option>`).join("")}</select></div>
       <div class="ctl"><label>Complexity</label><select data-k="complexity">${CXS.map(c=>`<option ${val(f,"complexity")===c?"selected":""}>${c}</option>`).join("")}</select></div>
     </div>
-    <h4>Engineering Comments</h4>
-    <div class="engbox">
-      <textarea data-eng="${f.id}" placeholder="Leave blank for engineering to complete."></textarea>
-      <div class="engmeta"><span data-engstat="${f.id}">Empty</span>
-        <button class="btn sm" data-engclear="${f.id}">Clear</button>
-        ${removable?`<button class="btn sm danger" data-del="${f.id}" style="margin-left:auto">Delete this item</button>`:""}
+    <h4>Comments</h4>
+    <div class="cmtgrid">
+      ${cmtCol(f,"eng")}
+      ${cmtCol(f,"pm")}
+    </div>
+    ${removable?`<div style="margin-top:14px"><button class="btn sm danger" data-del="${f.id}">Delete this item</button></div>`:""}
+  </div>`;
+}
+
+function cmtCol(f,kind){
+  const K=KINDS[kind], n=logCount(f.id,kind), uid=kind+f.id;
+  return `<div class="cmtcol ${kind}">
+    <h5>${esc(K.label)}</h5>
+    <div class="engbox ${kind==="pm"?"pm":""}">
+      <div class="logform">
+        <div class="who">
+          <label for="ln${uid}">Your name <span class="req">*</span></label>
+          <input type="text" id="ln${uid}" data-lname="${uid}" placeholder="Required" value="${esc(store.lastName||"")}" autocomplete="off">
+        </div>
+        <div>
+          <label for="lt${uid}" style="font-size:10px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:650;display:block;margin-bottom:4px">Comment</label>
+          <textarea id="lt${uid}" data-ltext="${uid}" placeholder="${esc(K.hint)}"></textarea>
+        </div>
+      </div>
+      <div class="logactions">
+        <button class="btn pri sm" data-ladd="${uid}" data-lid="${f.id}" data-lkind="${kind}">Add comment</button>
+        <span class="hintk">Ctrl+Enter to post</span>
+      </div>
+      <div class="logerr hide" data-lerr="${uid}"></div>
+      <div class="logwrap">
+        <div class="loghdr">${esc(K.short)} log
+          <span style="font-weight:500;text-transform:none;letter-spacing:0">${n?n+" entr"+(n>1?"ies":"y")+", newest first":""}</span>
+        </div>
+        ${logHtml(f.id,kind)}
       </div>
     </div>
   </div>`;
+}
+
+function logHtml(id,kind){
+  const l=log(id,kind);
+  if(!l.length) return `<div class="lognone">No comments yet.</div>`;
+  return l.slice().reverse().map((c,i)=>`
+    <div class="logentry ${i===0?"":"older"}">
+      <div class="logmetaline">
+        <span class="logwho">${esc(c.name)}</span>
+        <span class="logwhen">${esc(fmt(c.at))}</span>
+        <span class="logdel" data-ldel="${id}" data-lat="${esc(c.at)}" data-dkind="${kind}">Delete</span>
+      </div>
+      <div class="logtext">${esc(c.text)}</div>
+    </div>`).join("");
 }
 
 /* ---------- wiring for table ---------- */
@@ -708,15 +866,26 @@ function wireDetail(){
     E(id)[s.dataset.k]=s.value; save();
     renderKpis(); renderTable(); renderByCat(); drawCharts();
   }));
-  document.querySelectorAll("textarea[data-eng]").forEach(ta=>{
-    const id=+ta.dataset.eng; ta.value=eng(id); stamp(id);
-    ta.addEventListener("input",()=>{ setEng(id,ta.value); stamp(id); renderKpis(); rowEng(id); });
-  });
-  document.querySelectorAll("[data-engclear]").forEach(b=>b.addEventListener("click",()=>{
-    const id=+b.dataset.engclear;
-    if(eng(id).trim()&&!confirm("Delete the engineering comments on this item? This cannot be undone.")) return;
-    setEng(id,""); const ta=document.querySelector(`textarea[data-eng="${id}"]`); if(ta) ta.value="";
-    stamp(id); renderKpis(); rowEng(id);
+  document.querySelectorAll("[data-ladd]").forEach(b=>b.addEventListener("click",()=>
+    addComment(+b.dataset.lid,b.dataset.lkind)));
+  document.querySelectorAll("[data-ltext]").forEach(ta=>ta.addEventListener("keydown",e=>{
+    if((e.ctrlKey||e.metaKey)&&e.key==="Enter"){
+      e.preventDefault();
+      const uid=ta.dataset.ltext, kind=uid.slice(0,2)==="pm"?"pm":"eng";
+      addComment(+uid.replace(/^(pm|eng)/,""),kind);
+    }
+  }));
+  document.querySelectorAll("[data-lname]").forEach(inp=>inp.addEventListener("keydown",e=>{
+    if(e.key==="Enter"){ e.preventDefault();
+      const ta=document.querySelector(`[data-ltext="${inp.dataset.lname}"]`); if(ta) ta.focus(); }
+  }));
+  document.querySelectorAll("[data-ldel]").forEach(x=>x.addEventListener("click",e=>{
+    e.stopPropagation();
+    const id=+x.dataset.ldel, at=x.dataset.lat, kind=x.dataset.dkind;
+    const entry=log(id,kind).find(c=>c.at===at); if(!entry) return;
+    if(!confirm(`Delete the ${KINDS[kind].short} comment by ${entry.name} from ${fmt(at)}? This cannot be undone.`)) return;
+    setLog(id,kind,log(id,kind).filter(c=>c.at!==at));
+    save(); renderKpis(); renderTable(); renderByCat();
   }));
   document.querySelectorAll("[data-del]").forEach(b=>b.addEventListener("click",()=>{
     const id=+b.dataset.del,f=byId(id);
@@ -728,21 +897,27 @@ function wireDetail(){
     renderKpis(); renderTable(); renderByCat(); drawCharts();
   }));
 }
-function setEng(id,v){
-  if(v.trim()){ E(id).engineering=v; E(id).engAt=new Date().toISOString(); }
-  else { delete E(id).engineering; delete E(id).engAt; }
+function addComment(id,kind){
+  kind=kind||"eng";
+  const uid=kind+id;
+  const nameEl=document.querySelector(`[data-lname="${uid}"]`);
+  const textEl=document.querySelector(`[data-ltext="${uid}"]`);
+  const errEl=document.querySelector(`[data-lerr="${uid}"]`);
+  if(!nameEl||!textEl) return;
+  const name=nameEl.value.trim(), text=textEl.value.trim();
+  const fail=m=>{ errEl.textContent=m; errEl.classList.remove("hide"); };
+  if(!name){ fail("Your name is required before posting a comment."); nameEl.focus(); return; }
+  if(!text){ fail("Enter a comment."); textEl.focus(); return; }
+  errEl.classList.add("hide");
+  // unique timestamp doubles as the entry key within this stream
+  let at=new Date().toISOString();
+  const existing=log(id,kind).map(c=>c.at);
+  while(existing.includes(at)) at=new Date(new Date(at).getTime()+1).toISOString();
+  setLog(id,kind,log(id,kind).concat([{name:name,at:at,text:text}]));
+  store.lastName=name;
   save();
-}
-function stamp(id){
-  const el=document.querySelector(`[data-engstat="${id}"]`); if(!el) return;
-  const t=eng(id),at=store.edits[id]&&store.edits[id].engAt;
-  el.textContent=t.trim()?`${t.trim().split(/\s+/).length} words · saved ${at?new Date(at).toLocaleString():""}`:"Empty";
-}
-function rowEng(id){
-  const c=document.querySelector(`tr.main[data-id="${id}"] .engst, tr.bi[data-bid="${id}"] .engst`);
-  if(!c) return;
-  const has=!!eng(id).trim();
-  c.className="engst "+(has?"yes":"no"); c.textContent=has?"Reviewed":"Awaiting";
+  renderKpis(); renderTable(); renderByCat();
+  const nt=document.querySelector(`[data-ltext="${uid}"]`); if(nt) nt.focus();
 }
 
 /* ---------- add backlog item ---------- */
@@ -750,7 +925,8 @@ function clearBacklogForm(){
   const f=document.getElementById("bFeature"); if(!f) return;
   f.value=""; document.getElementById("bPri").value="Medium";
   document.getElementById("bCx").value="Medium";
-  ["bDesc","bRemarks","bEng"].forEach(i=>document.getElementById(i).value="");
+  ["bDesc","bRemarks","bEng","bWho"].forEach(i=>document.getElementById(i).value="");
+  document.getElementById("bKind").value="eng";
   document.getElementById("blErr").classList.add("hide");
 }
 function addBacklog(){
@@ -769,7 +945,12 @@ function addBacklog(){
     remarks:document.getElementById("bRemarks").value.trim(),
     detail:""});
   const e=document.getElementById("bEng").value.trim();
-  if(e){ E(id).engineering=e; E(id).engAt=new Date().toISOString(); }
+  const who=document.getElementById("bWho").value.trim();
+  if(e){
+    if(!who){ err.textContent="Enter your name to attach that first comment, or clear the comment box."; err.classList.remove("hide");
+      store.backlog=store.backlog.filter(x=>x.id!==id); document.getElementById("bWho").focus(); return; }
+    setLog(id,document.getElementById("bKind").value,[{name:who,at:new Date().toISOString(),text:e}]); store.lastName=who;
+  }
   save(); blOpen=true; blItemOpen=null;
   renderKpis(); renderTable(); renderByCat(); drawCharts();
   const nf=document.getElementById("bFeature"); if(nf) nf.focus();
@@ -781,7 +962,8 @@ function clearForm(){
   document.getElementById("nPri").value="Medium";
   document.getElementById("nCat").value="Uncategorized";
   document.getElementById("nCx").value="Medium";
-  ["nDesc","nRemarks","nEng"].forEach(i=>document.getElementById(i).value="");
+  ["nDesc","nRemarks","nEng","nWho"].forEach(i=>document.getElementById(i).value="");
+  document.getElementById("nKind").value="eng";
   document.getElementById("formErr").classList.add("hide");
 }
 function saveNew(){
@@ -799,7 +981,13 @@ function saveNew(){
     remarks:document.getElementById("nRemarks").value.trim(),detail:""};
   if(cat==="2026 Backlog") store.backlog.push(rec); else store.added.push(rec);
   const e=document.getElementById("nEng").value.trim();
-  if(e){ E(id).engineering=e; E(id).engAt=new Date().toISOString(); }
+  const who=document.getElementById("nWho").value.trim();
+  if(e){
+    if(!who){ err.textContent="Enter your name to attach that first comment, or clear the comment box."; err.classList.remove("hide");
+      store.added=store.added.filter(x=>x.id!==id); store.backlog=store.backlog.filter(x=>x.id!==id);
+      document.getElementById("nWho").focus(); return; }
+    setLog(id,document.getElementById("nKind").value,[{name:who,at:new Date().toISOString(),text:e}]); store.lastName=who;
+  }
   save(); clearForm();
   if(cat==="2026 Backlog"){ blOpen=true; blItemOpen=id; } else openId=id;
   renderKpis(); renderByCat(); drawCharts();
@@ -818,7 +1006,7 @@ function renderByCat(){
     return `<div class="cgroup"><h3>${esc(c)}</h3><div class="cnt">${items.length} item${items.length>1?"s":""}</div>
       ${items.map(f=>`<div class="witem">${pill(val(f,"priority"))}
         <div><b>${esc(f.feature)}</b>${isAdded(f.id)?'<span class="badge">Added</span>':""}
-        <div class="wmeta">${esc(val(f,"complexity"))} complexity · engineering ${eng(f.id).trim()?"reviewed":"awaiting"}</div>
+        <div class="wmeta">${esc(val(f,"complexity"))} complexity · ${logCount(f.id,"eng")} eng, ${logCount(f.id,"pm")} PM comment${logCount(f.id)===1?"":"s"}</div>
         </div></div>`).join("")}</div>`;
   }).join("");
   document.getElementById("bycat").innerHTML=html||`<div class="empty">No items yet.</div>`;
@@ -853,15 +1041,31 @@ function drawCharts(){
 
 /* ---------- export ---------- */
 function exportCsv(){
-  const head=["Priority","Item","Category","Complexity","Description","Remarks","Engineering Comments","Source"];
+  const head=["Priority","Item","Category","Complexity","Description","Remarks","Eng Count","Engineering Comment Log","PM Count","PM Comment Log","Source"];
   const rows=filteredBacklog().concat(filteredMain()).map(f=>[
     val(f,"priority"),f.feature,val(f,"category"),val(f,"complexity"),
-    f.desc,f.remarks,eng(f.id),
+    f.desc,f.remarks,logCount(f.id,"eng"),logText(f.id,"eng"),logCount(f.id,"pm"),logText(f.id,"pm"),
     isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx"]);
   const t=[head,...rows].map(r=>r.map(v=>'"'+String(v==null?"":v).replace(/"/g,'""').replace(/\n/g," ")+'"').join(",")).join("\r\n");
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["﻿"+t],{type:"text/csv;charset=utf-8"}));
   a.download="ceipal-2027-roadmap.csv"; a.click();
+}
+
+function exportLog(){
+  const head=["Date/Time","Type","Name","Item","Priority","Category","Source","Comment"];
+  const rows=[];
+  filteredBacklog().concat(filteredMain()).forEach(f=>{
+    ["eng","pm"].forEach(kind=>log(f.id,kind).forEach(c=>rows.push([fmt(c.at),KINDS[kind].short,c.name,
+      f.feature,val(f,"priority"),val(f,"category"),
+      isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx",c.text])));
+  });
+  if(!rows.length){ alert("No comments have been logged yet."); return; }
+  rows.sort((a,b)=>new Date(b[0])-new Date(a[0]));
+  const t=[head,...rows].map(r=>r.map(v=>'"'+String(v==null?"":v).replace(/"/g,'""').replace(/\n/g," ")+'"').join(",")).join("\r\n");
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob(["\ufeff"+t],{type:"text/csv;charset=utf-8"}));
+  a.download="ceipal-2027-engineering-comment-log.csv"; a.click();
 }
 
 /* ---------- wiring ---------- */
@@ -888,27 +1092,28 @@ document.getElementById("btnReset").addEventListener("click",()=>{
   document.getElementById("fQ").value=""; renderTable();
 });
 document.getElementById("btnClear").addEventListener("click",()=>{
-  const all=ALL(), n=all.filter(f=>eng(f.id).trim()).length;
+  const all=ALL(), n=all.reduce((t,f)=>t+logCount(f.id),0);
   const bits=[];
   if(store.backlog.length) bits.push(`${store.backlog.length} backlog item${store.backlog.length>1?"s":""}`);
   if(store.added.length) bits.push(`${store.added.length} added feature${store.added.length>1?"s":""}`);
-  if(n) bits.push(`engineering comments on ${n} item${n>1?"s":""}`);
+  if(n) bits.push(`${n} engineering comment${n>1?"s":""}`);
   const msg=bits.length
     ? `This permanently deletes ${bits.join(", ")}, and resets every priority and category edit. This cannot be undone. Continue?`
     : "This resets every priority, category, and complexity edit back to the original assignments. Continue?";
   if(!confirm(msg)) return;
-  store={edits:{},added:[],backlog:[],order:[],blorder:[],nextId:1000}; save();
+  store={edits:{},added:[],backlog:[],order:[],blorder:[],lastName:"",nextId:1000}; save();
   openId=null; blItemOpen=null; sortKey="custom"; sortDir=1;
   renderKpis(); renderTable(); renderByCat(); drawCharts();
 });
 document.getElementById("btnExport").addEventListener("click",exportCsv);
+document.getElementById("btnExportLog").addEventListener("click",exportLog);
 document.getElementById("btnSaveNew").addEventListener("click",saveNew);
 document.getElementById("btnCancelEdit").addEventListener("click",clearForm);
 document.getElementById("nFeature").addEventListener("keydown",e=>{ if(e.key==="Enter") saveNew(); });
 
 renderKpis(); renderTable(); renderByCat();
 console.log("roadmap ready:",ALL().length,"items |",store.backlog.length,"backlog |",
-  store.added.length,"added |",ALL().filter(f=>eng(f.id).trim()).length,"with eng comments");
+  store.added.length,"added |",ALL().reduce((n,f)=>n+logCount(f.id),0),"comments logged");
 </script>
 </body>
 </html>
