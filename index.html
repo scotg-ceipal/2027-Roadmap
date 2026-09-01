@@ -9,6 +9,7 @@
   color-scheme: light;
   --bg:#f4f5f7; --panel:#fff; --ink:#171b21; --muted:#616b78; --line:#e3e7ec; --line2:#eef1f4;
   --hi:#b42318; --md:#c4620a; --lo:#616b78; --accent:#0b5cad; --ok:#0f7b4f; --pm:#6b3fa0;
+  --ats:#0b5cad; --vms:#0f7b4f; --wf:#6b3fa0; --mob:#0a6e7d; --una:#9aa4af;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
@@ -31,6 +32,7 @@ h1{font-size:23px;margin:0 0 4px;letter-spacing:-.35px;font-weight:680}
 .vcard h2{font-size:19px;margin:0 0 6px;font-weight:670;letter-spacing:-.25px;color:var(--accent)}
 .vcard .vc{font-size:12.5px;color:var(--muted)}
 .vcard .vgo{font-size:12px;font-weight:620;color:var(--accent);margin-top:12px}
+.vcard .vlines{display:flex;gap:5px;flex-wrap:wrap;margin-top:9px}
 .vhint{font-size:12.5px;color:var(--muted);margin-bottom:16px;max-width:74ch}
 .mcharts{margin-top:26px}
 .mchead{margin-bottom:12px}
@@ -49,7 +51,7 @@ h1{font-size:23px;margin:0 0 4px;letter-spacing:-.35px;font-weight:680}
 .kpi .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:6px;font-weight:600}
 .kpi .s{font-size:11.5px;color:var(--accent);font-weight:620;margin-top:5px}
 .kpi .s.dim{color:var(--muted);font-weight:500}
-.rollbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-8px 0 20px}
+.rollbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-8px 0 10px}
 .rolllab{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:650}
 .vchip{font-size:12px;font-weight:600;padding:5px 12px;border-radius:14px;border:1px solid var(--line);
   background:#fff;cursor:pointer;color:#3f4a57}
@@ -58,6 +60,20 @@ h1{font-size:23px;margin:0 0 4px;letter-spacing:-.35px;font-weight:680}
 .vchip .n{opacity:.7;font-weight:500;margin-left:5px}
 .vchip.on .n{opacity:.85}
 @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}}
+
+/* product line roll-up strip */
+.linebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 20px}
+.lchip{font-size:12px;font-weight:650;padding:5px 12px;border-radius:14px;border:1px solid var(--line);
+  background:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:7px;color:#3f4a57}
+.lchip:hover{border-color:#b9c3ce}
+.lchip .dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:0 0 8px}
+.lchip .n{opacity:.65;font-weight:500}
+.lchip.on{color:#fff;border-color:transparent}
+.lchip.on .n{opacity:.85}
+.lchip.on.l-ATS{background:var(--ats)} .lchip.on.l-VMS{background:var(--vms)}
+.lchip.on.l-WF{background:var(--wf)} .lchip.on.l-Mobile{background:var(--mob)}
+.lchip.on.l-Unassigned{background:var(--una)}
+.lchip.on .dot{background:#fff !important}
 
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
 .tab{padding:10px 16px;cursor:pointer;border:none;background:none;font-size:13px;font-weight:580;
@@ -82,8 +98,22 @@ select:focus,input:focus,textarea:focus{outline:2px solid #0b5cad22;border-color
 .spacer{margin-left:auto}
 .count{font-size:12.5px;color:var(--muted);padding-bottom:8px}
 
+/* bulk assign bar, appears when unassigned items are in view */
+.bulkbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff8ec;
+  border:1px solid #f0dfc2;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12.5px}
+.bulkbar b{font-weight:660}
+.bulkbar select{min-width:120px;padding:5px 9px;font-size:12.5px}
+
+/* rebuild the manual order from current classification values */
+.robar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;
+  border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-top:14px;font-size:12.5px}
+.robar label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:650}
+.robar select{min-width:250px;padding:6px 9px;font-size:12.5px}
+.robar .rohint{color:var(--muted);flex:1;min-width:200px}
+.robar .rostale{color:var(--md);font-weight:620}
+
 .tblwrap{overflow-x:auto;border-radius:10px}
-table.rm{border-collapse:collapse;width:100%;min-width:880px}
+table.rm{border-collapse:collapse;width:100%;min-width:1010px}
 table.rm thead th{background:#eef1f5;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;
   font-weight:700;color:#4a5563;text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);
   position:sticky;top:0;z-index:5;white-space:nowrap}
@@ -98,6 +128,22 @@ table.rm tbody tr.main.open td{background:#eff5fb}
 table.rm tbody tr:last-child td{border-bottom:none}
 .c-h{width:56px;padding-right:0 !important} .c-pri{width:88px} .c-cat{width:158px}
 .c-cx{width:96px} .c-eng{width:124px} .c-x{width:36px;text-align:center}
+.c-line{width:134px}
+
+/* product line: inline select + pill */
+.linesel{min-width:0;width:100%;font-size:12px;font-weight:650;padding:4px 7px;border-radius:6px;
+  border:1px solid var(--line);background:#fff;cursor:pointer;letter-spacing:.2px}
+.linesel:hover{border-color:#b9c3ce}
+.linesel.v-ATS{color:var(--ats);border-color:#bcd4ea;background:#f2f7fc}
+.linesel.v-VMS{color:var(--vms);border-color:#bcdcce;background:#f2faf6}
+.linesel.v-WF{color:var(--wf);border-color:#d3c6e6;background:#f8f5fc}
+.linesel.v-Mobile{color:var(--mob);border-color:#bcd8dd;background:#f1f8fa}
+.linesel.v-Unassigned{color:#8a94a0;border-color:#e3e7ec;background:#fbfcfd;font-weight:560}
+.lpill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:10.5px;font-weight:700;
+  letter-spacing:.4px;color:#fff;white-space:nowrap}
+.lpill.l-ATS{background:var(--ats)} .lpill.l-VMS{background:var(--vms)}
+.lpill.l-WF{background:var(--wf)} .lpill.l-Mobile{background:var(--mob)}
+.lpill.l-Unassigned{background:#eef1f5;color:#8a94a0}
 
 /* drag handle + reorder */
 .handle{display:flex;align-items:center;gap:2px}
@@ -248,10 +294,13 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 .cgroup:last-child{margin-bottom:0}
 .cgroup h3{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin:0 0 4px;font-weight:700}
 .cgroup .cnt{font-size:12px;color:var(--muted);margin-bottom:10px}
-.witem{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:11px 0;
+.witem{display:grid;grid-template-columns:78px 96px 1fr;gap:14px;padding:11px 0;
   border-top:1px solid var(--line2);align-items:start}
 .witem b{font-size:13.5px;font-weight:620}
 .wmeta{font-size:12px;color:var(--muted);margin-top:2px}
+@media(max-width:700px){.witem{grid-template-columns:78px 96px}}
+.bcbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.bcbar label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:650}
 
 .empty{padding:44px 20px;text-align:center;color:var(--muted);font-size:13.5px}
 .hide{display:none}
@@ -273,9 +322,10 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 
 <div class="kpis" id="kpis"></div>
 <div class="rollbar" id="rollbar"></div>
+<div class="linebar" id="linebar"></div>
 
 <div id="vpick" class="hide">
-  <div class="vhint">Totals above are rolled up from every vertical. Choose one below to load its roadmap.</div>
+  <div class="vhint">Totals above are rolled up from every vertical. Product line totals roll up the same way. Choose a vertical below to load its roadmap.</div>
   <div class="vcards" id="vcards"></div>
 
   <div class="mcharts">
@@ -285,6 +335,10 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
     </div>
     <div class="mcgrid">
       <div class="card"><div class="chartbox mc"><canvas id="mVert"></canvas></div></div>
+      <div class="card"><div class="chartbox mc"><canvas id="mLine"></canvas></div></div>
+    </div>
+    <div class="mcgrid">
+      <div class="card"><div class="chartbox mc"><canvas id="mLinePri"></canvas></div></div>
       <div class="card"><div class="chartbox mc"><canvas id="mPri"></canvas></div></div>
     </div>
     <div class="mcgrid">
@@ -305,6 +359,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 
 <div id="v-features">
   <div class="controls">
+    <div class="ctl"><label for="fLine">Product Line</label><select id="fLine"><option value="">All product lines</option></select></div>
     <div class="ctl"><label for="fPri">Priority</label><select id="fPri"><option value="">All priorities</option></select></div>
     <div class="ctl"><label for="fCat">Category</label><select id="fCat"><option value="">All categories</option></select></div>
     <div class="ctl"><label for="fCx">Complexity</label><select id="fCx"><option value="">All complexity</option></select></div>
@@ -322,10 +377,11 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
     <button class="btn spacer" id="btnExportLog">Export comment log</button>
     <button class="btn pri" id="btnExport">Export CSV</button>
   </div>
+  <div id="bulkbar" class="bulkbar hide"></div>
   <div class="ordbar">
     <span id="ordMode" class="mode"></span>
     <button class="btn sm" id="btnCustom">Back to my order</button>
-    <span style="color:var(--muted)">Drag the grip or use the arrows to reorder.</span>
+    <span style="color:var(--muted)">Drag the grip or use the arrows to reorder. To rebuild the whole list from current values, use Re-order my list at the bottom.</span>
   </div>
   <div class="count" id="count"></div>
   <div class="card tblwrap">
@@ -333,6 +389,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
       <thead>
         <tr>
           <th class="c-h"></th>
+          <th class="c-line sortable" data-s="line">Product Line<span class="ar">▼</span></th>
           <th class="c-pri sortable" data-s="priority">Priority<span class="ar">▼</span></th>
           <th class="sortable" data-s="feature">Feature<span class="ar">▼</span></th>
           <th class="c-cat sortable" data-s="category">Category<span class="ar">▼</span></th>
@@ -344,6 +401,20 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
       </thead>
       <tbody id="tbody"></tbody>
     </table>
+  </div>
+  <div class="robar">
+    <label for="roBasis">Re-order my list by</label>
+    <select id="roBasis">
+      <option value="composite">Priority, then timeframe, then complexity</option>
+      <option value="priority">Priority</option>
+      <option value="line">Product Line</option>
+      <option value="target">Target Timeframe</option>
+      <option value="complexity">Complexity</option>
+      <option value="category">Category</option>
+      <option value="feature">Feature name</option>
+    </select>
+    <button class="btn pri" id="btnReorder">Apply to my order</button>
+    <span class="rohint" id="roHint"></span>
   </div>
   <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
     <button class="btn" id="btnSend">Send this vertical to the master</button>
@@ -361,6 +432,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
     <div class="frow2">
       <div class="fld full"><label for="nFeature">Feature name <span class="hint">required</span></label>
         <input type="text" id="nFeature" placeholder="e.g. Bulk credential expiry notifications"></div>
+      <div class="fld"><label for="nLine">Product Line <span class="hint">ATS, VMS or WF</span></label><select id="nLine"></select></div>
       <div class="fld"><label for="nPri">Priority</label><select id="nPri"></select></div>
       <div class="fld"><label for="nCat">Category</label><select id="nCat"></select></div>
       <div class="fld"><label for="nCx">Complexity</label><select id="nCx"></select></div>
@@ -384,13 +456,27 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
   </div>
 </div>
 
-<div id="v-bycat" class="hide"><div class="card pad" id="bycat"></div></div>
+<div id="v-bycat" class="hide">
+  <div class="bcbar">
+    <label for="bcGroup">Group by</label>
+    <select id="bcGroup">
+      <option value="category">Category</option>
+      <option value="line">Product Line</option>
+    </select>
+  </div>
+  <div class="card pad" id="bycat"></div>
+</div>
 
 <div id="v-charts" class="hide">
+  <div class="grid2">
+    <div class="card"><div class="chartbox"><canvas id="cLine"></canvas></div></div>
+    <div class="card"><div class="chartbox"><canvas id="cLineCat"></canvas></div></div>
+  </div>
   <div class="grid2">
     <div class="card"><div class="chartbox"><canvas id="cCat"></canvas></div></div>
     <div class="card"><div class="chartbox"><canvas id="cPri"></canvas></div></div>
   </div>
+  <div class="card" style="margin-bottom:16px"><div class="chartbox" style="height:320px"><canvas id="cLineTgt"></canvas></div></div>
   <div class="card"><div class="chartbox" style="height:320px"><canvas id="cMix"></canvas></div></div>
 </div>
 </div><!-- /vbody -->
@@ -400,6 +486,8 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 <script>
 // Roadmap seed data by vertical.
 // India Corporate and RPO are intentionally empty until features are defined.
+// Product line (ATS / VMS / WF) is set in the app, not in the seed, so existing
+// items start as Unassigned and stay visible until somebody classifies them.
 const SEEDS = {
 healthcare: [
 {
@@ -522,6 +610,19 @@ const CXS=["Low","Medium","High","Very High"];
 const TGTS=["Unscheduled","Q1 2027","Q2 2027","Q3 2027","Q4 2027","2028+"];
 const TCOL={"Unscheduled":"#9aa4af","Q1 2027":"#0b5cad","Q2 2027":"#0f7b4f","Q3 2027":"#c4620a","Q4 2027":"#6b3fa0","2028+":"#616b78"};
 const PCOL={High:"#b42318",Medium:"#c4620a",Low:"#616b78"};
+
+/* ---------- product line ---------- */
+// Every item in every vertical carries one product line. Unassigned is a real,
+// visible state so nothing gets silently filed under the wrong product.
+// Stored values stay short and safe for CSS classes and JSON. LNAME is what
+// people see on screen and in exports.
+const LINES=["ATS","VMS","WF","Mobile"];
+const LINEALL=LINES.concat(["Unassigned"]);
+const LNAME={ATS:"ATS",VMS:"VMS",WF:"WF",Mobile:"Mobile App",Unassigned:"Unassigned"};
+const LFULL={ATS:"ATS",VMS:"VMS",WF:"Workforce Management",Mobile:"Mobile App",Unassigned:"Unassigned"};
+const LCOL={ATS:"#0b5cad",VMS:"#0f7b4f",WF:"#6b3fa0",Mobile:"#0a6e7d",Unassigned:"#9aa4af"};
+const LOPT=l=>l==="Unassigned"?"— Unassigned":LNAME[l];
+
 const KEY="ceipal-roadmap-2027-v6";
 
 const VERTICALS=[{id:"healthcare",name:"Healthcare"},
@@ -552,7 +653,15 @@ function E(id){ return S().edits[id]||(S().edits[id]={}); }
 function val(f,k){ const e=S().edits[f.id];
   const v=(e&&e[k]!==undefined)?e[k]:f[k];
   if(k==="target") return v||"Unscheduled";
+  if(k==="line") return LINEALL.includes(v)?v:"Unassigned";
   return v; }
+
+// product line for any item in any vertical, independent of what is selected
+function lineOf(f,d){
+  const e=(d.edits||{})[f.id];
+  const v=(e&&e.line!==undefined)?e.line:f.line;
+  return LINEALL.includes(v)?v:"Unassigned";
+}
 
 /* comment logs: array of {name, at, text} newest last. Two independent streams per item. */
 const KINDS={eng:{key:"log",label:"Engineering Comments",short:"Eng",
@@ -576,9 +685,11 @@ function allText(id){ return logText(id,"eng")+" "+logText(id,"pm"); }
 
 /* change history: automatic entries whenever a classification field moves */
 function chg(id){ const e=S().edits[id]; return (e&&e.chg)||[]; }
-const FIELDLBL={priority:"Priority",category:"Category",complexity:"Complexity",target:"Target Timeframe"};
+const FIELDLBL={line:"Product Line",priority:"Priority",category:"Category",complexity:"Complexity",target:"Target Timeframe"};
 function logChange(id,field,from,to){
   if(String(from)===String(to)) return;
+  // history reads in the language people see, not the stored short value
+  if(field==="line"){ from=LNAME[from]||from; to=LNAME[to]||to; }
   let at=new Date().toISOString();
   const ex=chg(id).map(c=>c.at);
   while(ex.includes(at)) at=new Date(new Date(at).getTime()+1).toISOString();
@@ -619,13 +730,25 @@ function byId(i){ return ALL().find(f=>f.id===i); }
 function isAdded(id){ return S().added.some(f=>f.id===id); }
 function isBacklog(id){ return S().backlog.some(f=>f.id===id); }
 function pill(p){ return `<span class="pill pri-${p}">${p}</span>`; }
+function lpill(l){ l=l||"Unassigned"; return `<span class="lpill l-${l}">${esc(LNAME[l])}</span>`; }
+function lineSel(f){
+  const cur=val(f,"line");
+  return `<select class="linesel v-${cur}" data-lineset="${f.id}" title="${esc(LFULL[cur])}">`+
+    LINEALL.map(l=>`<option value="${l}" ${cur===l?"selected":""}>${esc(LOPT(l))}</option>`).join("")+
+    `</select>`;
+}
 
 function fillSel(el,arr,sel){ arr.forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;
   if(v===sel)o.selected=true;el.appendChild(o);}); }
+// product line selects store the short value but show the full label
+function fillLineSel(el,sel){ LINEALL.forEach(l=>{const o=document.createElement("option");
+  o.value=l;o.textContent=LOPT(l);if(l===sel)o.selected=true;el.appendChild(o);}); }
+fillLineSel(document.getElementById("fLine"));
 fillSel(document.getElementById("fPri"),PRIS);
 fillSel(document.getElementById("fCat"),CATS);
 fillSel(document.getElementById("fCx"),CXS);
 fillSel(document.getElementById("fTgt"),TGTS);
+fillLineSel(document.getElementById("nLine"),"Unassigned");
 fillSel(document.getElementById("nPri"),PRIS,"Medium");
 fillSel(document.getElementById("nCat"),CATS,"Uncategorized");
 fillSel(document.getElementById("nCx"),CXS,"Medium");
@@ -655,9 +778,73 @@ function moveTo(list,dragId,targetId,below){
   list.splice(below?to+1:to,0,dragId); return true;
 }
 
+/* ---------- rebuilding the manual order ---------- */
+// Dragging sets a hand-built sequence. Reclassifying items afterwards leaves that
+// sequence stale. This rewrites it from the current values so the list matches the
+// decisions that have been made since, and stays draggable afterwards.
+// Unscheduled sorts last here, not first: a roadmap reads earliest quarter down.
+function trank(t){ t=t||"Unscheduled"; return t==="Unscheduled"?99:TGTS.indexOf(t); }
+const ROLABEL={composite:"priority, then timeframe, then complexity",priority:"priority",
+  line:"product line",target:"target timeframe",complexity:"complexity",
+  category:"category",feature:"feature name"};
+function roCmp(basis){
+  const tie=(a,b)=>PRIS.indexOf(val(a,"priority"))-PRIS.indexOf(val(b,"priority"))
+    || a.feature.toLowerCase().localeCompare(b.feature.toLowerCase());
+  if(basis==="composite") return (a,b)=>
+       PRIS.indexOf(val(a,"priority"))-PRIS.indexOf(val(b,"priority"))
+    || trank(val(a,"target"))-trank(val(b,"target"))
+    || CXS.indexOf(val(a,"complexity"))-CXS.indexOf(val(b,"complexity"))
+    || a.feature.toLowerCase().localeCompare(b.feature.toLowerCase());
+  if(basis==="priority")   return (a,b)=>PRIS.indexOf(val(a,"priority"))-PRIS.indexOf(val(b,"priority"))||tie(a,b);
+  if(basis==="line")       return (a,b)=>LINEALL.indexOf(val(a,"line"))-LINEALL.indexOf(val(b,"line"))||tie(a,b);
+  if(basis==="target")     return (a,b)=>trank(val(a,"target"))-trank(val(b,"target"))||tie(a,b);
+  if(basis==="complexity") return (a,b)=>CXS.indexOf(val(a,"complexity"))-CXS.indexOf(val(b,"complexity"))||tie(a,b);
+  if(basis==="category")   return (a,b)=>String(val(a,"category")).localeCompare(String(val(b,"category")))||tie(a,b);
+  return (a,b)=>a.feature.toLowerCase().localeCompare(b.feature.toLowerCase());
+}
+// the sequence the current values would produce, ignoring any hand ordering
+function roSequence(basis){
+  const c=roCmp(basis);
+  return {main:CURSEED().concat(S().added).slice().sort(c).map(f=>f.id),
+          bl:S().backlog.slice().sort(c).map(f=>f.id)};
+}
+function sameSeq(a,b){ return a.length===b.length&&a.every((x,i)=>x===b[i]); }
+function applyReorder(){
+  const basis=document.getElementById("roBasis").value;
+  syncOrder();
+  const seq=roSequence(basis);
+  if(sameSeq(seq.main,S().order)&&sameSeq(seq.bl,S().blorder)){
+    note(`My order already matches ${ROLABEL[basis]}. Nothing moved.`); return;
+  }
+  const n=seq.main.length+seq.bl.length;
+  if(!confirm(`Rebuild my order for all ${n} item${n===1?"":"s"} in ${VNAME(VSEL)} by ${ROLABEL[basis]}?\n\n`+
+              `This replaces the current drag order for this vertical. Filters are ignored, every item is re-ranked. `+
+              `You can drag items afterwards as usual.`)) return;
+  S().order=seq.main; S().blorder=seq.bl;
+  save();
+  sortKey="custom"; sortDir=1;
+  renderTable();
+  note(`My order rebuilt by ${ROLABEL[basis]}. Drag from here to fine tune.`);
+}
+// tells you whether the hand order has drifted from the selected basis
+function renderRoHint(){
+  const el=document.getElementById("roHint"); if(!el||!VSEL) return;
+  const basis=(document.getElementById("roBasis")||{}).value||"composite";
+  syncOrder();
+  const seq=roSequence(basis);
+  if(sameSeq(seq.main,S().order)&&sameSeq(seq.bl,S().blorder)){
+    el.className="rohint";
+    el.textContent=`My order already matches ${ROLABEL[basis]}.`;
+  }else{
+    el.className="rohint rostale";
+    el.textContent=`My order no longer matches ${ROLABEL[basis]}. Applying rewrites it for every item, filters ignored.`;
+  }
+}
+
 /* ---------- sort / filter ---------- */
 let sortKey="custom", sortDir=1;
 function skey(f,k){
+  if(k==="line") return LINEALL.indexOf(val(f,"line"));
   if(k==="priority") return PRIS.indexOf(val(f,"priority"));
   if(k==="complexity") return CXS.indexOf(val(f,"complexity"));
   if(k==="target") return TGTS.indexOf(val(f,"target"));
@@ -679,9 +866,11 @@ function ordered(list,k,d){
   });
 }
 function matches(f){
-  const p=document.getElementById("fPri").value,c=document.getElementById("fCat").value,
+  const l=document.getElementById("fLine").value,
+        p=document.getElementById("fPri").value,c=document.getElementById("fCat").value,
         x=document.getElementById("fCx").value,e=document.getElementById("fEng").value,
         q=document.getElementById("fQ").value.toLowerCase().trim();
+  if(l&&val(f,"line")!==l) return false;
   if(p&&val(f,"priority")!==p) return false;
   if(c&&val(f,"category")!==c) return false;
   if(x&&val(f,"complexity")!==x) return false;
@@ -693,7 +882,7 @@ function matches(f){
   if(e==="noeng"&&hasLog(f.id,"eng")) return false;
   if(e==="pm"&&!hasLog(f.id,"pm")) return false;
   if(e==="nopm"&&hasLog(f.id,"pm")) return false;
-  if(q&&!(f.feature+" "+f.desc+" "+f.remarks+" "+(f.detail||"")+" "+allText(f.id)).toLowerCase().includes(q)) return false;
+  if(q&&!(f.feature+" "+f.desc+" "+f.remarks+" "+(f.detail||"")+" "+val(f,"line")+" "+allText(f.id)).toLowerCase().includes(q)) return false;
   return true;
 }
 function filteredMain(){ return ordered(CURSEED().concat(S().added).filter(matches)); }
@@ -708,16 +897,31 @@ function statsFor(vid){
   let comments=0;
   items.forEach(f=>{ const e=d.edits[f.id];
     comments+=((e&&e.log)||[]).length+((e&&e.pmlog)||[]).length; });
+  const lines={};
+  LINEALL.forEach(l=>lines[l]=items.filter(f=>lineOf(f,d)===l).length);
   return {items:items.length,
           High:items.filter(f=>pr(f)==="High").length,
           Medium:items.filter(f=>pr(f)==="Medium").length,
           Low:items.filter(f=>pr(f)==="Low").length,
-          comments:comments};
+          comments:comments,
+          lines:lines};
+}
+// items in one vertical that are on one product line at one priority
+function vLinePriCount(vid,l,p){
+  const d=store.v[vid]||blankV();
+  const items=(SEEDS[vid]||[]).concat(d.added,d.backlog);
+  return items.filter(f=>{
+    const e=d.edits[f.id];
+    const pr=(e&&e.priority!==undefined)?e.priority:f.priority;
+    return lineOf(f,d)===l && pr===p;
+  }).length;
 }
 function rollup(){
-  const t={items:0,High:0,Medium:0,Low:0,comments:0};
+  const t={items:0,High:0,Medium:0,Low:0,comments:0,lines:{}};
+  LINEALL.forEach(l=>t.lines[l]=0);
   VERTICALS.forEach(v=>{ const x=statsFor(v.id);
-    Object.keys(t).forEach(k=>t[k]+=x[k]); });
+    ["items","High","Medium","Low","comments"].forEach(k=>t[k]+=x[k]);
+    LINEALL.forEach(l=>t.lines[l]+=x.lines[l]); });
   return t;
 }
 
@@ -736,6 +940,7 @@ function renderKpis(){
     `<div class="card kpi"><div class="v">${o.v}</div><div class="l">${esc(o.l)}</div>
      ${o.s===null?"":`<div class="s">${esc(VNAME(VSEL))}: ${o.s}</div>`}</div>`).join("");
   renderRollbar();
+  renderLinebar();
 }
 
 function renderRollbar(){
@@ -750,6 +955,31 @@ function renderRollbar(){
     }).join("")+
     `<button class="vchip ${VSEL?"":"on"}" data-vchip="">All verticals</button>`;
   bar.querySelectorAll("[data-vchip]").forEach(b=>b.addEventListener("click",()=>selectVertical(b.dataset.vchip)));
+}
+
+// product line roll-up. Scope follows the current selection: a vertical when one
+// is open, every vertical combined on the master view.
+function renderLinebar(){
+  const bar=document.getElementById("linebar");
+  if(!bar) return;
+  const scope=VSEL?statsFor(VSEL):rollup();
+  const active=VSEL?document.getElementById("fLine").value:"";
+  bar.innerHTML=`<span class="rolllab">Product line${VSEL?"":" · all verticals"}</span>`+
+    LINEALL.map(l=>{
+      const n=scope.lines[l];
+      if(l==="Unassigned"&&!n) return "";
+      return `<button class="lchip l-${l} ${active===l?"on":""}" data-lchip="${l}" title="${esc(LFULL[l])}">
+        <span class="dot" style="background:${LCOL[l]}"></span>${esc(LNAME[l])}
+        <span class="n">${n}</span></button>`;
+    }).join("")+
+    (VSEL&&active?`<button class="lchip" data-lchip="">Clear</button>`:"");
+  bar.querySelectorAll("[data-lchip]").forEach(b=>b.addEventListener("click",()=>{
+    if(!VSEL){ selectVertical(""); return; }
+    const want=b.dataset.lchip;
+    const sel=document.getElementById("fLine");
+    sel.value=(sel.value===want)?"":want;
+    renderTable(); renderLinebar();
+  }));
 }
 
 /* ---------- main table ---------- */
@@ -767,15 +997,38 @@ function renderTable(){
   });
   const custom=sortKey==="custom";
   const m=document.getElementById("ordMode");
-  m.textContent=custom?"My order":`Sorted by ${sortKey==="eng"?"engineering":sortKey} — reordering is off`;
+  m.textContent=custom?"My order":`Sorted by ${sortKey==="eng"?"engineering":sortKey==="line"?"product line":sortKey} — reordering is off`;
   m.className="mode"+(custom?"":" sorted");
   document.getElementById("btnCustom").classList.toggle("hide",custom);
 
+  renderBulkbar(fs.concat(bl));
+  renderRoHint();
+
   let h=backlogRow(bl);
   h+=fs.map((f,i)=>featureRow(f,i,fs.length)).join("");
-  if(!fs.length&&!bl.length) h+=`<tr><td colspan="8" class="empty">No items match those filters.</td></tr>`;
+  if(!fs.length&&!bl.length) h+=`<tr><td colspan="9" class="empty">No items match those filters.</td></tr>`;
   tb.innerHTML=h;
   wireTable();
+}
+
+// only appears while something in view still has no product line
+function renderBulkbar(shown){
+  const bar=document.getElementById("bulkbar");
+  if(!bar) return;
+  const un=shown.filter(f=>val(f,"line")==="Unassigned");
+  if(!un.length){ bar.classList.add("hide"); bar.innerHTML=""; return; }
+  bar.classList.remove("hide");
+  bar.innerHTML=`<b>${un.length} item${un.length===1?"":"s"} in view ha${un.length===1?"s":"ve"} no product line.</b>
+    <span>Set all of them to</span>
+    <select id="bulkLine">${LINES.map(l=>`<option value="${l}">${esc(LNAME[l])}</option>`).join("")}</select>
+    <button class="btn sm pri" id="bulkGo">Apply to ${un.length}</button>
+    <span style="color:var(--muted)">Each change is recorded in that item's change history.</span>`;
+  document.getElementById("bulkGo").addEventListener("click",()=>{
+    const to=document.getElementById("bulkLine").value;
+    if(!confirm(`Set ${un.length} item${un.length===1?"":"s"} to ${LNAME[to]}? You can change any of them individually afterwards.`)) return;
+    un.forEach(f=>{ logChange(f.id,"line","Unassigned",to); E(f.id).line=to; });
+    save(); renderKpis(); renderTable(); renderByCat(); drawCharts();
+  });
 }
 
 function tgtChip(t){
@@ -807,6 +1060,7 @@ function backlogRow(items){
   const nc=S().backlog.reduce((t,f)=>t+logCount(f.id),0);
   let h=`<tr class="blrow ${blOpen?"open":""}" id="blHead">
     <td class="c-h"></td>
+    <td class="c-line"><span class="cx">—</span></td>
     <td class="c-pri"><span class="pill pri-Medium" style="background:var(--accent)">Backlog</span></td>
     <td><div class="blname">2026 Backlog<span class="addcue">+ Add item</span></div>
         <div class="blmeta">${n?`${n} item${n>1?"s":""} entered · ${nc} comment${nc===1?"":"s"} across ${done}`:"No items entered yet. Open to add them one at a time."}</div></td>
@@ -816,7 +1070,7 @@ function backlogRow(items){
     <td class="c-eng"><span class="engcount ${n&&done===n?"yes":"no"}">${n?done+"/"+n:"—"}</span></td>
     <td class="c-x"><span class="chev">▶</span></td>
   </tr>`;
-  if(blOpen) h+=`<tr><td colspan="8" class="blpanel">${backlogPanel(items)}</td></tr>`;
+  if(blOpen) h+=`<tr><td colspan="9" class="blpanel">${backlogPanel(items)}</td></tr>`;
   return h;
 }
 
@@ -826,6 +1080,7 @@ function backlogPanel(items){
     <div class="frow2">
       <div class="fld full"><label for="bFeature">Item name <span class="hint">required</span></label>
         <input type="text" id="bFeature" placeholder="e.g. Fix duplicate credential upload on mobile"></div>
+      <div class="fld"><label for="bLine">Product Line</label><select id="bLine"></select></div>
       <div class="fld"><label for="bPri">Priority</label><select id="bPri"></select></div>
       <div class="fld"><label for="bCx">Complexity</label><select id="bCx"></select></div>
       <div class="fld"><label for="bTgt">Target Timeframe</label><select id="bTgt"></select></div>
@@ -856,27 +1111,29 @@ function backlogPanel(items){
     return h;
   }
   h+=`<table class="bl"><thead><tr>
-      <th class="c-h"></th><th style="width:88px">Priority</th><th>Item</th><th style="width:96px">Complexity</th>
+      <th class="c-h"></th><th style="width:118px">Product Line</th><th style="width:88px">Priority</th><th>Item</th><th style="width:96px">Complexity</th>
       <th style="width:150px">Target Timeframe</th><th style="width:110px">Comments</th><th style="width:34px"></th></tr></thead><tbody>`;
   items.forEach((f,i)=>{
-    const op=blItemOpen===f.id, ne=logCount(f.id,"eng"), np=logCount(f.id,"pm"), has=(ne+np)>0;
+    const op=blItemOpen===f.id, ne=logCount(f.id,"eng"), np=logCount(f.id,"pm");
     h+=`<tr class="bi ${op?"open":""}" data-bid="${f.id}" ${sortKey==="custom"?'draggable="true"':""}>
       ${handleCell(f.id,i,items.length,"bl")}
+      <td>${lineSel(f)}</td>
       <td>${pill(val(f,"priority"))}</td>
       <td><b>${esc(f.feature)}</b>${f.desc?`<div class="fsub">${esc(f.desc)}</div>`:""}</td>
       <td><span class="cx">${esc(val(f,"complexity"))}</span></td>
       <td>${tgtChip(val(f,"target"))}</td>
       <td>${cmtCell(ne,np)}</td>
       <td><span class="chev">▶</span></td></tr>`;
-    if(op) h+=`<tr><td colspan="7" class="bdetail">${detailHtml(f)}</td></tr>`;
+    if(op) h+=`<tr><td colspan="8" class="bdetail">${detailHtml(f)}</td></tr>`;
   });
   return h+"</tbody></table>";
 }
 
 function featureRow(f,i,n){
-  const op=openId===f.id, ne=logCount(f.id,"eng"), np=logCount(f.id,"pm"), has=(ne+np)>0;
+  const op=openId===f.id, ne=logCount(f.id,"eng"), np=logCount(f.id,"pm");
   let h=`<tr class="main ${op?"open":""}" data-id="${f.id}" ${sortKey==="custom"?'draggable="true"':""}>
     ${handleCell(f.id,i,n,"main")}
+    <td class="c-line">${lineSel(f)}</td>
     <td class="c-pri">${pill(val(f,"priority"))}</td>
     <td><div class="fname">${esc(f.feature)}${isAdded(f.id)?'<span class="badge">Added</span>':""}</div>
         <div class="fsub">${esc(f.desc||"No description yet.")}</div></td>
@@ -886,7 +1143,7 @@ function featureRow(f,i,n){
     <td class="c-eng">${cmtCell(ne,np)}</td>
     <td class="c-x"><span class="chev">▶</span></td>
   </tr>`;
-  if(op) h+=`<tr><td colspan="8" class="detail">${detailHtml(f)}</td></tr>`;
+  if(op) h+=`<tr><td colspan="9" class="detail">${detailHtml(f)}</td></tr>`;
   return h;
 }
 
@@ -898,6 +1155,7 @@ function detailHtml(f){
     ${f.detail?`<h4>Detail from source comments</h4><pre>${esc(f.detail)}</pre>`:""}
     <h4>Classification</h4>
     <div class="editrow">
+      <div class="ctl"><label>Product Line</label><select data-k="line">${LINEALL.map(l=>`<option value="${l}" ${val(f,"line")===l?"selected":""}>${esc(LOPT(l))}</option>`).join("")}</select></div>
       <div class="ctl"><label>Priority</label><select data-k="priority">${PRIS.map(p=>`<option ${val(f,"priority")===p?"selected":""}>${p}</option>`).join("")}</select></div>
       <div class="ctl"><label>Category</label><select data-k="category">${CATS.map(c=>`<option ${val(f,"category")===c?"selected":""}>${esc(c)}</option>`).join("")}</select></div>
       <div class="ctl"><label>Complexity</label><select data-k="complexity">${CXS.map(c=>`<option ${val(f,"complexity")===c?"selected":""}>${c}</option>`).join("")}</select></div>
@@ -971,11 +1229,26 @@ function wireTable(){
   }));
   document.querySelectorAll("td.blpanel,td.detail,td.bdetail").forEach(td=>
     td.addEventListener("click",e=>e.stopPropagation()));
+
+  // inline product line selects live inside clickable rows, so swallow the events
+  document.querySelectorAll("[data-lineset]").forEach(sel=>{
+    ["click","mousedown","dragstart"].forEach(ev=>sel.addEventListener(ev,e=>e.stopPropagation()));
+    sel.addEventListener("change",e=>{
+      e.stopPropagation();
+      const id=+sel.dataset.lineset, f=byId(id);
+      if(!f) return;
+      logChange(id,"line",val(f,"line"),sel.value);
+      E(id).line=sel.value; save();
+      renderKpis(); renderTable(); renderByCat(); drawCharts();
+    });
+  });
+
   wireReorder();
 
   // backlog inline form
   const bp=document.getElementById("bPri");
   if(bp){
+    fillLineSel(document.getElementById("bLine"),"Unassigned");
     fillSel(bp,PRIS,"Medium");
     fillSel(document.getElementById("bCx"),CXS,"Medium");
     fillSel(document.getElementById("bTgt"),TGTS,"Unscheduled");
@@ -1108,7 +1381,8 @@ function addComment(id,kind){
 /* ---------- add backlog item ---------- */
 function clearBacklogForm(){
   const f=document.getElementById("bFeature"); if(!f) return;
-  f.value=""; document.getElementById("bPri").value="Medium";
+  f.value=""; document.getElementById("bLine").value="Unassigned";
+  document.getElementById("bPri").value="Medium";
   document.getElementById("bCx").value="Medium";
   document.getElementById("bTgt").value="Unscheduled";
   ["bDesc","bRemarks","bEng","bWho"].forEach(i=>document.getElementById(i).value="");
@@ -1124,6 +1398,7 @@ function addBacklog(){
     err.textContent="An item with that name already exists."; err.classList.remove("hide"); return; }
   const id=store.nextId++;
   S().backlog.push({id:id,feature:name,
+    line:document.getElementById("bLine").value,
     priority:document.getElementById("bPri").value,
     category:"2026 Backlog",
     complexity:document.getElementById("bCx").value,
@@ -1146,6 +1421,7 @@ function addBacklog(){
 /* ---------- add feature ---------- */
 function clearForm(){
   document.getElementById("nFeature").value="";
+  document.getElementById("nLine").value="Unassigned";
   document.getElementById("nPri").value="Medium";
   document.getElementById("nCat").value="Uncategorized";
   document.getElementById("nCx").value="Medium";
@@ -1163,7 +1439,9 @@ function saveNew(){
     err.textContent="A feature with that name already exists."; err.classList.remove("hide"); return; }
   const id=store.nextId++;
   const cat=document.getElementById("nCat").value;
-  const rec={id:id,feature:name,priority:document.getElementById("nPri").value,
+  const rec={id:id,feature:name,
+    line:document.getElementById("nLine").value,
+    priority:document.getElementById("nPri").value,
     category:cat,complexity:document.getElementById("nCx").value,
     target:document.getElementById("nTgt").value,
     desc:document.getElementById("nDesc").value.trim(),
@@ -1186,27 +1464,29 @@ function saveNew(){
   if(r&&r.scrollIntoView) r.scrollIntoView({behavior:"smooth",block:"center"});
 }
 
-/* ---------- by category ---------- */
+/* ---------- by category / by product line ---------- */
 function renderByCat(){
   const all=ALL();
-  const cats=CATS.filter(c=>all.some(f=>val(f,"category")===c));
-  const html=cats.map(c=>{
-    const items=ordered(all.filter(f=>val(f,"category")===c),"priority",1);
-    return `<div class="cgroup"><h3>${esc(c)}</h3><div class="cnt">${items.length} item${items.length>1?"s":""}</div>
-      ${items.map(f=>`<div class="witem">${pill(val(f,"priority"))}
+  const el=document.getElementById("bycat"); if(!el) return;
+  const mode=(document.getElementById("bcGroup")||{}).value||"category";
+  const groups = mode==="line"
+    ? LINEALL.filter(l=>all.some(f=>val(f,"line")===l)).map(l=>({key:l,label:LFULL[l]==="Unassigned"?"Unassigned — needs a product line":LFULL[l],test:f=>val(f,"line")===l}))
+    : CATS.filter(c=>all.some(f=>val(f,"category")===c)).map(c=>({key:c,label:c,test:f=>val(f,"category")===c}));
+  const html=groups.map(g=>{
+    const items=ordered(all.filter(g.test),"priority",1);
+    return `<div class="cgroup"><h3>${esc(g.label)}</h3><div class="cnt">${items.length} item${items.length>1?"s":""}</div>
+      ${items.map(f=>`<div class="witem">${pill(val(f,"priority"))}${lpill(val(f,"line"))}
         <div><b>${esc(f.feature)}</b>${isAdded(f.id)?'<span class="badge">Added</span>':""}
-        <div class="wmeta">${esc(val(f,"complexity"))} complexity · ${esc(val(f,"target"))} · ${logCount(f.id,"eng")} eng, ${logCount(f.id,"pm")} PM comment${logCount(f.id)===1?"":"s"}</div>
+        <div class="wmeta">${mode==="line"?esc(val(f,"category"))+" · ":""}${esc(val(f,"complexity"))} complexity · ${esc(val(f,"target"))} · ${logCount(f.id,"eng")} eng, ${logCount(f.id,"pm")} PM comment${logCount(f.id)===1?"":"s"}</div>
         </div></div>`).join("")}</div>`;
   }).join("");
-  document.getElementById("bycat").innerHTML=html||`<div class="empty">No items yet.</div>`;
+  el.innerHTML=html||`<div class="empty">No items yet.</div>`;
 }
 
 function vTargetCount(vid,t){
   const d=store.v[vid]||blankV();
   const items=(SEEDS[vid]||[]).concat(d.added,d.backlog);
   return items.filter(f=>{
-    const e=d.edits[f.id];
-    return ((e&&e.target!==undefined)?e.target:f.target)||"Unscheduled"; }).filter(f=>{
     const e=d.edits[f.id];
     return (((e&&e.target!==undefined)?e.target:f.target)||"Unscheduled")===t; }).length;
 }
@@ -1229,12 +1509,29 @@ function drawMasterCharts(){
   const stats=VERTICALS.map(v=>statsFor(v.id));
   const streams=VERTICALS.map(v=>vStreamCounts(v.id));
   const total=stats.reduce((n,s)=>n+s.items,0);
+  const roll=rollup();
+  const shownLines=LINEALL.filter(l=>l!=="Unassigned"||roll.lines.Unassigned>0);
 
   mcharts.vert=new Chart(document.getElementById("mVert"),{type:"bar",
     data:{labels:names,datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
       data:stats.map(s=>s[p])}))},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{title:{display:true,text:`Items by vertical — ${total} total`},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
+
+  // product line across every vertical: the coverage view
+  mcharts.line=new Chart(document.getElementById("mLine"),{type:"bar",
+    data:{labels:names,datasets:shownLines.map(l=>({label:LNAME[l],backgroundColor:LCOL[l],
+      data:VERTICALS.map(v=>statsFor(v.id).lines[l])}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Product line by vertical"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
+
+  mcharts.linepri=new Chart(document.getElementById("mLinePri"),{type:"bar",
+    data:{labels:shownLines.map(l=>LNAME[l]),datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
+      data:shownLines.map(l=>VERTICALS.reduce((n,v)=>n+vLinePriCount(v.id,l,p),0))}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Product line by priority, all verticals"},legend:{position:"bottom"}},
       scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
 
   const pri=PRIS.map(p=>stats.reduce((n,s)=>n+s[p],0));
@@ -1264,9 +1561,27 @@ function drawMasterCharts(){
 let charts={};
 function drawCharts(){
   if(typeof Chart==="undefined") return;
+  if(!document.getElementById("cLine")) return;
   const all=ALL();
   const cats=CATS.filter(c=>all.some(f=>val(f,"category")===c));
+  const lines=LINEALL.filter(l=>all.some(f=>val(f,"line")===l));
   Object.values(charts).forEach(c=>c&&c.destroy());
+
+  charts.line=new Chart(document.getElementById("cLine"),{type:"bar",
+    data:{labels:lines.map(l=>LNAME[l]),datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
+      data:lines.map(l=>all.filter(f=>val(f,"line")===l&&val(f,"priority")===p).length)}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Product line by priority"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
+
+  charts.linecat=new Chart(document.getElementById("cLineCat"),{type:"bar",
+    data:{labels:cats.map(c=>c.replace(" & ","/")),
+      datasets:lines.map(l=>({label:LNAME[l],backgroundColor:LCOL[l],
+        data:cats.map(c=>all.filter(f=>val(f,"category")===c&&val(f,"line")===l).length)}))},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:"y",
+      plugins:{title:{display:true,text:"Category by product line"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true,ticks:{stepSize:1}},y:{stacked:true,ticks:{font:{size:10}}}}}});
+
   charts.cat=new Chart(document.getElementById("cCat"),{type:"bar",
     data:{labels:cats.map(c=>c.replace(" & ","/")),
       datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
@@ -1274,11 +1589,20 @@ function drawCharts(){
     options:{responsive:true,maintainAspectRatio:false,indexAxis:"y",
       plugins:{title:{display:true,text:"Category by priority"},legend:{position:"bottom"}},
       scales:{x:{stacked:true,ticks:{stepSize:1}},y:{stacked:true,ticks:{font:{size:10}}}}}});
+
   charts.pri=new Chart(document.getElementById("cPri"),{type:"doughnut",
     data:{labels:PRIS,datasets:[{data:PRIS.map(p=>all.filter(f=>val(f,"priority")===p).length),
       backgroundColor:PRIS.map(p=>PCOL[p])}]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{title:{display:true,text:"Items by priority"},legend:{position:"right"}}}});
+
+  charts.linetgt=new Chart(document.getElementById("cLineTgt"),{type:"bar",
+    data:{labels:TGTS,datasets:lines.map(l=>({label:LNAME[l],backgroundColor:LCOL[l],
+      data:TGTS.map(t=>all.filter(f=>val(f,"target")===t&&val(f,"line")===l).length)}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Delivery timeline by product line"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
+
   charts.mix=new Chart(document.getElementById("cMix"),{type:"bar",
     data:{labels:TGTS,datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
       data:TGTS.map(t=>all.filter(f=>val(f,"target")===t&&val(f,"priority")===p).length)}))},
@@ -1289,47 +1613,46 @@ function drawCharts(){
 
 /* ---------- export ---------- */
 function exportCsv(){
-  const head=["Priority","Item","Category","Complexity","Target Timeframe","Description","Remarks","Eng Count","Engineering Comment Log","PM Count","PM Comment Log","Source"];
+  const head=["Vertical","Product Line","Priority","Item","Category","Complexity","Target Timeframe","Description","Remarks","Eng Count","Engineering Comment Log","PM Count","PM Comment Log","Source"];
   const rows=filteredBacklog().concat(filteredMain()).map(f=>[
-    val(f,"priority"),f.feature,val(f,"category"),val(f,"complexity"),
+    VNAME(VSEL),LNAME[val(f,"line")],val(f,"priority"),f.feature,val(f,"category"),val(f,"complexity"),
     val(f,"target"),f.desc,f.remarks,logCount(f.id,"eng"),logText(f.id,"eng"),logCount(f.id,"pm"),logText(f.id,"pm"),
     isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx"]);
   const t=[head,...rows].map(r=>r.map(v=>'"'+String(v==null?"":v).replace(/"/g,'""').replace(/\n/g," ")+'"').join(",")).join("\r\n");
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob(["﻿"+t],{type:"text/csv;charset=utf-8"}));
-  a.download="ceipal-2027-roadmap.csv"; a.click();
+  a.download=`ceipal-2027-roadmap-${VSEL||"all"}.csv`; a.click();
 }
 
 function exportLog(){
-  const head=["Date/Time","Type","Name","Item","Priority","Category","Source","Comment"];
+  const head=["Date/Time","Type","Name","Vertical","Product Line","Item","Priority","Category","Source","Comment"];
   const rows=[];
   filteredBacklog().concat(filteredMain()).forEach(f=>{
-    chg(f.id).forEach(c=>rows.push([fmt(c.at),"Change",c.name,
-      f.feature,val(f,"priority"),val(f,"category"),
-      isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx",
+    const src=isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx";
+    chg(f.id).forEach(c=>rows.push([fmt(c.at),"Change",c.name,VNAME(VSEL),LNAME[val(f,"line")],
+      f.feature,val(f,"priority"),val(f,"category"),src,
       `${c.field}: ${c.from} → ${c.to}`]));
     ["eng","pm"].forEach(kind=>log(f.id,kind).forEach(c=>rows.push([fmt(c.at),KINDS[kind].short,c.name,
-      f.feature,val(f,"priority"),val(f,"category"),
-      isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx",c.text])));
+      VNAME(VSEL),LNAME[val(f,"line")],f.feature,val(f,"priority"),val(f,"category"),src,c.text])));
   });
   if(!rows.length){ alert("No comments have been logged yet."); return; }
   rows.sort((a,b)=>new Date(b[0])-new Date(a[0]));
   const t=[head,...rows].map(r=>r.map(v=>'"'+String(v==null?"":v).replace(/"/g,'""').replace(/\n/g," ")+'"').join(",")).join("\r\n");
   const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob(["\ufeff"+t],{type:"text/csv;charset=utf-8"}));
+  a.href=URL.createObjectURL(new Blob(["﻿"+t],{type:"text/csv;charset=utf-8"}));
   a.download="ceipal-2027-engineering-comment-log.csv"; a.click();
 }
 
 /* ---------- moving a vertical between files ---------- */
 function sendVertical(){
   if(!VSEL) return;
-  const payload={format:"ceipal-roadmap-vertical",version:1,vertical:VSEL,
+  const payload={format:"ceipal-roadmap-vertical",version:2,vertical:VSEL,
     verticalName:VNAME(VSEL),exportedAt:new Date().toISOString(),
     lastName:store.lastName,nextId:store.nextId,data:store.v[VSEL]};
   const a=document.createElement("a");
   a.href=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:"application/json"}));
   a.download=`ceipal-roadmap-${VSEL}-${new Date().toISOString().slice(0,10)}.json`; a.click();
-  note(`Sent ${VNAME(VSEL)}. Open the master and use Load a vertical file to roll it in.`);
+  note(`Sent ${VNAME(VSEL)}. Product line assignments travel with the file. Open the master and use Load a vertical file to roll it in.`);
 }
 function note(msg){
   const el=document.getElementById("syncHint"); if(!el) return;
@@ -1349,7 +1672,7 @@ function receiveVertical(file){
     const inc=statsForData(p.vertical,p.data), cur=statsFor(p.vertical);
     if(!confirm(`Replace ${VNAME(p.vertical)} with the incoming file?\n\n`+
                 `Now:      ${cur.items} items, ${cur.comments} comments\n`+
-                `Incoming: ${inc.items} items, ${inc.comments} comments\n\n`+
+                `Incoming: ${inc.items} items, ${inc.comments} comments, ${inc.unassigned} with no product line\n\n`+
                 `This overwrites that vertical. Other verticals are untouched.`)) return;
     const d=p.data;
     store.v[p.vertical]={edits:d.edits||{},added:d.added||[],backlog:d.backlog||[],
@@ -1358,16 +1681,19 @@ function receiveVertical(file){
     if(p.lastName&&!store.lastName) store.lastName=p.lastName;
     save();
     selectVertical(p.vertical);
-    note(`Rolled in ${VNAME(p.vertical)}: ${inc.items} items, ${inc.comments} comments. Totals updated.`);
+    note(`Rolled in ${VNAME(p.vertical)}: ${inc.items} items, ${inc.comments} comments`+
+         `${inc.unassigned?`, ${inc.unassigned} still need a product line`:""}. Totals updated.`);
   };
   r.readAsText(file);
 }
 function statsForData(vid,d){
   const items=(SEEDS[vid]||[]).concat(d.added||[],d.backlog||[]);
+  const dd={edits:d.edits||{}};
   let comments=0;
   items.forEach(f=>{ const e=(d.edits||{})[f.id];
     comments+=((e&&e.log)||[]).length+((e&&e.pmlog)||[]).length; });
-  return {items:items.length,comments:comments};
+  return {items:items.length,comments:comments,
+          unassigned:items.filter(f=>lineOf(f,dd)==="Unassigned").length};
 }
 
 /* ---------- vertical switching ---------- */
@@ -1383,10 +1709,13 @@ function vCounts(vid){
 }
 function renderVPick(){
   document.getElementById("vcards").innerHTML=VERTICALS.map(v=>{
-    const c=vCounts(v.id);
+    const c=vCounts(v.id), s=statsFor(v.id);
+    const chips=LINEALL.filter(l=>s.lines[l]>0)
+      .map(l=>`<span class="lpill l-${l}">${esc(LNAME[l])} ${s.lines[l]}</span>`).join("");
     return `<div class="card vcard" data-v="${v.id}">
       <h2>${esc(v.name)}</h2>
       <div class="vc">${c.items?`${c.items} item${c.items>1?"s":""} · ${c.comments} comment${c.comments===1?"":"s"}`:"No features yet"}</div>
+      ${chips?`<div class="vlines">${chips}</div>`:""}
       <div class="vgo">Open roadmap →</div>
     </div>`;
   }).join("");
@@ -1404,6 +1733,7 @@ function selectVertical(vid){
     : `2027 Ceipal Master Roadmap<span class="vtag">All verticals</span>`;
   document.title = VSEL ? `2027 Ceipal ${VNAME(VSEL)} Roadmap` : "2027 Ceipal Master Roadmap";
   openId=null; blItemOpen=null;
+  document.getElementById("fLine").value="";
   // if this vertical has no backlog items yet, open the panel so the form is visible
   blOpen = VSEL ? !ALL().some(f=>f.type==="backlog") : false;
   if(picking){ renderKpis(); renderVPick(); drawMasterCharts(); return; }
@@ -1420,6 +1750,8 @@ document.querySelectorAll("thead th.sortable").forEach(th=>th.addEventListener("
 document.getElementById("btnCustom").addEventListener("click",()=>{
   sortKey="custom"; sortDir=1; renderTable();
 });
+document.getElementById("btnReorder").addEventListener("click",applyReorder);
+document.getElementById("roBasis").addEventListener("change",renderRoHint);
 document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
   document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
   t.classList.add("on");
@@ -1428,11 +1760,14 @@ document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.v==="charts") drawCharts();
   if(t.dataset.v==="add") document.getElementById("nFeature").focus();
 }));
-["fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).addEventListener("change",renderTable));
+["fLine","fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).addEventListener("change",()=>{
+  renderTable(); renderLinebar();
+}));
+document.getElementById("bcGroup").addEventListener("change",renderByCat);
 document.getElementById("fQ").addEventListener("input",renderTable);
 document.getElementById("btnReset").addEventListener("click",()=>{
-  ["fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("fQ").value=""; renderTable();
+  ["fLine","fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("fQ").value=""; renderTable(); renderLinebar();
 });
 document.getElementById("btnClear").addEventListener("click",()=>{
   const all=ALL(), n=all.reduce((t,f)=>t+logCount(f.id),0);
@@ -1440,9 +1775,8 @@ document.getElementById("btnClear").addEventListener("click",()=>{
   if(S().backlog.length) bits.push(`${S().backlog.length} backlog item${S().backlog.length>1?"s":""}`);
   if(S().added.length) bits.push(`${S().added.length} added feature${S().added.length>1?"s":""}`);
   if(n) bits.push(`${n} engineering comment${n>1?"s":""}`);
-  const msg=bits.length
-    ? `This resets ${VNAME(VSEL)} only and permanently deletes ${bits.join(", ")}. Other verticals are untouched. This cannot be undone. Continue?`
-    : `This resets ${VNAME(VSEL)} back to its original assignments. Other verticals are untouched. Continue?`;
+  bits.push("every product line assignment in this vertical");
+  const msg=`This resets ${VNAME(VSEL)} only and permanently deletes ${bits.join(", ")}. Other verticals are untouched. This cannot be undone. Continue?`;
   if(!confirm(msg)) return;
   store.v[VSEL]=blankV(); save();
   openId=null; blItemOpen=null; sortKey="custom"; sortDir=1;
@@ -1469,7 +1803,8 @@ document.getElementById("nFeature").addEventListener("keydown",e=>{ if(e.key==="
     sel.addEventListener("change",()=>selectVertical(sel.value));
   }
   selectVertical(LOCK||"");
-  console.log("roadmap ready | build:",LOCK||"master","| verticals:",VERTICALS.map(v=>v.id).join(","));
+  console.log("roadmap ready | build:",LOCK||"master","| verticals:",VERTICALS.map(v=>v.id).join(","),
+              "| product lines:",LINES.join(","));
 })();
 </script>
 </body>
