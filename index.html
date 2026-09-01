@@ -10,12 +10,14 @@
   --bg:#f4f5f7; --panel:#fff; --ink:#171b21; --muted:#616b78; --line:#e3e7ec; --line2:#eef1f4;
   --hi:#b42318; --md:#c4620a; --lo:#616b78; --accent:#0b5cad; --ok:#0f7b4f; --pm:#6b3fa0;
   --ats:#0b5cad; --vms:#0f7b4f; --wf:#6b3fa0; --mob:#0a6e7d; --una:#9aa4af;
+  --d-cust:#b1651a; --d-inno:#0a7d5a; --d-gap:#7a4bab; --d-comp:#b03060;
+  --d-reg:#a12a2a; --d-debt:#4a5563;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   font-size:14px;line-height:1.6}
-.wrap{max-width:1060px;margin:0 auto;padding:26px 22px 60px}
+.wrap{max-width:1320px;margin:0 auto;padding:26px 22px 60px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:10px}
 
 header{margin-bottom:22px}
@@ -62,7 +64,8 @@ h1{font-size:23px;margin:0 0 4px;letter-spacing:-.35px;font-weight:680}
 @media(max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}}
 
 /* product line roll-up strip */
-.linebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 20px}
+.linebar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 8px}
+.linebar:last-of-type{margin-bottom:20px}
 .lchip{font-size:12px;font-weight:650;padding:5px 12px;border-radius:14px;border:1px solid var(--line);
   background:#fff;cursor:pointer;display:inline-flex;align-items:center;gap:7px;color:#3f4a57}
 .lchip:hover{border-color:#b9c3ce}
@@ -73,6 +76,10 @@ h1{font-size:23px;margin:0 0 4px;letter-spacing:-.35px;font-weight:680}
 .lchip.on.l-ATS{background:var(--ats)} .lchip.on.l-VMS{background:var(--vms)}
 .lchip.on.l-WF{background:var(--wf)} .lchip.on.l-Mobile{background:var(--mob)}
 .lchip.on.l-Unassigned{background:var(--una)}
+.lchip.on.d-Customer{background:var(--d-cust)} .lchip.on.d-Innovation{background:var(--d-inno)}
+.lchip.on.d-MarketGap{background:var(--d-gap)} .lchip.on.d-Competitive{background:var(--d-comp)}
+.lchip.on.d-Compliance{background:var(--d-reg)} .lchip.on.d-TechDebt{background:var(--d-debt)}
+.lchip.on.d-Unassigned{background:var(--una)}
 .lchip.on .dot{background:#fff !important}
 
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:18px;overflow-x:auto}
@@ -99,8 +106,9 @@ select:focus,input:focus,textarea:focus{outline:2px solid #0b5cad22;border-color
 .count{font-size:12.5px;color:var(--muted);padding-bottom:8px}
 
 /* bulk assign bar, appears when unassigned items are in view */
-.bulkbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff8ec;
+.bulkbar{display:flex;flex-direction:column;gap:8px;background:#fff8ec;
   border:1px solid #f0dfc2;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:12.5px}
+.bulkrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .bulkbar b{font-weight:660}
 .bulkbar select{min-width:120px;padding:5px 9px;font-size:12.5px}
 
@@ -113,7 +121,7 @@ select:focus,input:focus,textarea:focus{outline:2px solid #0b5cad22;border-color
 .robar .rostale{color:var(--md);font-weight:620}
 
 .tblwrap{overflow-x:auto;border-radius:10px}
-table.rm{border-collapse:collapse;width:100%;min-width:1010px}
+table.rm{border-collapse:collapse;width:100%;min-width:1160px}
 table.rm thead th{background:#eef1f5;font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;
   font-weight:700;color:#4a5563;text-align:left;padding:11px 16px;border-bottom:1px solid var(--line);
   position:sticky;top:0;z-index:5;white-space:nowrap}
@@ -128,10 +136,10 @@ table.rm tbody tr.main.open td{background:#eff5fb}
 table.rm tbody tr:last-child td{border-bottom:none}
 .c-h{width:56px;padding-right:0 !important} .c-pri{width:88px} .c-cat{width:158px}
 .c-cx{width:96px} .c-eng{width:124px} .c-x{width:36px;text-align:center}
-.c-line{width:134px}
+.c-line{width:112px} .c-drv{width:124px}
 
 /* product line: inline select + pill */
-.linesel{min-width:0;width:100%;font-size:12px;font-weight:650;padding:4px 7px;border-radius:6px;
+.linesel{min-width:0;width:100%;max-width:100%;font-size:12px;font-weight:650;padding:4px 6px;border-radius:6px;
   border:1px solid var(--line);background:#fff;cursor:pointer;letter-spacing:.2px}
 .linesel:hover{border-color:#b9c3ce}
 .linesel.v-ATS{color:var(--ats);border-color:#bcd4ea;background:#f2f7fc}
@@ -139,6 +147,25 @@ table.rm tbody tr:last-child td{border-bottom:none}
 .linesel.v-WF{color:var(--wf);border-color:#d3c6e6;background:#f8f5fc}
 .linesel.v-Mobile{color:var(--mob);border-color:#bcd8dd;background:#f1f8fa}
 .linesel.v-Unassigned{color:#8a94a0;border-color:#e3e7ec;background:#fbfcfd;font-weight:560}
+/* driver: why the feature exists. Same inline pattern, warmer palette so the two
+   classification columns never read as one. */
+.drvsel{min-width:0;width:100%;max-width:100%;font-size:12px;font-weight:620;padding:4px 6px;border-radius:6px;
+  border:1px solid var(--line);background:#fff;cursor:pointer;letter-spacing:.2px;
+  border-left-width:3px;border-left-color:#e3e7ec}
+.drvsel:hover{border-color:#b9c3ce}
+.drvsel.d-Customer{color:var(--d-cust);border-left-color:var(--d-cust);background:#fdf7f1}
+.drvsel.d-Innovation{color:var(--d-inno);border-left-color:var(--d-inno);background:#f1faf6}
+.drvsel.d-MarketGap{color:var(--d-gap);border-left-color:var(--d-gap);background:#f8f4fc}
+.drvsel.d-Competitive{color:var(--d-comp);border-left-color:var(--d-comp);background:#fdf2f6}
+.drvsel.d-Compliance{color:var(--d-reg);border-left-color:var(--d-reg);background:#fdf2f2}
+.drvsel.d-TechDebt{color:var(--d-debt);border-left-color:var(--d-debt);background:#f7f8fa}
+.drvsel.d-Unassigned{color:#8a94a0;background:#fbfcfd;font-weight:560}
+.dpill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:10.5px;font-weight:700;
+  letter-spacing:.3px;color:#fff;white-space:nowrap}
+.dpill.d-Customer{background:var(--d-cust)} .dpill.d-Innovation{background:var(--d-inno)}
+.dpill.d-MarketGap{background:var(--d-gap)} .dpill.d-Competitive{background:var(--d-comp)}
+.dpill.d-Compliance{background:var(--d-reg)} .dpill.d-TechDebt{background:var(--d-debt)}
+.dpill.d-Unassigned{background:#eef1f5;color:#8a94a0}
 .lpill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:10.5px;font-weight:700;
   letter-spacing:.4px;color:#fff;white-space:nowrap}
 .lpill.l-ATS{background:var(--ats)} .lpill.l-VMS{background:var(--vms)}
@@ -190,7 +217,7 @@ td.blpanel{background:#f7f9fb;padding:0 16px 24px;border-bottom:2px solid var(--
 .blbar h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin:0;font-weight:700}
 .blempty{padding:22px;text-align:center;color:var(--muted);font-size:13px;background:#fff;
   border:1px dashed var(--line);border-radius:8px}
-table.bl{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+table.bl{border-collapse:collapse;width:100%;table-layout:auto;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 table.bl th{background:#f3f6f9;font-size:10px;text-transform:uppercase;letter-spacing:.6px;font-weight:700;
   color:#4a5563;text-align:left;padding:9px 14px;border-bottom:1px solid var(--line)}
 table.bl td{padding:11px 14px;border-bottom:1px solid var(--line2);vertical-align:top;font-size:13px}
@@ -201,6 +228,9 @@ table.bl tr:last-child td{border-bottom:none}
 
 td.detail{background:#f7f9fb;padding:4px 16px 26px;border-bottom:1px solid var(--line)}
 td.bdetail{background:#f4f7fa;padding:4px 14px 20px}
+/* the table scrolls sideways; panel contents must stay where they can be read */
+td.detail .dsec,td.bdetail .dsec,td.blpanel .blinner{
+  position:sticky;left:0;width:min(100%,calc(100vw - 96px))}
 .dsec{max-width:78ch}
 .dsec .cmtgrid{max-width:none;width:100%}
 td.detail .dsec,td.bdetail .dsec{max-width:none}
@@ -294,11 +324,11 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 .cgroup:last-child{margin-bottom:0}
 .cgroup h3{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin:0 0 4px;font-weight:700}
 .cgroup .cnt{font-size:12px;color:var(--muted);margin-bottom:10px}
-.witem{display:grid;grid-template-columns:78px 96px 1fr;gap:14px;padding:11px 0;
+.witem{display:grid;grid-template-columns:78px 96px 104px 1fr;gap:12px;padding:11px 0;
   border-top:1px solid var(--line2);align-items:start}
 .witem b{font-size:13.5px;font-weight:620}
 .wmeta{font-size:12px;color:var(--muted);margin-top:2px}
-@media(max-width:700px){.witem{grid-template-columns:78px 96px}}
+@media(max-width:700px){.witem{grid-template-columns:78px 96px 104px}}
 .bcbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
 .bcbar label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;font-weight:650}
 
@@ -323,6 +353,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 <div class="kpis" id="kpis"></div>
 <div class="rollbar" id="rollbar"></div>
 <div class="linebar" id="linebar"></div>
+<div class="linebar" id="driverbar"></div>
 
 <div id="vpick" class="hide">
   <div class="vhint">Totals above are rolled up from every vertical. Product line totals roll up the same way. Choose a vertical below to load its roadmap.</div>
@@ -340,6 +371,10 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
     <div class="mcgrid">
       <div class="card"><div class="chartbox mc"><canvas id="mLinePri"></canvas></div></div>
       <div class="card"><div class="chartbox mc"><canvas id="mPri"></canvas></div></div>
+    </div>
+    <div class="mcgrid">
+      <div class="card"><div class="chartbox mc"><canvas id="mDrv"></canvas></div></div>
+      <div class="card"><div class="chartbox mc"><canvas id="mDrvPri"></canvas></div></div>
     </div>
     <div class="mcgrid">
       <div class="card"><div class="chartbox mc"><canvas id="mTgt"></canvas></div></div>
@@ -360,6 +395,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
 <div id="v-features">
   <div class="controls">
     <div class="ctl"><label for="fLine">Product Line</label><select id="fLine"><option value="">All product lines</option></select></div>
+    <div class="ctl"><label for="fDrv">Driver</label><select id="fDrv"><option value="">All drivers</option></select></div>
     <div class="ctl"><label for="fPri">Priority</label><select id="fPri"><option value="">All priorities</option></select></div>
     <div class="ctl"><label for="fCat">Category</label><select id="fCat"><option value="">All categories</option></select></div>
     <div class="ctl"><label for="fCx">Complexity</label><select id="fCx"><option value="">All complexity</option></select></div>
@@ -390,6 +426,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
         <tr>
           <th class="c-h"></th>
           <th class="c-line sortable" data-s="line">Product Line<span class="ar">▼</span></th>
+          <th class="c-drv sortable" data-s="driver">Driver<span class="ar">▼</span></th>
           <th class="c-pri sortable" data-s="priority">Priority<span class="ar">▼</span></th>
           <th class="sortable" data-s="feature">Feature<span class="ar">▼</span></th>
           <th class="c-cat sortable" data-s="category">Category<span class="ar">▼</span></th>
@@ -408,6 +445,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
       <option value="composite">Priority, then timeframe, then complexity</option>
       <option value="priority">Priority</option>
       <option value="line">Product Line</option>
+      <option value="driver">Driver</option>
       <option value="target">Target Timeframe</option>
       <option value="complexity">Complexity</option>
       <option value="category">Category</option>
@@ -432,7 +470,8 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
     <div class="frow2">
       <div class="fld full"><label for="nFeature">Feature name <span class="hint">required</span></label>
         <input type="text" id="nFeature" placeholder="e.g. Bulk credential expiry notifications"></div>
-      <div class="fld"><label for="nLine">Product Line <span class="hint">ATS, VMS or WF</span></label><select id="nLine"></select></div>
+      <div class="fld"><label for="nLine">Product Line <span class="hint">ATS, VMS, WF or Mobile App</span></label><select id="nLine"></select></div>
+      <div class="fld"><label for="nDrv">Driver <span class="hint">why we would build it</span></label><select id="nDrv"></select></div>
       <div class="fld"><label for="nPri">Priority</label><select id="nPri"></select></div>
       <div class="fld"><label for="nCat">Category</label><select id="nCat"></select></div>
       <div class="fld"><label for="nCx">Complexity</label><select id="nCx"></select></div>
@@ -462,6 +501,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
     <select id="bcGroup">
       <option value="category">Category</option>
       <option value="line">Product Line</option>
+      <option value="driver">Driver</option>
     </select>
   </div>
   <div class="card pad" id="bycat"></div>
@@ -471,6 +511,10 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
   <div class="grid2">
     <div class="card"><div class="chartbox"><canvas id="cLine"></canvas></div></div>
     <div class="card"><div class="chartbox"><canvas id="cLineCat"></canvas></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><div class="chartbox"><canvas id="cDrv"></canvas></div></div>
+    <div class="card"><div class="chartbox"><canvas id="cDrvLine"></canvas></div></div>
   </div>
   <div class="grid2">
     <div class="card"><div class="chartbox"><canvas id="cCat"></canvas></div></div>
@@ -623,6 +667,21 @@ const LFULL={ATS:"ATS",VMS:"VMS",WF:"Workforce Management",Mobile:"Mobile App",U
 const LCOL={ATS:"#0b5cad",VMS:"#0f7b4f",WF:"#6b3fa0",Mobile:"#0a6e7d",Unassigned:"#9aa4af"};
 const LOPT=l=>l==="Unassigned"?"— Unassigned":LNAME[l];
 
+/* ---------- driver: why the feature exists ---------- */
+// Stored values are short and CSS-safe. DNAME is the compact table label,
+// DFULL is the wording used in forms, groupings, charts and exports.
+const DRIVERS=["Customer","Innovation","MarketGap","Competitive","Compliance","TechDebt"];
+const DRIVERALL=DRIVERS.concat(["Unassigned"]);
+const DNAME={Customer:"Customer",Innovation:"Innovation",MarketGap:"Market Gap",
+  Competitive:"Competitive",Compliance:"Compliance",TechDebt:"Tech Debt",Unassigned:"Unassigned"};
+const DFULL={Customer:"Customer Request",Innovation:"Product Innovation",
+  MarketGap:"Market Gap Closure",Competitive:"Competitive Parity",
+  Compliance:"Compliance & Regulatory",TechDebt:"Technical Debt & Reliability",
+  Unassigned:"Unassigned"};
+const DCOL={Customer:"#b1651a",Innovation:"#0a7d5a",MarketGap:"#7a4bab",
+  Competitive:"#b03060",Compliance:"#a12a2a",TechDebt:"#4a5563",Unassigned:"#9aa4af"};
+const DOPT=x=>x==="Unassigned"?"— Unassigned":DFULL[x];
+
 const KEY="ceipal-roadmap-2027-v6";
 
 const VERTICALS=[{id:"healthcare",name:"Healthcare"},
@@ -654,6 +713,7 @@ function val(f,k){ const e=S().edits[f.id];
   const v=(e&&e[k]!==undefined)?e[k]:f[k];
   if(k==="target") return v||"Unscheduled";
   if(k==="line") return LINEALL.includes(v)?v:"Unassigned";
+  if(k==="driver") return DRIVERALL.includes(v)?v:"Unassigned";
   return v; }
 
 // product line for any item in any vertical, independent of what is selected
@@ -661,6 +721,11 @@ function lineOf(f,d){
   const e=(d.edits||{})[f.id];
   const v=(e&&e.line!==undefined)?e.line:f.line;
   return LINEALL.includes(v)?v:"Unassigned";
+}
+function driverOf(f,d){
+  const e=(d.edits||{})[f.id];
+  const v=(e&&e.driver!==undefined)?e.driver:f.driver;
+  return DRIVERALL.includes(v)?v:"Unassigned";
 }
 
 /* comment logs: array of {name, at, text} newest last. Two independent streams per item. */
@@ -685,11 +750,12 @@ function allText(id){ return logText(id,"eng")+" "+logText(id,"pm"); }
 
 /* change history: automatic entries whenever a classification field moves */
 function chg(id){ const e=S().edits[id]; return (e&&e.chg)||[]; }
-const FIELDLBL={line:"Product Line",priority:"Priority",category:"Category",complexity:"Complexity",target:"Target Timeframe"};
+const FIELDLBL={line:"Product Line",driver:"Driver",priority:"Priority",category:"Category",complexity:"Complexity",target:"Target Timeframe"};
 function logChange(id,field,from,to){
   if(String(from)===String(to)) return;
   // history reads in the language people see, not the stored short value
   if(field==="line"){ from=LNAME[from]||from; to=LNAME[to]||to; }
+  if(field==="driver"){ from=DFULL[from]||from; to=DFULL[to]||to; }
   let at=new Date().toISOString();
   const ex=chg(id).map(c=>c.at);
   while(ex.includes(at)) at=new Date(new Date(at).getTime()+1).toISOString();
@@ -731,6 +797,13 @@ function isAdded(id){ return S().added.some(f=>f.id===id); }
 function isBacklog(id){ return S().backlog.some(f=>f.id===id); }
 function pill(p){ return `<span class="pill pri-${p}">${p}</span>`; }
 function lpill(l){ l=l||"Unassigned"; return `<span class="lpill l-${l}">${esc(LNAME[l])}</span>`; }
+function dpill(x){ x=x||"Unassigned"; return `<span class="dpill d-${x}">${esc(DNAME[x])}</span>`; }
+function drvSel(f){
+  const cur=val(f,"driver");
+  return `<select class="drvsel d-${cur}" data-drvset="${f.id}" title="${esc(DFULL[cur])}">`+
+    DRIVERALL.map(x=>`<option value="${x}" ${cur===x?"selected":""}>${esc(x==="Unassigned"?"— Unassigned":DNAME[x])}</option>`).join("")+
+    `</select>`;
+}
 function lineSel(f){
   const cur=val(f,"line");
   return `<select class="linesel v-${cur}" data-lineset="${f.id}" title="${esc(LFULL[cur])}">`+
@@ -743,12 +816,17 @@ function fillSel(el,arr,sel){ arr.forEach(v=>{const o=document.createElement("op
 // product line selects store the short value but show the full label
 function fillLineSel(el,sel){ LINEALL.forEach(l=>{const o=document.createElement("option");
   o.value=l;o.textContent=LOPT(l);if(l===sel)o.selected=true;el.appendChild(o);}); }
+// driver selects outside the table show the full wording, the table shows the short one
+function fillDrvSel(el,sel){ DRIVERALL.forEach(x=>{const o=document.createElement("option");
+  o.value=x;o.textContent=DOPT(x);if(x===sel)o.selected=true;el.appendChild(o);}); }
 fillLineSel(document.getElementById("fLine"));
+fillDrvSel(document.getElementById("fDrv"));
 fillSel(document.getElementById("fPri"),PRIS);
 fillSel(document.getElementById("fCat"),CATS);
 fillSel(document.getElementById("fCx"),CXS);
 fillSel(document.getElementById("fTgt"),TGTS);
 fillLineSel(document.getElementById("nLine"),"Unassigned");
+fillDrvSel(document.getElementById("nDrv"),"Unassigned");
 fillSel(document.getElementById("nPri"),PRIS,"Medium");
 fillSel(document.getElementById("nCat"),CATS,"Uncategorized");
 fillSel(document.getElementById("nCx"),CXS,"Medium");
@@ -785,7 +863,7 @@ function moveTo(list,dragId,targetId,below){
 // Unscheduled sorts last here, not first: a roadmap reads earliest quarter down.
 function trank(t){ t=t||"Unscheduled"; return t==="Unscheduled"?99:TGTS.indexOf(t); }
 const ROLABEL={composite:"priority, then timeframe, then complexity",priority:"priority",
-  line:"product line",target:"target timeframe",complexity:"complexity",
+  line:"product line",driver:"driver",target:"target timeframe",complexity:"complexity",
   category:"category",feature:"feature name"};
 function roCmp(basis){
   const tie=(a,b)=>PRIS.indexOf(val(a,"priority"))-PRIS.indexOf(val(b,"priority"))
@@ -797,6 +875,7 @@ function roCmp(basis){
     || a.feature.toLowerCase().localeCompare(b.feature.toLowerCase());
   if(basis==="priority")   return (a,b)=>PRIS.indexOf(val(a,"priority"))-PRIS.indexOf(val(b,"priority"))||tie(a,b);
   if(basis==="line")       return (a,b)=>LINEALL.indexOf(val(a,"line"))-LINEALL.indexOf(val(b,"line"))||tie(a,b);
+  if(basis==="driver")     return (a,b)=>DRIVERALL.indexOf(val(a,"driver"))-DRIVERALL.indexOf(val(b,"driver"))||tie(a,b);
   if(basis==="target")     return (a,b)=>trank(val(a,"target"))-trank(val(b,"target"))||tie(a,b);
   if(basis==="complexity") return (a,b)=>CXS.indexOf(val(a,"complexity"))-CXS.indexOf(val(b,"complexity"))||tie(a,b);
   if(basis==="category")   return (a,b)=>String(val(a,"category")).localeCompare(String(val(b,"category")))||tie(a,b);
@@ -845,6 +924,7 @@ function renderRoHint(){
 let sortKey="custom", sortDir=1;
 function skey(f,k){
   if(k==="line") return LINEALL.indexOf(val(f,"line"));
+  if(k==="driver") return DRIVERALL.indexOf(val(f,"driver"));
   if(k==="priority") return PRIS.indexOf(val(f,"priority"));
   if(k==="complexity") return CXS.indexOf(val(f,"complexity"));
   if(k==="target") return TGTS.indexOf(val(f,"target"));
@@ -867,10 +947,12 @@ function ordered(list,k,d){
 }
 function matches(f){
   const l=document.getElementById("fLine").value,
+        dv=document.getElementById("fDrv").value,
         p=document.getElementById("fPri").value,c=document.getElementById("fCat").value,
         x=document.getElementById("fCx").value,e=document.getElementById("fEng").value,
         q=document.getElementById("fQ").value.toLowerCase().trim();
   if(l&&val(f,"line")!==l) return false;
+  if(dv&&val(f,"driver")!==dv) return false;
   if(p&&val(f,"priority")!==p) return false;
   if(c&&val(f,"category")!==c) return false;
   if(x&&val(f,"complexity")!==x) return false;
@@ -882,7 +964,7 @@ function matches(f){
   if(e==="noeng"&&hasLog(f.id,"eng")) return false;
   if(e==="pm"&&!hasLog(f.id,"pm")) return false;
   if(e==="nopm"&&hasLog(f.id,"pm")) return false;
-  if(q&&!(f.feature+" "+f.desc+" "+f.remarks+" "+(f.detail||"")+" "+val(f,"line")+" "+allText(f.id)).toLowerCase().includes(q)) return false;
+  if(q&&!(f.feature+" "+f.desc+" "+f.remarks+" "+(f.detail||"")+" "+val(f,"line")+" "+DFULL[val(f,"driver")]+" "+allText(f.id)).toLowerCase().includes(q)) return false;
   return true;
 }
 function filteredMain(){ return ordered(CURSEED().concat(S().added).filter(matches)); }
@@ -897,16 +979,27 @@ function statsFor(vid){
   let comments=0;
   items.forEach(f=>{ const e=d.edits[f.id];
     comments+=((e&&e.log)||[]).length+((e&&e.pmlog)||[]).length; });
-  const lines={};
+  const lines={}, drivers={};
   LINEALL.forEach(l=>lines[l]=items.filter(f=>lineOf(f,d)===l).length);
+  DRIVERALL.forEach(x=>drivers[x]=items.filter(f=>driverOf(f,d)===x).length);
   return {items:items.length,
           High:items.filter(f=>pr(f)==="High").length,
           Medium:items.filter(f=>pr(f)==="Medium").length,
           Low:items.filter(f=>pr(f)==="Low").length,
           comments:comments,
-          lines:lines};
+          lines:lines,
+          drivers:drivers};
 }
 // items in one vertical that are on one product line at one priority
+function vDrvPriCount(vid,x,p){
+  const d=store.v[vid]||blankV();
+  const items=(SEEDS[vid]||[]).concat(d.added,d.backlog);
+  return items.filter(f=>{
+    const e=d.edits[f.id];
+    const pr=(e&&e.priority!==undefined)?e.priority:f.priority;
+    return driverOf(f,d)===x && pr===p;
+  }).length;
+}
 function vLinePriCount(vid,l,p){
   const d=store.v[vid]||blankV();
   const items=(SEEDS[vid]||[]).concat(d.added,d.backlog);
@@ -917,11 +1010,12 @@ function vLinePriCount(vid,l,p){
   }).length;
 }
 function rollup(){
-  const t={items:0,High:0,Medium:0,Low:0,comments:0,lines:{}};
-  LINEALL.forEach(l=>t.lines[l]=0);
+  const t={items:0,High:0,Medium:0,Low:0,comments:0,lines:{},drivers:{}};
+  LINEALL.forEach(l=>t.lines[l]=0); DRIVERALL.forEach(x=>t.drivers[x]=0);
   VERTICALS.forEach(v=>{ const x=statsFor(v.id);
     ["items","High","Medium","Low","comments"].forEach(k=>t[k]+=x[k]);
-    LINEALL.forEach(l=>t.lines[l]+=x.lines[l]); });
+    LINEALL.forEach(l=>t.lines[l]+=x.lines[l]);
+    DRIVERALL.forEach(dv=>t.drivers[dv]+=x.drivers[dv]); });
   return t;
 }
 
@@ -941,6 +1035,7 @@ function renderKpis(){
      ${o.s===null?"":`<div class="s">${esc(VNAME(VSEL))}: ${o.s}</div>`}</div>`).join("");
   renderRollbar();
   renderLinebar();
+  renderDriverbar();
 }
 
 function renderRollbar(){
@@ -982,6 +1077,30 @@ function renderLinebar(){
   }));
 }
 
+// driver roll-up, same scoping rule as the product line strip
+function renderDriverbar(){
+  const bar=document.getElementById("driverbar");
+  if(!bar) return;
+  const scope=VSEL?statsFor(VSEL):rollup();
+  const active=VSEL?document.getElementById("fDrv").value:"";
+  bar.innerHTML=`<span class="rolllab">Driver${VSEL?"":" · all verticals"}</span>`+
+    DRIVERALL.map(x=>{
+      const n=scope.drivers[x];
+      if(!n) return "";
+      return `<button class="lchip d-${x} ${active===x?"on":""}" data-dchip="${x}" title="${esc(DFULL[x])}">
+        <span class="dot" style="background:${DCOL[x]}"></span>${esc(DNAME[x])}
+        <span class="n">${n}</span></button>`;
+    }).join("")+
+    (VSEL&&active?`<button class="lchip" data-dchip="">Clear</button>`:"");
+  bar.querySelectorAll("[data-dchip]").forEach(b=>b.addEventListener("click",()=>{
+    if(!VSEL){ selectVertical(""); return; }
+    const want=b.dataset.dchip;
+    const sel=document.getElementById("fDrv");
+    sel.value=(sel.value===want)?"":want;
+    renderTable(); renderDriverbar();
+  }));
+}
+
 /* ---------- main table ---------- */
 let openId=null, blOpen=false, blItemOpen=null;
 function renderTable(){
@@ -1006,7 +1125,7 @@ function renderTable(){
 
   let h=backlogRow(bl);
   h+=fs.map((f,i)=>featureRow(f,i,fs.length)).join("");
-  if(!fs.length&&!bl.length) h+=`<tr><td colspan="9" class="empty">No items match those filters.</td></tr>`;
+  if(!fs.length&&!bl.length) h+=`<tr><td colspan="10" class="empty">No items match those filters.</td></tr>`;
   tb.innerHTML=h;
   wireTable();
 }
@@ -1015,20 +1134,27 @@ function renderTable(){
 function renderBulkbar(shown){
   const bar=document.getElementById("bulkbar");
   if(!bar) return;
-  const un=shown.filter(f=>val(f,"line")==="Unassigned");
-  if(!un.length){ bar.classList.add("hide"); bar.innerHTML=""; return; }
+  // one row per classification field that still has gaps in the current view
+  const dims=[
+    {k:"line",   label:"product line", opts:LINES,   name:l=>LNAME[l]},
+    {k:"driver", label:"driver",       opts:DRIVERS, name:x=>DFULL[x]}
+  ].map(dm=>Object.assign(dm,{un:shown.filter(f=>val(f,dm.k)==="Unassigned")}))
+   .filter(dm=>dm.un.length);
+  if(!dims.length){ bar.classList.add("hide"); bar.innerHTML=""; return; }
   bar.classList.remove("hide");
-  bar.innerHTML=`<b>${un.length} item${un.length===1?"":"s"} in view ha${un.length===1?"s":"ve"} no product line.</b>
+  bar.innerHTML=dims.map(dm=>`<div class="bulkrow">
+    <b>${dm.un.length} item${dm.un.length===1?"":"s"} in view ha${dm.un.length===1?"s":"ve"} no ${dm.label}.</b>
     <span>Set all of them to</span>
-    <select id="bulkLine">${LINES.map(l=>`<option value="${l}">${esc(LNAME[l])}</option>`).join("")}</select>
-    <button class="btn sm pri" id="bulkGo">Apply to ${un.length}</button>
-    <span style="color:var(--muted)">Each change is recorded in that item's change history.</span>`;
-  document.getElementById("bulkGo").addEventListener("click",()=>{
-    const to=document.getElementById("bulkLine").value;
-    if(!confirm(`Set ${un.length} item${un.length===1?"":"s"} to ${LNAME[to]}? You can change any of them individually afterwards.`)) return;
-    un.forEach(f=>{ logChange(f.id,"line","Unassigned",to); E(f.id).line=to; });
+    <select id="bulk_${dm.k}">${dm.opts.map(o=>`<option value="${o}">${esc(dm.name(o))}</option>`).join("")}</select>
+    <button class="btn sm pri" data-bulkgo="${dm.k}">Apply to ${dm.un.length}</button>
+  </div>`).join("")+
+  `<div class="bulkrow" style="color:var(--muted)">Each change is recorded in that item's change history.</div>`;
+  dims.forEach(dm=>bar.querySelector(`[data-bulkgo="${dm.k}"]`).addEventListener("click",()=>{
+    const to=document.getElementById("bulk_"+dm.k).value;
+    if(!confirm(`Set ${dm.un.length} item${dm.un.length===1?"":"s"} to ${dm.name(to)}? You can change any of them individually afterwards.`)) return;
+    dm.un.forEach(f=>{ logChange(f.id,dm.k,"Unassigned",to); E(f.id)[dm.k]=to; });
     save(); renderKpis(); renderTable(); renderByCat(); drawCharts();
-  });
+  }));
 }
 
 function tgtChip(t){
@@ -1061,6 +1187,7 @@ function backlogRow(items){
   let h=`<tr class="blrow ${blOpen?"open":""}" id="blHead">
     <td class="c-h"></td>
     <td class="c-line"><span class="cx">—</span></td>
+    <td class="c-drv"><span class="cx">—</span></td>
     <td class="c-pri"><span class="pill pri-Medium" style="background:var(--accent)">Backlog</span></td>
     <td><div class="blname">2026 Backlog<span class="addcue">+ Add item</span></div>
         <div class="blmeta">${n?`${n} item${n>1?"s":""} entered · ${nc} comment${nc===1?"":"s"} across ${done}`:"No items entered yet. Open to add them one at a time."}</div></td>
@@ -1070,17 +1197,18 @@ function backlogRow(items){
     <td class="c-eng"><span class="engcount ${n&&done===n?"yes":"no"}">${n?done+"/"+n:"—"}</span></td>
     <td class="c-x"><span class="chev">▶</span></td>
   </tr>`;
-  if(blOpen) h+=`<tr><td colspan="9" class="blpanel">${backlogPanel(items)}</td></tr>`;
+  if(blOpen) h+=`<tr><td colspan="10" class="blpanel">${backlogPanel(items)}</td></tr>`;
   return h;
 }
 
 function backlogPanel(items){
-  let h=`<div class="blbar"><h4>Add a 2026 backlog item</h4></div>
+  let h=`<div class="blinner"><div class="blbar"><h4>Add a 2026 backlog item</h4></div>
   <div class="form inline">
     <div class="frow2">
       <div class="fld full"><label for="bFeature">Item name <span class="hint">required</span></label>
         <input type="text" id="bFeature" placeholder="e.g. Fix duplicate credential upload on mobile"></div>
       <div class="fld"><label for="bLine">Product Line</label><select id="bLine"></select></div>
+      <div class="fld"><label for="bDrv">Driver</label><select id="bDrv"></select></div>
       <div class="fld"><label for="bPri">Priority</label><select id="bPri"></select></div>
       <div class="fld"><label for="bCx">Complexity</label><select id="bCx"></select></div>
       <div class="fld"><label for="bTgt">Target Timeframe</label><select id="bTgt"></select></div>
@@ -1108,25 +1236,26 @@ function backlogPanel(items){
     h+=`<div class="blempty">${S().backlog.length
       ? "No backlog items match the current filters."
       : "No backlog items yet. Use the form above to enter them one at a time."}</div>`;
-    return h;
+    return h+"</div>";
   }
   h+=`<table class="bl"><thead><tr>
-      <th class="c-h"></th><th style="width:118px">Product Line</th><th style="width:88px">Priority</th><th>Item</th><th style="width:96px">Complexity</th>
+      <th class="c-h"></th><th style="width:112px">Product Line</th><th style="width:124px">Driver</th><th style="width:88px">Priority</th><th>Item</th><th style="width:96px">Complexity</th>
       <th style="width:150px">Target Timeframe</th><th style="width:110px">Comments</th><th style="width:34px"></th></tr></thead><tbody>`;
   items.forEach((f,i)=>{
     const op=blItemOpen===f.id, ne=logCount(f.id,"eng"), np=logCount(f.id,"pm");
     h+=`<tr class="bi ${op?"open":""}" data-bid="${f.id}" ${sortKey==="custom"?'draggable="true"':""}>
       ${handleCell(f.id,i,items.length,"bl")}
       <td>${lineSel(f)}</td>
+      <td>${drvSel(f)}</td>
       <td>${pill(val(f,"priority"))}</td>
       <td><b>${esc(f.feature)}</b>${f.desc?`<div class="fsub">${esc(f.desc)}</div>`:""}</td>
       <td><span class="cx">${esc(val(f,"complexity"))}</span></td>
       <td>${tgtChip(val(f,"target"))}</td>
       <td>${cmtCell(ne,np)}</td>
       <td><span class="chev">▶</span></td></tr>`;
-    if(op) h+=`<tr><td colspan="8" class="bdetail">${detailHtml(f)}</td></tr>`;
+    if(op) h+=`<tr><td colspan="9" class="bdetail">${detailHtml(f)}</td></tr>`;
   });
-  return h+"</tbody></table>";
+  return h+"</tbody></table></div>";
 }
 
 function featureRow(f,i,n){
@@ -1134,6 +1263,7 @@ function featureRow(f,i,n){
   let h=`<tr class="main ${op?"open":""}" data-id="${f.id}" ${sortKey==="custom"?'draggable="true"':""}>
     ${handleCell(f.id,i,n,"main")}
     <td class="c-line">${lineSel(f)}</td>
+    <td class="c-drv">${drvSel(f)}</td>
     <td class="c-pri">${pill(val(f,"priority"))}</td>
     <td><div class="fname">${esc(f.feature)}${isAdded(f.id)?'<span class="badge">Added</span>':""}</div>
         <div class="fsub">${esc(f.desc||"No description yet.")}</div></td>
@@ -1143,7 +1273,7 @@ function featureRow(f,i,n){
     <td class="c-eng">${cmtCell(ne,np)}</td>
     <td class="c-x"><span class="chev">▶</span></td>
   </tr>`;
-  if(op) h+=`<tr><td colspan="9" class="detail">${detailHtml(f)}</td></tr>`;
+  if(op) h+=`<tr><td colspan="10" class="detail">${detailHtml(f)}</td></tr>`;
   return h;
 }
 
@@ -1156,6 +1286,7 @@ function detailHtml(f){
     <h4>Classification</h4>
     <div class="editrow">
       <div class="ctl"><label>Product Line</label><select data-k="line">${LINEALL.map(l=>`<option value="${l}" ${val(f,"line")===l?"selected":""}>${esc(LOPT(l))}</option>`).join("")}</select></div>
+      <div class="ctl"><label>Driver</label><select data-k="driver">${DRIVERALL.map(x=>`<option value="${x}" ${val(f,"driver")===x?"selected":""}>${esc(DOPT(x))}</option>`).join("")}</select></div>
       <div class="ctl"><label>Priority</label><select data-k="priority">${PRIS.map(p=>`<option ${val(f,"priority")===p?"selected":""}>${p}</option>`).join("")}</select></div>
       <div class="ctl"><label>Category</label><select data-k="category">${CATS.map(c=>`<option ${val(f,"category")===c?"selected":""}>${esc(c)}</option>`).join("")}</select></div>
       <div class="ctl"><label>Complexity</label><select data-k="complexity">${CXS.map(c=>`<option ${val(f,"complexity")===c?"selected":""}>${c}</option>`).join("")}</select></div>
@@ -1231,15 +1362,17 @@ function wireTable(){
     td.addEventListener("click",e=>e.stopPropagation()));
 
   // inline product line selects live inside clickable rows, so swallow the events
-  document.querySelectorAll("[data-lineset]").forEach(sel=>{
-    ["click","mousedown","dragstart"].forEach(ev=>sel.addEventListener(ev,e=>e.stopPropagation()));
-    sel.addEventListener("change",e=>{
-      e.stopPropagation();
-      const id=+sel.dataset.lineset, f=byId(id);
-      if(!f) return;
-      logChange(id,"line",val(f,"line"),sel.value);
-      E(id).line=sel.value; save();
-      renderKpis(); renderTable(); renderByCat(); drawCharts();
+  [["data-lineset","line"],["data-drvset","driver"]].forEach(([attr,field])=>{
+    document.querySelectorAll(`[${attr}]`).forEach(sel=>{
+      ["click","mousedown","dragstart"].forEach(ev=>sel.addEventListener(ev,e=>e.stopPropagation()));
+      sel.addEventListener("change",e=>{
+        e.stopPropagation();
+        const id=+sel.getAttribute(attr), f=byId(id);
+        if(!f) return;
+        logChange(id,field,val(f,field),sel.value);
+        E(id)[field]=sel.value; save();
+        renderKpis(); renderTable(); renderByCat(); drawCharts();
+      });
     });
   });
 
@@ -1249,6 +1382,7 @@ function wireTable(){
   const bp=document.getElementById("bPri");
   if(bp){
     fillLineSel(document.getElementById("bLine"),"Unassigned");
+    fillDrvSel(document.getElementById("bDrv"),"Unassigned");
     fillSel(bp,PRIS,"Medium");
     fillSel(document.getElementById("bCx"),CXS,"Medium");
     fillSel(document.getElementById("bTgt"),TGTS,"Unscheduled");
@@ -1382,6 +1516,7 @@ function addComment(id,kind){
 function clearBacklogForm(){
   const f=document.getElementById("bFeature"); if(!f) return;
   f.value=""; document.getElementById("bLine").value="Unassigned";
+  document.getElementById("bDrv").value="Unassigned";
   document.getElementById("bPri").value="Medium";
   document.getElementById("bCx").value="Medium";
   document.getElementById("bTgt").value="Unscheduled";
@@ -1399,6 +1534,7 @@ function addBacklog(){
   const id=store.nextId++;
   S().backlog.push({id:id,feature:name,
     line:document.getElementById("bLine").value,
+    driver:document.getElementById("bDrv").value,
     priority:document.getElementById("bPri").value,
     category:"2026 Backlog",
     complexity:document.getElementById("bCx").value,
@@ -1422,6 +1558,7 @@ function addBacklog(){
 function clearForm(){
   document.getElementById("nFeature").value="";
   document.getElementById("nLine").value="Unassigned";
+  document.getElementById("nDrv").value="Unassigned";
   document.getElementById("nPri").value="Medium";
   document.getElementById("nCat").value="Uncategorized";
   document.getElementById("nCx").value="Medium";
@@ -1441,6 +1578,7 @@ function saveNew(){
   const cat=document.getElementById("nCat").value;
   const rec={id:id,feature:name,
     line:document.getElementById("nLine").value,
+    driver:document.getElementById("nDrv").value,
     priority:document.getElementById("nPri").value,
     category:cat,complexity:document.getElementById("nCx").value,
     target:document.getElementById("nTgt").value,
@@ -1469,15 +1607,16 @@ function renderByCat(){
   const all=ALL();
   const el=document.getElementById("bycat"); if(!el) return;
   const mode=(document.getElementById("bcGroup")||{}).value||"category";
-  const groups = mode==="line"
-    ? LINEALL.filter(l=>all.some(f=>val(f,"line")===l)).map(l=>({key:l,label:LFULL[l]==="Unassigned"?"Unassigned — needs a product line":LFULL[l],test:f=>val(f,"line")===l}))
-    : CATS.filter(c=>all.some(f=>val(f,"category")===c)).map(c=>({key:c,label:c,test:f=>val(f,"category")===c}));
+  const groups =
+    mode==="line"   ? LINEALL.filter(l=>all.some(f=>val(f,"line")===l)).map(l=>({label:l==="Unassigned"?"Unassigned — needs a product line":LFULL[l],test:f=>val(f,"line")===l}))
+  : mode==="driver" ? DRIVERALL.filter(x=>all.some(f=>val(f,"driver")===x)).map(x=>({label:x==="Unassigned"?"Unassigned — needs a driver":DFULL[x],test:f=>val(f,"driver")===x}))
+  :                   CATS.filter(c=>all.some(f=>val(f,"category")===c)).map(c=>({label:c,test:f=>val(f,"category")===c}));
   const html=groups.map(g=>{
     const items=ordered(all.filter(g.test),"priority",1);
     return `<div class="cgroup"><h3>${esc(g.label)}</h3><div class="cnt">${items.length} item${items.length>1?"s":""}</div>
-      ${items.map(f=>`<div class="witem">${pill(val(f,"priority"))}${lpill(val(f,"line"))}
+      ${items.map(f=>`<div class="witem">${pill(val(f,"priority"))}${lpill(val(f,"line"))}${dpill(val(f,"driver"))}
         <div><b>${esc(f.feature)}</b>${isAdded(f.id)?'<span class="badge">Added</span>':""}
-        <div class="wmeta">${mode==="line"?esc(val(f,"category"))+" · ":""}${esc(val(f,"complexity"))} complexity · ${esc(val(f,"target"))} · ${logCount(f.id,"eng")} eng, ${logCount(f.id,"pm")} PM comment${logCount(f.id)===1?"":"s"}</div>
+        <div class="wmeta">${mode!=="category"?esc(val(f,"category"))+" · ":""}${esc(val(f,"complexity"))} complexity · ${esc(val(f,"target"))} · ${logCount(f.id,"eng")} eng, ${logCount(f.id,"pm")} PM comment${logCount(f.id)===1?"":"s"}</div>
         </div></div>`).join("")}</div>`;
   }).join("");
   el.innerHTML=html||`<div class="empty">No items yet.</div>`;
@@ -1511,6 +1650,7 @@ function drawMasterCharts(){
   const total=stats.reduce((n,s)=>n+s.items,0);
   const roll=rollup();
   const shownLines=LINEALL.filter(l=>l!=="Unassigned"||roll.lines.Unassigned>0);
+  const shownDrvs=DRIVERALL.filter(x=>roll.drivers[x]>0);
 
   mcharts.vert=new Chart(document.getElementById("mVert"),{type:"bar",
     data:{labels:names,datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
@@ -1532,6 +1672,20 @@ function drawMasterCharts(){
       data:shownLines.map(l=>VERTICALS.reduce((n,v)=>n+vLinePriCount(v.id,l,p),0))}))},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{title:{display:true,text:"Product line by priority, all verticals"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
+
+  mcharts.drv=new Chart(document.getElementById("mDrv"),{type:"bar",
+    data:{labels:names,datasets:shownDrvs.map(x=>({label:DFULL[x],backgroundColor:DCOL[x],
+      data:VERTICALS.map(v=>statsFor(v.id).drivers[x])}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Driver by vertical"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
+
+  mcharts.drvpri=new Chart(document.getElementById("mDrvPri"),{type:"bar",
+    data:{labels:shownDrvs.map(x=>DNAME[x]),datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
+      data:shownDrvs.map(x=>VERTICALS.reduce((n,v)=>n+vDrvPriCount(v.id,x,p),0))}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Driver by priority, all verticals"},legend:{position:"bottom"}},
       scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
 
   const pri=PRIS.map(p=>stats.reduce((n,s)=>n+s[p],0));
@@ -1565,6 +1719,7 @@ function drawCharts(){
   const all=ALL();
   const cats=CATS.filter(c=>all.some(f=>val(f,"category")===c));
   const lines=LINEALL.filter(l=>all.some(f=>val(f,"line")===l));
+  const drvs=DRIVERALL.filter(x=>all.some(f=>val(f,"driver")===x));
   Object.values(charts).forEach(c=>c&&c.destroy());
 
   charts.line=new Chart(document.getElementById("cLine"),{type:"bar",
@@ -1581,6 +1736,20 @@ function drawCharts(){
     options:{responsive:true,maintainAspectRatio:false,indexAxis:"y",
       plugins:{title:{display:true,text:"Category by product line"},legend:{position:"bottom"}},
       scales:{x:{stacked:true,ticks:{stepSize:1}},y:{stacked:true,ticks:{font:{size:10}}}}}});
+
+  charts.drv=new Chart(document.getElementById("cDrv"),{type:"bar",
+    data:{labels:drvs.map(x=>DFULL[x]),datasets:PRIS.map(p=>({label:p,backgroundColor:PCOL[p],
+      data:drvs.map(x=>all.filter(f=>val(f,"driver")===x&&val(f,"priority")===p).length)}))},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:"y",
+      plugins:{title:{display:true,text:"Driver by priority"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true,ticks:{stepSize:1}},y:{stacked:true,ticks:{font:{size:10}}}}}});
+
+  charts.drvline=new Chart(document.getElementById("cDrvLine"),{type:"bar",
+    data:{labels:drvs.map(x=>DNAME[x]),datasets:lines.map(l=>({label:LNAME[l],backgroundColor:LCOL[l],
+      data:drvs.map(x=>all.filter(f=>val(f,"driver")===x&&val(f,"line")===l).length)}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{title:{display:true,text:"Driver by product line"},legend:{position:"bottom"}},
+      scales:{x:{stacked:true},y:{stacked:true,ticks:{stepSize:1},title:{display:true,text:"items"}}}}});
 
   charts.cat=new Chart(document.getElementById("cCat"),{type:"bar",
     data:{labels:cats.map(c=>c.replace(" & ","/")),
@@ -1613,9 +1782,9 @@ function drawCharts(){
 
 /* ---------- export ---------- */
 function exportCsv(){
-  const head=["Vertical","Product Line","Priority","Item","Category","Complexity","Target Timeframe","Description","Remarks","Eng Count","Engineering Comment Log","PM Count","PM Comment Log","Source"];
+  const head=["Vertical","Product Line","Driver","Priority","Item","Category","Complexity","Target Timeframe","Description","Remarks","Eng Count","Engineering Comment Log","PM Count","PM Comment Log","Source"];
   const rows=filteredBacklog().concat(filteredMain()).map(f=>[
-    VNAME(VSEL),LNAME[val(f,"line")],val(f,"priority"),f.feature,val(f,"category"),val(f,"complexity"),
+    VNAME(VSEL),LNAME[val(f,"line")],DFULL[val(f,"driver")],val(f,"priority"),f.feature,val(f,"category"),val(f,"complexity"),
     val(f,"target"),f.desc,f.remarks,logCount(f.id,"eng"),logText(f.id,"eng"),logCount(f.id,"pm"),logText(f.id,"pm"),
     isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx"]);
   const t=[head,...rows].map(r=>r.map(v=>'"'+String(v==null?"":v).replace(/"/g,'""').replace(/\n/g," ")+'"').join(",")).join("\r\n");
@@ -1625,15 +1794,15 @@ function exportCsv(){
 }
 
 function exportLog(){
-  const head=["Date/Time","Type","Name","Vertical","Product Line","Item","Priority","Category","Source","Comment"];
+  const head=["Date/Time","Type","Name","Vertical","Product Line","Driver","Item","Priority","Category","Source","Comment"];
   const rows=[];
   filteredBacklog().concat(filteredMain()).forEach(f=>{
     const src=isBacklog(f.id)?"2026 Backlog":isAdded(f.id)?"Added":"2027 Healthcare Roadmap.xlsx";
-    chg(f.id).forEach(c=>rows.push([fmt(c.at),"Change",c.name,VNAME(VSEL),LNAME[val(f,"line")],
+    chg(f.id).forEach(c=>rows.push([fmt(c.at),"Change",c.name,VNAME(VSEL),LNAME[val(f,"line")],DFULL[val(f,"driver")],
       f.feature,val(f,"priority"),val(f,"category"),src,
       `${c.field}: ${c.from} → ${c.to}`]));
     ["eng","pm"].forEach(kind=>log(f.id,kind).forEach(c=>rows.push([fmt(c.at),KINDS[kind].short,c.name,
-      VNAME(VSEL),LNAME[val(f,"line")],f.feature,val(f,"priority"),val(f,"category"),src,c.text])));
+      VNAME(VSEL),LNAME[val(f,"line")],DFULL[val(f,"driver")],f.feature,val(f,"priority"),val(f,"category"),src,c.text])));
   });
   if(!rows.length){ alert("No comments have been logged yet."); return; }
   rows.sort((a,b)=>new Date(b[0])-new Date(a[0]));
@@ -1672,7 +1841,7 @@ function receiveVertical(file){
     const inc=statsForData(p.vertical,p.data), cur=statsFor(p.vertical);
     if(!confirm(`Replace ${VNAME(p.vertical)} with the incoming file?\n\n`+
                 `Now:      ${cur.items} items, ${cur.comments} comments\n`+
-                `Incoming: ${inc.items} items, ${inc.comments} comments, ${inc.unassigned} with no product line\n\n`+
+                `Incoming: ${inc.items} items, ${inc.comments} comments, ${inc.unassigned} needing a product line or driver\n\n`+
                 `This overwrites that vertical. Other verticals are untouched.`)) return;
     const d=p.data;
     store.v[p.vertical]={edits:d.edits||{},added:d.added||[],backlog:d.backlog||[],
@@ -1682,7 +1851,7 @@ function receiveVertical(file){
     save();
     selectVertical(p.vertical);
     note(`Rolled in ${VNAME(p.vertical)}: ${inc.items} items, ${inc.comments} comments`+
-         `${inc.unassigned?`, ${inc.unassigned} still need a product line`:""}. Totals updated.`);
+         `${inc.unassigned?`, ${inc.unassigned} still need a product line or driver`:""}. Totals updated.`);
   };
   r.readAsText(file);
 }
@@ -1693,7 +1862,7 @@ function statsForData(vid,d){
   items.forEach(f=>{ const e=(d.edits||{})[f.id];
     comments+=((e&&e.log)||[]).length+((e&&e.pmlog)||[]).length; });
   return {items:items.length,comments:comments,
-          unassigned:items.filter(f=>lineOf(f,dd)==="Unassigned").length};
+          unassigned:items.filter(f=>lineOf(f,dd)==="Unassigned"||driverOf(f,dd)==="Unassigned").length};
 }
 
 /* ---------- vertical switching ---------- */
@@ -1711,7 +1880,9 @@ function renderVPick(){
   document.getElementById("vcards").innerHTML=VERTICALS.map(v=>{
     const c=vCounts(v.id), s=statsFor(v.id);
     const chips=LINEALL.filter(l=>s.lines[l]>0)
-      .map(l=>`<span class="lpill l-${l}">${esc(LNAME[l])} ${s.lines[l]}</span>`).join("");
+      .map(l=>`<span class="lpill l-${l}">${esc(LNAME[l])} ${s.lines[l]}</span>`).join("")+
+      DRIVERALL.filter(x=>s.drivers[x]>0&&x!=="Unassigned")
+      .map(x=>`<span class="dpill d-${x}">${esc(DNAME[x])} ${s.drivers[x]}</span>`).join("");
     return `<div class="card vcard" data-v="${v.id}">
       <h2>${esc(v.name)}</h2>
       <div class="vc">${c.items?`${c.items} item${c.items>1?"s":""} · ${c.comments} comment${c.comments===1?"":"s"}`:"No features yet"}</div>
@@ -1733,7 +1904,7 @@ function selectVertical(vid){
     : `2027 Ceipal Master Roadmap<span class="vtag">All verticals</span>`;
   document.title = VSEL ? `2027 Ceipal ${VNAME(VSEL)} Roadmap` : "2027 Ceipal Master Roadmap";
   openId=null; blItemOpen=null;
-  document.getElementById("fLine").value="";
+  document.getElementById("fLine").value=""; document.getElementById("fDrv").value="";
   // if this vertical has no backlog items yet, open the panel so the form is visible
   blOpen = VSEL ? !ALL().some(f=>f.type==="backlog") : false;
   if(picking){ renderKpis(); renderVPick(); drawMasterCharts(); return; }
@@ -1760,14 +1931,14 @@ document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.v==="charts") drawCharts();
   if(t.dataset.v==="add") document.getElementById("nFeature").focus();
 }));
-["fLine","fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).addEventListener("change",()=>{
-  renderTable(); renderLinebar();
+["fLine","fDrv","fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).addEventListener("change",()=>{
+  renderTable(); renderLinebar(); renderDriverbar();
 }));
 document.getElementById("bcGroup").addEventListener("change",renderByCat);
 document.getElementById("fQ").addEventListener("input",renderTable);
 document.getElementById("btnReset").addEventListener("click",()=>{
-  ["fLine","fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).value="");
-  document.getElementById("fQ").value=""; renderTable(); renderLinebar();
+  ["fLine","fDrv","fPri","fCat","fCx","fTgt","fEng"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("fQ").value=""; renderTable(); renderLinebar(); renderDriverbar();
 });
 document.getElementById("btnClear").addEventListener("click",()=>{
   const all=ALL(), n=all.reduce((t,f)=>t+logCount(f.id),0);
@@ -1775,7 +1946,7 @@ document.getElementById("btnClear").addEventListener("click",()=>{
   if(S().backlog.length) bits.push(`${S().backlog.length} backlog item${S().backlog.length>1?"s":""}`);
   if(S().added.length) bits.push(`${S().added.length} added feature${S().added.length>1?"s":""}`);
   if(n) bits.push(`${n} engineering comment${n>1?"s":""}`);
-  bits.push("every product line assignment in this vertical");
+  bits.push("every product line and driver assignment in this vertical");
   const msg=`This resets ${VNAME(VSEL)} only and permanently deletes ${bits.join(", ")}. Other verticals are untouched. This cannot be undone. Continue?`;
   if(!confirm(msg)) return;
   store.v[VSEL]=blankV(); save();
@@ -1804,7 +1975,7 @@ document.getElementById("nFeature").addEventListener("keydown",e=>{ if(e.key==="
   }
   selectVertical(LOCK||"");
   console.log("roadmap ready | build:",LOCK||"master","| verticals:",VERTICALS.map(v=>v.id).join(","),
-              "| product lines:",LINES.join(","));
+              "| product lines:",LINES.join(","),"| drivers:",DRIVERS.join(","));
 })();
 </script>
 </body>
