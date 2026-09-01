@@ -410,8 +410,9 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
       <option value="nopm">Awaiting PM</option></select></div>
     <div class="ctl"><label for="fQ">Search</label><input type="text" id="fQ" placeholder="Feature or keyword"></div>
     <button class="btn" id="btnReset">Reset</button>
-    <button class="btn spacer" id="btnExportLog">Export comment log</button>
-    <button class="btn pri" id="btnExport">Export CSV</button>
+    <button class="btn pri spacer" id="btnAddTab">+ Add feature</button>
+    <button class="btn" id="btnExportLog">Export comment log</button>
+    <button class="btn" id="btnExport">Export CSV</button>
   </div>
   <div id="bulkbar" class="bulkbar hide"></div>
   <div class="ordbar">
@@ -455,6 +456,7 @@ textarea{width:100%;min-height:96px;font-family:inherit;font-size:13px;line-heig
     <span class="rohint" id="roHint"></span>
   </div>
   <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+    <button class="btn pri" id="btnAddTab2">+ Add feature</button>
     <button class="btn" id="btnSend">Send this vertical to the master</button>
     <button class="btn" id="btnReceive">Load a vertical file</button>
     <input type="file" id="fileIn" accept=".json,application/json" class="hide">
@@ -1189,7 +1191,7 @@ function backlogRow(items){
     <td class="c-line"><span class="cx">—</span></td>
     <td class="c-drv"><span class="cx">—</span></td>
     <td class="c-pri"><span class="pill pri-Medium" style="background:var(--accent)">Backlog</span></td>
-    <td><div class="blname">2026 Backlog<span class="addcue">+ Add item</span></div>
+    <td><div class="blname">2026 Backlog<span class="addcue">Open to add backlog items</span></div>
         <div class="blmeta">${n?`${n} item${n>1?"s":""} entered · ${nc} comment${nc===1?"":"s"} across ${done}`:"No items entered yet. Open to add them one at a time."}</div></td>
     <td class="c-cat"><span class="cat">2026 Backlog</span></td>
     <td class="c-cx"><span class="cx">—</span></td>
@@ -1905,8 +1907,7 @@ function selectVertical(vid){
   document.title = VSEL ? `2027 Ceipal ${VNAME(VSEL)} Roadmap` : "2027 Ceipal Master Roadmap";
   openId=null; blItemOpen=null;
   document.getElementById("fLine").value=""; document.getElementById("fDrv").value="";
-  // if this vertical has no backlog items yet, open the panel so the form is visible
-  blOpen = VSEL ? !ALL().some(f=>f.type==="backlog") : false;
+  blOpen=false;
   if(picking){ renderKpis(); renderVPick(); drawMasterCharts(); return; }
   sortKey="custom"; sortDir=1;
   renderKpis(); renderTable(); renderByCat(); if(!document.getElementById("v-charts").classList.contains("hide")) drawCharts();
@@ -1953,6 +1954,13 @@ document.getElementById("btnClear").addEventListener("click",()=>{
   openId=null; blItemOpen=null; sortKey="custom"; sortDir=1;
   renderKpis(); renderTable(); renderByCat(); drawCharts();
 });
+function goAddFeature(){
+  document.querySelector('.tab[data-v="add"]').click();
+  const el=document.getElementById("v-add");
+  if(el&&el.scrollIntoView) el.scrollIntoView({behavior:"smooth",block:"start"});
+}
+document.getElementById("btnAddTab").addEventListener("click",goAddFeature);
+document.getElementById("btnAddTab2").addEventListener("click",goAddFeature);
 document.getElementById("btnExport").addEventListener("click",exportCsv);
 document.getElementById("btnSend").addEventListener("click",sendVertical);
 document.getElementById("btnReceive").addEventListener("click",()=>document.getElementById("fileIn").click());
